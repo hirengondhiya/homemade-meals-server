@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const menuRoutes = require('./routes/menu-routes')
 
 const port = process.env.PORT || 3010
 
@@ -11,9 +12,6 @@ app.use(bodyParser.json())
 app.get("/", (req, res) => {
   res.send("homemade meals api!")
 })
-
-app.post("/", (req, res) => {
-  res.send(req.body)
-})
+app.use("/menu", menuRoutes)
 
 app.listen(port, () => console.log(`Homemade meals server listening on port ${port}`))
