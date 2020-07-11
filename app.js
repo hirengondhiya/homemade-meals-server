@@ -1,7 +1,9 @@
 const express = require('express')
-const app = express()
+const cors = require('cors')
 const port = process.env.PORT || 3010
 
+const app = express()
+app.use(cors())
 app.get("/", (req, res) => {
   res.send("homemade meals api!")
 })
