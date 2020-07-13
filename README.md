@@ -1,9 +1,15 @@
 **Table of Contents**
 - [Homemade Meals API Server](#homemade-meals-api-server)
+  - [Default Port](#default-port)
   - [Run in local environment](#run-in-local-environment)
   - [Testing endpoints locally using REST Client](#testing-endpoints-locally-using-rest-client)
+  - [APIs](#apis)
+    - [Menu](#menu)
 
 # Homemade Meals API Server
+
+## Default Port
+3010
 
 ## Run in local environment
 In local environment the runs on port 3010.
@@ -29,3 +35,11 @@ In local environment the runs on port 3010.
   would produce follwing result
   ![app_root_client_result](docs/images/api_root_client_result.png)
 
+## APIs
+### Menu
+- GET /menu
+- GET /menu/:id
+- GET /menu/oftheday
+- POST /menu
+- PUT /menu/:id
+- DELETE /menu/:id
