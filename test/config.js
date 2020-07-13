@@ -1,31 +1,28 @@
 const mongoose = require('mongoose');
 
 // set up connection for test database
-const dbConn = 'mongodb://localhost/homemade-meals-test'
+const testDbUrl = 'mongodb://localhost:27017/homemade-meals-test'
 
-const connectToDb = function (done) {
-  // Connect to the database (same as we do in app.js)
-  mongoose.connect(dbConn, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    // userCreateIndex: true
-  },
-    (err) => {
-      if (err) {
-        console.log('Error connecting to database', err);
-      } else {
-        console.log('Connected to database!');
-      }
-      done();
-    });
+const connectTestDB = async function () {
+  try {
+  
+    const connection = await mongoose.connect(testDbUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      // userCreateIndex: true
+    })
+  } catch (e) {
+    console.log('Error connecting db.')
+    throw e
+  }
 };
 
-const disconnectFromDb = function (done) {
-  mongoose.disconnect(() => done())
+const disconnectTestDb = function () {
+  mongoose.disconnect(() => {console.log('disconnected test db')})
 };
 
 module.exports = {
-  connectToDb,
-  disconnectFromDb
+  connectTestDB,
+  disconnectTestDb
 };

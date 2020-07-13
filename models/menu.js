@@ -5,14 +5,14 @@ const Menu = mongoose.model('Menu', {
     type: String,
     trim: true,
     required: true,
-    minlength: 50,
+    minlength: 5,
     maxlength: 100
   },
   description: {
     type: String,
     trim: true,
     required: true,
-    minlength: 50,
+    minlength: 5,
     maxlength: 100
   },
   deliversOn: {
