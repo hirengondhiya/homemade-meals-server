@@ -13,7 +13,15 @@ const createMenuItem = (req, res) => {
 };
 
 const getAllMenuItems = (req, res) => {
-  res.send("getAllMenuItems");
+  getMenu(req).exec((err, menu) => {
+    if (err) {
+      res.staus(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+    res.send(menu);
+  });
 };
 
 const getMenuItem = (req, res) => {
