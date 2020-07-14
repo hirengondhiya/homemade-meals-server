@@ -21,14 +21,14 @@ const createMenuItem = (req, res) => {
 };
 
 const getAllMenuItems = (req, res) => {
-  getMenu(req).exec((err, menu) => {
+  getMenu(req).exec((err, menus) => {
     if (err) {
       res.staus(500);
       return res.json({
         error: err.message,
       });
     }
-    res.send(menu);
+    res.send(menus);
   });
 };
 
