@@ -22,7 +22,15 @@
   },
   "devDependencies": {
     "expect": "26.1.0",
+    "husky": "4.2.5",
     "mocha": "8.0.1",
-    "nodemon": "2.0.4"
+    "nodemon": "2.0.4",
+    "prettier": "2.0.5",
+    "pretty-quick": "2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

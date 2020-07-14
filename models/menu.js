@@ -1,46 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const Menu = mongoose.model('Menu', {
+const Menu = mongoose.model("Menu", {
   title: {
     type: String,
     trim: true,
     required: true,
     minlength: 5,
-    maxlength: 100
+    maxlength: 100,
   },
   description: {
     type: String,
     trim: true,
     required: true,
     minlength: 5,
-    maxlength: 100
+    maxlength: 100,
   },
   deliversOn: {
     type: Date,
-    required: true
+    required: true,
   },
   mealType: {
     type: String,
     required: true,
-    enumValues: ['lunch', 'dinner'],
-    default: 'lunch'
+    enumValues: ["lunch", "dinner"],
+    default: "lunch",
   },
   orderStarts: {
     type: Date,
-    required: true
+    required: true,
   },
   orderEnds: {
     type: Date,
-    required: true
+    required: true,
   },
   maxOrders: {
     type: Number,
-    required: true
+    required: true,
   },
   cost: {
     type: Number,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-module.exports = Menu
+module.exports = Menu;
