@@ -1,3 +1,12 @@
+const {
+  createMenu,
+  getMenuById,
+  getMenu,
+  getMenuOfTheDay,
+  updateMenuById,
+  deleteMenuById,
+} = require("../utilities/menu-utility");
+
 const createMenuItem = (req, res) => {
   const { body } = req;
   res.send({ operation: "createMenuItem", ...body });

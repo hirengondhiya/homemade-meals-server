@@ -11,3 +11,12 @@ const getMenuOfTheDay = async () => {};
 const updateMenuById = async (id, menu) => {};
 
 const deleteMenuById = async (id) => {};
+
+module.exports = {
+  createMenu,
+  getMenuById,
+  getMenu,
+  getMenuOfTheDay,
+  updateMenuById,
+  deleteMenuById,
+};
