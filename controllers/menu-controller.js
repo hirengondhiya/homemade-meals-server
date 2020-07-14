@@ -8,7 +8,7 @@ const {
 } = require("../utilities/menu-utility");
 
 const createMenuItem = (req, res) => {
-  createMenu(req).save((err, menu) => {
+  createMenu(req.body).save((err, menu) => {
     if (err) {
       res.status(500);
       res.json({

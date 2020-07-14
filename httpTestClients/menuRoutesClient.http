@@ -15,12 +15,17 @@ GET http://localhost:3010/menu/oftheday HTTP/1.1
 
 
 ### create menu item
-POST http://localhost:3010/menu/ HTTP/1.1
+POST http://localhost:3010/menu HTTP/1.1
 content-type: application/json
 
 {
-    "name": "sample menu item",
-    "message": "Hello menu"
+            "title": 'menu item 1',
+			"description": 'menu item decription',
+			"deliversOn": 2020-07-15,
+			"orderStarts": 2020-07-12,
+			"orderEnds": 2020-07-15,
+			"maxOrders": 20,
+			"cost": 1500
 }
 
 

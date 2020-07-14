@@ -8,10 +8,12 @@ describe("Menu Utility", () => {
   before(async () => {
     await connectTestDB();
   });
+
   after(async () => {
     await mongoose.connection.db.dropDatabase();
     await disconnectTestDb();
   });
+
   beforeEach(async () => {
     const menu = new Menu({
       title: "menu item 1",
@@ -25,8 +27,8 @@ describe("Menu Utility", () => {
     await menu.save();
     console.log(menu._id);
   });
+
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("menus");
   });
-  it("should pass empty test", () => {});
 });
