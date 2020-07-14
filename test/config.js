@@ -5,7 +5,7 @@ const testDbUrl = "mongodb://localhost:27017/homemade-meals-test";
 
 const connectTestDB = async function () {
   try {
-    const connection = await mongoose.connect(testDbUrl, {
+    await mongoose.connect(testDbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
