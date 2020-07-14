@@ -24,12 +24,18 @@ const getAllMenuItems = (req, res) => {
   });
 };
 
+// get menu by id
 const getMenuItem = (req, res) => {
-  const { id } = req.params;
-  res.send({ operation: "getMenuItem", id });
+  getMenuById(req).exec((err, menuItem) => {
+    if (err) {
+      res.status(404);
+      return res.send("Menu not found");
+    }
+    res.send(menuItem);
+  });
 };
 
-const getMenuOfTheDay = (req, res) => {
+const getMenuItemOfTheDay = (req, res) => {
   res.send("getMenuOfTheDay");
 };
 
@@ -49,7 +55,7 @@ module.exports = {
   createMenuItem,
   getAllMenuItems,
   getMenuItem,
-  getMenuOfTheDay,
+  getMenuItemOfTheDay,
   updateMenuItem,
   deleteMenuItem,
 };

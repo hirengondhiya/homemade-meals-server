@@ -2,7 +2,10 @@ const Menu = require("../models/menu");
 
 const createMenu = async (menu) => {};
 
-const getMenuById = async (id) => {};
+// get post by id
+const getMenuById = function (req) {
+  return Menu.findById(req.params.id);
+};
 
 // get all the menu
 // return query
