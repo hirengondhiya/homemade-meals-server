@@ -4,7 +4,11 @@ const createMenu = async (menu) => {};
 
 const getMenuById = async (id) => {};
 
-const getMenu = async () => {};
+// get all the menu
+// return query
+const getMenu = function (req) {
+  return Menu.find();
+};
 
 const getMenuOfTheDay = async () => {};
 
