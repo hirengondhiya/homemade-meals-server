@@ -1,6 +1,8 @@
 const Menu = require("../models/menu");
 
-const createMenu = async (menu) => {};
+const createMenu = function (req) {
+  return new Menu(req.body);
+};
 
 // get post by id
 const getMenuById = function (req) {
