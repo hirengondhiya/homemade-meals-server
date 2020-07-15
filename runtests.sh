@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-DATE=`date +%d-%m-%y`
+DATE=`date +%d-%m-%y-%H-%M`
 LOG="testResults/server.${DATE}.log"
 
 echo $LOG
