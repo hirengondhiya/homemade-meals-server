@@ -37,6 +37,14 @@ describe("Menu Utility", () => {
         expect(Object.keys(menus).length).toBe(1);
       });
     });
+    it("maxOrders should be 20", async function () {
+      let req = {
+        query: {},
+      };
+      await utilities.getMenu(req).exec((err, menus) => {
+        expect(menus[0].maxOrders).toBe(20);
+      });
+    });
   });
 
   afterEach(async () => {
