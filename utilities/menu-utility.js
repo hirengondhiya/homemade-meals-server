@@ -6,7 +6,6 @@ const createMenu = function (newMenu) {
 
 // get post by id
 const getMenuById = function (id) {
-  console.log(id);
   return Menu.findById(id);
 };
 
@@ -16,11 +15,13 @@ const getMenu = function () {
   return Menu.find();
 };
 
+const deleteMenuById = function (id) {
+  return Menu.findByIdAndRemove(id);
+};
+
 // const getMenuOfTheDay = async () => {};
 
 // const updateMenuById = async (id, menu) => {};
-
-// const deleteMenuById = async (id) => {};
 
 module.exports = {
   createMenu,
@@ -28,5 +29,5 @@ module.exports = {
   getMenu,
   // getMenuOfTheDay,
   // updateMenuById,
-  // deleteMenuById
+  deleteMenuById,
 };

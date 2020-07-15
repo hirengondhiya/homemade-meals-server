@@ -4,7 +4,7 @@ const {
   getMenu,
   // getMenuOfTheDay,
   // updateMenuById,
-  // deleteMenuById
+  deleteMenuById,
 } = require("../utilities/menu-utility");
 
 const createMenuItem = (req, res) => {
@@ -54,9 +54,14 @@ const updateMenuItem = (req, res) => {
 };
 
 const deleteMenuItem = (req, res) => {
-  const { id } = req.params;
-  const { body } = req;
-  res.send({ operation: "deleteMenuItem", id, ...body });
+  deleteMenuById(req.params.id).exec((err) => {
+    if (err) {
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+  });
 };
 
 module.exports = {

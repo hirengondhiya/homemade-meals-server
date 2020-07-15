@@ -65,6 +65,7 @@ describe("Menu Utility", () => {
     });
   });
 
+  // create new menu
   describe("createMenu", () => {
     it("should create a new post", async function () {
       let req = {
@@ -80,6 +81,21 @@ describe("Menu Utility", () => {
       };
       await utilities.createMenu(req.body).save((err, menu) => {
         expect(menu.title).toBe("menu item 2");
+      });
+    });
+  });
+
+  // delete menu with id
+  describe("deleteMenuById", () => {
+    it("should delete the specific menu with id", async function () {
+      let req = {
+        params: {
+          id: menuID,
+        },
+      };
+      await utilities.deleteMenuById(req.params.id).exec();
+      await utilities.getMenuById(req.params.id).exec((err, menu) => {
+        expect(menu).toBe(null);
       });
     });
   });
