@@ -1,5 +1,6 @@
 const Menu = require("../models/menu");
 
+// create new menu
 const createMenu = function (newMenu) {
   return new Menu(newMenu);
 };
@@ -15,19 +16,24 @@ const getMenu = function () {
   return Menu.find();
 };
 
+// delete specific menu with id
 const deleteMenuById = function (id) {
   return Menu.findByIdAndRemove(id);
 };
 
 // const getMenuOfTheDay = async () => {};
 
-// const updateMenuById = async (id, menu) => {};
+const updateMenuById = function (id, updatedMenu) {
+  return Menu.findByIdAndUpdate(id, updatedMenu, {
+    new: true,
+  });
+};
 
 module.exports = {
   createMenu,
   getMenuById,
   getMenu,
   // getMenuOfTheDay,
-  // updateMenuById,
+  updateMenuById,
   deleteMenuById,
 };

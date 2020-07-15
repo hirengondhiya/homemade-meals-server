@@ -2,9 +2,8 @@ const {
   createMenu,
   getMenuById,
   getMenu,
-  // getMenuOfTheDay,
-  // updateMenuById,
   deleteMenuById,
+  updateMenuById,
 } = require("../utilities/menu-utility");
 
 const createMenuItem = (req, res) => {
@@ -43,14 +42,25 @@ const getMenuItem = (req, res) => {
   });
 };
 
-const getMenuItemOfTheDay = (req, res) => {
-  res.send("getMenuOfTheDay");
-};
+// const getMenuItemOfTheDay = (req, res) => {
+// 	// let currentDate = "15/07/2020 14:30"
+// 	// orderStarts >= currentDate <= orderEnds
+// 	res.send('getMenuOfTheDay');
+// };
 
 const updateMenuItem = (req, res) => {
   const { id } = req.params;
   const { body } = req;
-  res.send({ operation: "updateMenuItem", id, ...body });
+  updateMenuById(id, body).exec((err, updatedMenu) => {
+    if (err) {
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+    res.status(200);
+    res.send(updatedMenu);
+  });
 };
 
 const deleteMenuItem = (req, res) => {
@@ -68,7 +78,7 @@ module.exports = {
   createMenuItem,
   getAllMenuItems,
   getMenuItem,
-  getMenuItemOfTheDay,
+  // getMenuItemOfTheDay,
   updateMenuItem,
   deleteMenuItem,
 };

@@ -100,6 +100,24 @@ describe("Menu Utility", () => {
     });
   });
 
+  // update Menu
+  describe("updateMenuByID", () => {
+    it("should update the specified menu with id", async function () {
+      let menuUpdates = {
+        title: "updated menu",
+        description: "menu item decription",
+        deliversOn: new Date(),
+        orderStarts: new Date(),
+        orderEnds: new Date(),
+        maxOrders: 15,
+        cost: 20,
+      };
+      await utilities.updateMenuById(menuID, menuUpdates).exec((err, menu) => {
+        expect(menu.title).toBe(menuUpdates.title);
+      });
+    });
+  });
+
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("menus");
   });
