@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { OrderSchema } = require("./order");
 
 const Menu = mongoose.model("Menu", {
   title: {
@@ -41,6 +42,7 @@ const Menu = mongoose.model("Menu", {
     type: Number,
     required: true,
   },
+  orders: [OrderSchema],
 });
 
 module.exports = Menu;
