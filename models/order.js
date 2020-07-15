@@ -9,6 +9,7 @@ const OrderSchema = new Schema(
     quantity: {
       type: Number,
       required: true,
+      min: [1, "Atleast one meal must be ordered."],
     },
     total: {
       type: Number,
