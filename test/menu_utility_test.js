@@ -65,6 +65,25 @@ describe("Menu Utility", () => {
     });
   });
 
+  describe("createMenu", () => {
+    it("should create a new post", async function () {
+      let req = {
+        body: {
+          title: "menu item 2",
+          description: "menu item decription",
+          deliversOn: new Date(),
+          orderStarts: new Date(),
+          orderEnds: new Date(),
+          maxOrders: 15,
+          cost: 20,
+        },
+      };
+      await utilities.createMenu(req.body).save((err, menu) => {
+        expect(menu.title).toBe("menu item 2");
+      });
+    });
+  });
+
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("menus");
   });
