@@ -4,6 +4,8 @@ const utilities = require("../utilities/menu-utility");
 const Menu = require("../models/menu");
 const { connectTestDB, disconnectTestDb } = require("./config");
 
+let menuID;
+
 describe("Menu Utility", () => {
   before(async () => {
     await connectTestDB();
@@ -49,7 +51,7 @@ describe("Menu Utility", () => {
   });
 
   // get menu by id
-  let menuID;
+
   describe("getMenuById", () => {
     it("title should be menu item 1", async function () {
       let req = {
