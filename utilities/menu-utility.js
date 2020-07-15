@@ -6,6 +6,7 @@ const createMenu = function (newMenu) {
 
 // get post by id
 const getMenuById = function (id) {
+  console.log(id);
   return Menu.findById(id);
 };
 

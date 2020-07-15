@@ -24,10 +24,11 @@ describe("Menu Utility", () => {
       maxOrders: 20,
       cost: 1500,
     });
-    await menu.save();
-    console.log(menu._id);
+    let data = await menu.save();
+    menuID = data._id;
   });
 
+  //   get all the menus
   describe("getMenu", () => {
     it("should get all the menus", async function () {
       let req = {
@@ -43,6 +44,21 @@ describe("Menu Utility", () => {
       };
       await utilities.getMenu(req).exec((err, menus) => {
         expect(menus[0].maxOrders).toBe(20);
+      });
+    });
+  });
+
+  // get menu by id
+  let menuID;
+  describe("getMenuById", () => {
+    it("title should be menu item 1", async function () {
+      let req = {
+        params: {
+          id: menuID,
+        },
+      };
+      await utilities.getMenuById(req.params.id).exec((err, menu) => {
+        expect(menu.title).toBe("menu item 1");
       });
     });
   });
