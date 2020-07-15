@@ -28,6 +28,17 @@ describe("Menu Utility", () => {
     console.log(menu._id);
   });
 
+  describe("getMenu", () => {
+    it("should get all the menus", async function () {
+      let req = {
+        query: {},
+      };
+      await utilities.getMenu(req).exec((err, menus) => {
+        expect(Object.keys(menus).length).toBe(1);
+      });
+    });
+  });
+
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("menus");
   });

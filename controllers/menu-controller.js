@@ -2,9 +2,9 @@ const {
   createMenu,
   getMenuById,
   getMenu,
-  getMenuOfTheDay,
-  updateMenuById,
-  deleteMenuById,
+  // getMenuOfTheDay,
+  // updateMenuById,
+  // deleteMenuById
 } = require("../utilities/menu-utility");
 
 const createMenuItem = (req, res) => {
@@ -34,7 +34,7 @@ const getAllMenuItems = (req, res) => {
 
 // get menu by id
 const getMenuItem = (req, res) => {
-  getMenuById(req).exec((err, menuItem) => {
+  getMenuById(req.params.id).exec((err, menuItem) => {
     if (err) {
       res.status(404);
       return res.send("Menu not found");
