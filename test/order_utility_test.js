@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const expect = require("expect");
 const { createOrder } = require("../utilities/order_utility");
 const Menu = require("../models/menu");
+// getOrderById,
+// getOrders,
+// updateOrderById,
+// cancelOrderById
 const { connectTestDB, disconnectTestDb } = require("./config");
 let menuItem;
 
@@ -39,7 +43,6 @@ describe("Order Utility", () => {
         new: true,
       }
     ).exec();
-    // console.log(menuItem.toJSON())
   });
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("menus");
@@ -54,6 +57,46 @@ describe("Order Utility", () => {
       const updatedMenuItem = await createOrder(menuItem._id, newOrder);
       const { orders } = updatedMenuItem.toJSON();
       expect(orders.length).toBe(2);
+    });
+    it("should not accept the order without quantity", async () => {
+      try {
+        delete newOrder.quantity;
+        await createOrder(menuItem._id, newOrder);
+      } catch (e) {
+        expect(
+          e.errors.orders.message.match(/Path `quantity` is required/)
+        ).toBeDefined();
+      }
+    });
+    it("should not accept the order with quantity 0", async () => {
+      try {
+        newOrder.quantity = 0;
+        await createOrder(menuItem._id, newOrder);
+      } catch (e) {
+        expect(
+          e.errors.orders.message.match(/Atleast one meal must be ordered./)
+        ).toBeDefined();
+      }
+    });
+    it("should not accept the order without pickupAt value ", async () => {
+      try {
+        delete newOrder.pickupAt;
+        await createOrder(menuItem._id, newOrder);
+      } catch (e) {
+        expect(
+          e.errors.orders.message.match(/Path `pickupAt` is required/)
+        ).toBeDefined();
+      }
+    });
+    it("should not accept the order without total value ", async () => {
+      try {
+        delete newOrder.total;
+        await createOrder(menuItem._id, newOrder);
+      } catch (e) {
+        expect(
+          e.errors.orders.message.match(/Path `total` is required/)
+        ).toBeDefined();
+      }
     });
   });
 
