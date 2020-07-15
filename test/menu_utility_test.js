@@ -83,6 +83,20 @@ describe("Menu Utility", () => {
         expect(menu.title).toBe("menu item 2");
       });
     });
+    it("should remove whitesapce in the user input data", async function () {
+      let newMenu = {
+        title: "   menu item 2",
+        description: "menu item decription",
+        deliversOn: new Date(),
+        orderStarts: new Date(),
+        orderEnds: new Date(),
+        maxOrders: 15,
+        cost: 20,
+      };
+      await utilities.createMenu(newMenu).save((err, menu) => {
+        expect(menu.title).toBe("menu item 2");
+      });
+    });
   });
 
   // delete menu with id
@@ -113,7 +127,7 @@ describe("Menu Utility", () => {
         cost: 20,
       };
       await utilities.updateMenuById(menuID, menuUpdates).exec((err, menu) => {
-        expect(menu.title).toBe(menuUpdates.title);
+        expect(menu.title).toBe("updated menu");
       });
     });
   });
