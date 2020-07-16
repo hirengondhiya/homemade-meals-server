@@ -9,7 +9,6 @@ const connectTestDB = async function () {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-      // userCreateIndex: true
     });
   } catch (e) {
     console.log("Error connecting db.");
