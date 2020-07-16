@@ -117,3 +117,6 @@ dist
 
 # environment
 *.env
+
+# visual studio code
+.vscode
