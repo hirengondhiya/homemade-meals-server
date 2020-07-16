@@ -1,11 +1,12 @@
 const Menu = require("../models/menu");
 
 const createOrder = async (menuId, order) => {
+  const { pickupAt, quantity } = order;
   const updatedMenu = await Menu.findByIdAndUpdate(
     menuId,
     {
       $push: {
-        orders: order,
+        orders: { pickupAt, quantity },
       },
     },
     {
