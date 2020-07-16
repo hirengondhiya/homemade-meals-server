@@ -4,12 +4,9 @@ const {
   createOrder,
   getOrderById,
   getOrdersForMeal,
+  updateOrderById,
 } = require("../utilities/order_utility");
 const Menu = require("../models/menu");
-// getOrderById,
-// getOrders,
-// updateOrderById,
-// cancelOrderById
 const { connectTestDB, disconnectTestDb } = require("./config");
 let mealWithoutOrders;
 let mealWithOrders;
@@ -154,6 +151,34 @@ describe("Order Utility", () => {
       expect(foundMeal).toBeDefined();
       expect(foundMeal._id.toString()).toBe(mealId);
       expect(foundMeal.orders.length).toBe(0);
+    });
+  });
+  describe("updateOrderById", () => {
+    it("should update an existing order given order id and updates", async () => {
+      const orderId = mealWithOrders.orders[0]._id.toString();
+      const orderUpdates = {
+        pickupAt: new Date().toISOString(),
+        quantity: 5,
+      };
+      const mealWithUpdatedOrder = await updateOrderById(orderId, orderUpdates);
+      expect(mealWithUpdatedOrder).toBeDefined();
+      expect(mealWithUpdatedOrder._id.toString()).toBe(
+        mealWithOrders._id.toString()
+      );
+      expect(mealWithUpdatedOrder.orders.length).toBe(1);
+      expect(mealWithUpdatedOrder.orders[0]._id.toString()).toBe(orderId);
+      expect(mealWithUpdatedOrder.orders[0].quantity).toBe(
+        orderUpdates.quantity
+      );
+    });
+    it("should return Null when non-existent order id is passed", async () => {
+      const orderId = getRandomObjectId();
+      const orderUpdates = {
+        pickupAt: new Date().toISOString(),
+        quantity: 5,
+      };
+      const meal = await updateOrderById(orderId, orderUpdates);
+      expect(meal).toBeNull();
     });
   });
   it("should pass empty test", () => {});
