@@ -39,8 +39,33 @@ const getOrdersForMeal = async (mealId) => {
   return mealWithAllOrders;
 };
 
+const updateOrderById = async (orderId, orderUpdates) => {
+  const { pickupAt, quantity } = orderUpdates;
+  const mealWithUpdatedOrder = await Menu.findOneAndUpdate(
+    {
+      "orders._id": orderId,
+    },
+    {
+      "orders.$.pickupAt": pickupAt,
+      "orders.$.quantity": quantity,
+    },
+    {
+      select: {
+        orders: {
+          $elemMatch: {
+            _id: orderId,
+          },
+        },
+      },
+      new: true,
+      runValidators: true,
+    }
+  ).exec();
+  return mealWithUpdatedOrder;
+};
 module.exports = {
   createOrder,
   getOrderById,
   getOrdersForMeal,
+  updateOrderById,
 };
