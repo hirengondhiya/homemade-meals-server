@@ -53,9 +53,9 @@ describe("Order Utility", () => {
       await Menu.create({
         title: "meal item without orders",
         description: "meal item decription",
-        deliversOn: new Date(),
-        orderStarts: new Date(),
-        orderEnds: new Date(),
+        deliversOn: new Date().toISOString(),
+        orderStarts: new Date().toISOString(),
+        orderEnds: new Date().toISOString(),
         maxOrders: 10,
         cost: 1000,
       })
@@ -65,55 +65,67 @@ describe("Order Utility", () => {
     await mongoose.connection.db.dropCollection("menus");
   });
   describe("createOrder", () => {
-    const newOrder = {
-      pickupAt: new Date(),
-      quantity: 1,
-      total: 1500,
-    };
+    let newOrder;
+    let error;
+    beforeEach(() => {
+      newOrder = {
+        pickupAt: new Date().toISOString(),
+        quantity: 1,
+        total: 1500,
+      };
+      error = {
+        errors: {
+          orders: {
+            message: "",
+          },
+        },
+      };
+    });
     it("should add an order to given menu item", async () => {
-      const updatedMenuItem = await createOrder(mealWithOrders._id, newOrder);
-      const { orders } = updatedMenuItem.toJSON();
-      expect(orders.length).toBe(mealWithOrders.orders.length + 1);
+      const mealWithNewOrder = await createOrder(mealWithOrders._id, newOrder);
+      expect(mealWithNewOrder.orders.length).toBe(1);
+      expect(mealWithOrders.orders[0].quantity).toBe(newOrder.quantity);
+      expect(mealWithOrders.orders[0].pickupAt).toBeDefined();
+      expect(mealWithOrders.orders.map((o) => o._id.toString())).not.toContain(
+        mealWithNewOrder.orders[0]._id.toString()
+      );
     });
+
     it("should not accept the order without quantity", async () => {
-      try {
-        delete newOrder.quantity;
-        await createOrder(mealWithOrders._id, newOrder);
-      } catch (e) {
-        expect(
-          e.errors.orders.message.match(/Path `quantity` is required/)
-        ).toBeDefined();
-      }
+      expect.assertions(1);
+      delete newOrder.quantity;
+      error.errors.orders.message =
+        "Validation failed: quantity: Path `quantity` is required.";
+      await expect(
+        createOrder(mealWithOrders._id, newOrder)
+      ).rejects.toMatchObject(error);
     });
+
     it("should not accept the order with quantity 0", async () => {
-      try {
-        newOrder.quantity = 0;
-        await createOrder(mealWithOrders._id, newOrder);
-      } catch (e) {
-        expect(
-          e.errors.orders.message.match(/Atleast one meal must be ordered./)
-        ).toBeDefined();
-      }
+      expect.assertions(1);
+      newOrder.quantity = 0;
+      error.errors.orders.message =
+        "Validation failed: quantity: Atleast one meal must be ordered.";
+      await expect(
+        createOrder(mealWithOrders._id, newOrder)
+      ).rejects.toMatchObject(error);
     });
+
     it("should not accept the order without pickupAt value ", async () => {
-      try {
-        delete newOrder.pickupAt;
-        await createOrder(mealWithOrders._id, newOrder);
-      } catch (e) {
-        expect(
-          e.errors.orders.message.match(/Path `pickupAt` is required/)
-        ).toBeDefined();
-      }
+      expect.assertions(1);
+      delete newOrder.pickupAt;
+      error.errors.orders.message =
+        "Validation failed: pickupAt: Path `pickupAt` is required.";
+      await expect(
+        createOrder(mealWithOrders._id, newOrder)
+      ).rejects.toMatchObject(error);
     });
-    it("should not accept the order without total value ", async () => {
-      try {
-        delete newOrder.total;
-        await createOrder(mealWithOrders._id, newOrder);
-      } catch (e) {
-        expect(
-          e.errors.orders.message.match(/Path `total` is required/)
-        ).toBeDefined();
-      }
+
+    it("should ignore other fields except quantity and pickupAt", async () => {
+      const mealWithNewOrder = await createOrder(mealWithOrders._id, newOrder);
+      expect(mealWithNewOrder.orders[0].quantity).toBeDefined();
+      expect(mealWithNewOrder.orders[0].pickupAt).toBeDefined();
+      expect(mealWithNewOrder.orders[0].total).toBeUndefined();
     });
   });
   describe("getOrderById", () => {
@@ -218,7 +230,7 @@ describe("Order Utility", () => {
         mealWithOrders.orders[0].quantity
       );
       expect(mealWithCancelOrder.orders[0].pickupAt.toISOString()).toBe(
-        mealWithOrders.orders[0].pickupAt
+        mealWithOrders.orders[0].pickupAt.toISOString()
       );
       expect(mealWithCancelOrder.orders[0].cancelAt).toBeDefined();
     });
