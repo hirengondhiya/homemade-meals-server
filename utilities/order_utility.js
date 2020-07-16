@@ -1,11 +1,11 @@
 const Menu = require("../models/menu");
 
-// creates order given menuId and order details
+// creates order given mealId and order details
 // order object must have pickupAt (date-time string) and quantity(natural number) fields
-const createOrder = async (menuId, order) => {
+const createOrder = async (mealId, order) => {
   const { pickupAt, quantity } = order;
-  const updatedMenu = await Menu.findByIdAndUpdate(
-    menuId,
+  const mealWithAllOrders = await Menu.findByIdAndUpdate(
+    mealId,
     {
       $push: {
         orders: { pickupAt, quantity },
@@ -16,7 +16,11 @@ const createOrder = async (menuId, order) => {
       runValidators: true,
     }
   ).exec();
-  return updatedMenu;
+  const mealWithNewOrder = await getOrderById(
+    mealWithAllOrders.orders[mealWithAllOrders.orders.length - 1]
+  );
+
+  return mealWithNewOrder;
 };
 
 // given orderId returns the order details encapsulated within the meal object that the order belongs to
