@@ -5,6 +5,7 @@ const {
   getOrderById,
   getOrdersForMeal,
   updateOrderById,
+  cancelOrderById,
 } = require("../utilities/order_utility");
 const Menu = require("../models/menu");
 const { connectTestDB, disconnectTestDb } = require("./config");
@@ -200,6 +201,49 @@ describe("Order Utility", () => {
         quantity: 5,
       };
       const meal = await updateOrderById(orderId, orderUpdates);
+      expect(meal).toBeNull();
+    });
+  });
+  describe("cancelOrderById", () => {
+    it("should cancel an existing order given order id", async () => {
+      const orderId = mealWithOrders.orders[0]._id.toString();
+      const mealWithCancelOrder = await cancelOrderById(orderId);
+      expect(mealWithCancelOrder).toBeDefined();
+      expect(mealWithCancelOrder._id.toString()).toBe(
+        mealWithOrders._id.toString()
+      );
+      expect(mealWithCancelOrder.orders.length).toBe(1);
+      expect(mealWithCancelOrder.orders[0]._id.toString()).toBe(orderId);
+      expect(mealWithCancelOrder.orders[0].quantity).toBe(
+        mealWithOrders.orders[0].quantity
+      );
+      expect(mealWithCancelOrder.orders[0].pickupAt.toISOString()).toBe(
+        mealWithOrders.orders[0].pickupAt.toISOString()
+      );
+      expect(mealWithCancelOrder.orders[0].cancelAt).toBeDefined();
+    });
+    it("should not cancel other orders", async () => {
+      const orderId = mealWithOrders.orders[0]._id.toString();
+      await cancelOrderById(orderId);
+      await cancelOrderById(orderId);
+      const meal = await Menu.findById(mealWithOrders._id);
+      expect(meal).toBeDefined();
+      expect(meal.orders).toBeDefined();
+      expect(meal.orders.length).toBe(mealWithOrders.orders.length);
+      expect(meal.orders.map((o) => o._id.toString()).sort()).toEqual(
+        expect.arrayContaining(
+          mealWithOrders.orders.map((o) => o._id.toString()).sort()
+        )
+      );
+      expect(
+        meal.orders.find(
+          (o) => o._id.toString() === mealWithOrders.orders[1]._id.toString()
+        ).cancelAt
+      ).toBeUndefined();
+    });
+    it("should return Null when non-existent order id is passed", async () => {
+      const orderId = getRandomObjectId();
+      const meal = await cancelOrderById(orderId);
       expect(meal).toBeNull();
     });
   });
