@@ -11,14 +11,6 @@ const OrderSchema = new Schema(
       required: true,
       min: [1, "Atleast one meal must be ordered."],
     },
-    total: {
-      type: Number,
-      required: true,
-    },
-    cancelled: {
-      type: Boolean,
-      default: false,
-    },
     cancelDate: {
       type: Date,
     },
