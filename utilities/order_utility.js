@@ -63,7 +63,29 @@ const updateOrderById = async (orderId, orderUpdates) => {
   ).exec();
   return mealWithUpdatedOrder;
 };
+const cancelOrderById = async (orderId) => {
+  const mealWithCancelledOrder = await Menu.findOneAndUpdate(
+    {
+      "orders._id": orderId,
+    },
+    {
+      "orders.$.cancelAt": new Date().toISOString(),
+    },
+    {
+      select: {
+        orders: {
+          $elemMatch: {
+            _id: orderId,
+          },
+        },
+      },
+      new: true,
+    }
+  ).exec();
+  return mealWithCancelledOrder;
+};
 module.exports = {
+  cancelOrderById,
   createOrder,
   getOrderById,
   getOrdersForMeal,
