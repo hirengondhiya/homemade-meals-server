@@ -7,10 +7,13 @@ GET http://localhost:3010/menu/ HTTP/1.1
 
 
 ### get menu item by id
-GET http://localhost:3010/menu/5f0f8330036e9a473e082a36 HTTP/1.1
+GET http://localhost:3010/menu/5f0f9a28036e9a473e082a37 HTTP/1.1
 
 ### with invalid id
 GET http://localhost:3010/menu/3 HTTP/1.1
+
+### with id that has been deleted
+GET http://localhost:3010/menu/5f0fefe35ae353518e24508f HTTP/1.1
 
 
 ### get menu item of the day -- for home screen
@@ -24,17 +27,32 @@ content-type: application/json
 {
             "title": "pizzas",
 			"description": "Home made",
-			"deliversOn": "2020-07-16T12:08:11+10:00",
+			"deliversOn": "2020-07-13T08:08:11+10:00",
 			"mealType": "lunch",
-			"orderStarts": "2020-07-12",
-			"orderEnds": "2020-07-16",
+			"orderStarts": "2020-07-12T10:08:11+10:00",
+			"orderEnds": "2020-07-12T16:08:11+10:00",
 			"maxOrders": 20,
-			"cost": 1500
+			"cost": 20
 }
 
 
 ### update menu item by id
-PUT http://localhost:3010/menu/5f0fa034036e9a473e082a38 HTTP/1.1
+PUT http://localhost:3010/menu/5f0f9a28036e9a473e082a37 HTTP/1.1
+content-type: application/json
+
+{
+            "title": "Burger",
+			"description": "Home made",
+			"deliversOn": "2020-07-13T08:08:11+10:00",
+			"mealType": "lunch",
+			"orderStarts": "2020-07-12T10:08:11+10:00",
+			"orderEnds": "2020-07-12T16:08:11+10:00",
+			"maxOrders": 20,
+			"cost": 20
+}
+
+### update menu item by id that has been deleted
+PUT http://localhost:3010/menu/5f0fefe35ae353518e24508f HTTP/1.1
 content-type: application/json
 
 {
@@ -45,11 +63,34 @@ content-type: application/json
 			"orderStarts": "2020-07-12",
 			"orderEnds": "2020-07-16",
 			"maxOrders": 20,
-			"cost": 1500
+			"cost": 20
+}
+
+### update menu item with invalid id
+PUT http://localhost:3010/menu/9 HTTP/1.1
+content-type: application/json
+
+{
+            "title": "Dumpling",
+			"description": "Home made",
+			"deliversOn": "2020-07-15",
+			"mealType": "Dinner",
+			"orderStarts": "2020-07-12",
+			"orderEnds": "2020-07-16",
+			"maxOrders": 20,
+			"cost": 20
 }
 
 
-### delete menu item by id
-DELETE  http://localhost:3010/menu/5f0f8330036e9a473e082a36 HTTP/1.1
+### delete menu item by id 
+DELETE  http://localhost:3010/menu/5f0f9a28036e9a473e082a37 HTTP/1.1
+content-type: application/json
+
+### delete menu item by id that has been deleted
+DELETE  http://localhost:3010/menu/5f0fefe35ae353518e24508f HTTP/1.1
+content-type: application/json
+
+### delete menu item with invalid id
+DELETE  http://localhost:3010/menu/5 HTTP/1.1
 content-type: application/json
 

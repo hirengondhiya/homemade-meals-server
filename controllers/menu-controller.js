@@ -35,19 +35,20 @@ const getAllMenuItems = (req, res) => {
 const getMenuItem = (req, res) => {
   getMenuById(req.params.id).exec((err, menuItem) => {
     if (err) {
-      res.status(404);
-      return res.send("Menu not found");
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
     }
-    res.send(menuItem);
+    if (menuItem) {
+      return res.send(menuItem);
+    }
+    res.status(404);
+    res.send("Menu not found");
   });
 };
 
-// const getMenuItemOfTheDay = (req, res) => {
-// 	// let currentDate = "15/07/2020 14:30"
-// 	// orderStarts >= currentDate <= orderEnds
-// 	res.send('getMenuOfTheDay');
-// };
-
+// update Menu Item
 const updateMenuItem = (req, res) => {
   const { id } = req.params;
   const { body } = req;
@@ -58,19 +59,27 @@ const updateMenuItem = (req, res) => {
         error: err.message,
       });
     }
-    res.status(200);
-    res.send(updatedMenu);
+    if (updatedMenu) {
+      res.status(200);
+      res.send(updatedMenu);
+    }
+    res.sendStatus(404);
   });
 };
 
+// delete Menu
 const deleteMenuItem = (req, res) => {
-  deleteMenuById(req.params.id).exec((err) => {
+  deleteMenuById(req.params.id).exec((err, menu) => {
     if (err) {
       res.status(500);
       return res.json({
         error: err.message,
       });
     }
+    if (menu) {
+      return res.sendStatus(204);
+    }
+    res.sendStatus(404);
   });
 };
 
