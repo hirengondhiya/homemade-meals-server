@@ -11,7 +11,7 @@ const OrderSchema = new Schema(
       required: true,
       min: [1, "Atleast one meal must be ordered."],
     },
-    cancelDate: {
+    cancelAt: {
       type: Date,
     },
   },
