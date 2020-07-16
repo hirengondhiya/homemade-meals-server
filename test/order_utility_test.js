@@ -218,7 +218,7 @@ describe("Order Utility", () => {
         mealWithOrders.orders[0].quantity
       );
       expect(mealWithCancelOrder.orders[0].pickupAt.toISOString()).toBe(
-        mealWithOrders.orders[0].pickupAt.toISOString()
+        mealWithOrders.orders[0].pickupAt
       );
       expect(mealWithCancelOrder.orders[0].cancelAt).toBeDefined();
     });
