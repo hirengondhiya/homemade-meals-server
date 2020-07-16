@@ -16,6 +16,24 @@ const createOrder = async (menuId, order) => {
   return updatedMenu;
 };
 
+const getOrderById = async (orderId) => {
+  const mealWithOrder = await Menu.findOne(
+    {
+      "orders._id": orderId,
+    },
+    {
+      orders: {
+        $elemMatch: {
+          _id: orderId,
+        },
+      },
+    }
+  ).exec();
+
+  return mealWithOrder;
+};
+
 module.exports = {
   createOrder,
+  getOrderById,
 };
