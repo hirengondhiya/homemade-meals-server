@@ -171,6 +171,28 @@ describe("Order Utility", () => {
         orderUpdates.quantity
       );
     });
+    it("should not modify other orders", async () => {
+      const orderId = mealWithOrders.orders[0]._id.toString();
+      const orderUpdates = {
+        pickupAt: new Date().toISOString(),
+        quantity: 5,
+      };
+      await updateOrderById(orderId, orderUpdates);
+      const meal = await Menu.findById(mealWithOrders._id);
+      expect(meal).toBeDefined();
+      expect(meal.orders).toBeDefined();
+      expect(meal.orders.length).toBe(mealWithOrders.orders.length);
+      expect(meal.orders.map((o) => o._id.toString()).sort()).toEqual(
+        expect.arrayContaining(
+          mealWithOrders.orders.map((o) => o._id.toString()).sort()
+        )
+      );
+      expect(
+        meal.orders.find(
+          (o) => o._id.toString() === mealWithOrders.orders[1]._id.toString()
+        ).quantity
+      ).toBe(mealWithOrders.orders[1].quantity);
+    });
     it("should return Null when non-existent order id is passed", async () => {
       const orderId = getRandomObjectId();
       const orderUpdates = {
