@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const expect = require("expect");
-const { createOrder } = require("../utilities/order_utility");
+const { createOrder, getOrderById } = require("../utilities/order_utility");
 const Menu = require("../models/menu");
 // getOrderById,
 // getOrders,
@@ -18,36 +18,35 @@ describe("Order Utility", () => {
     await disconnectTestDb();
   });
   beforeEach(async () => {
-    menuItem = await Menu.create({
-      title: "menu item 1",
-      description: "menu item decription",
-      deliversOn: new Date(),
-      orderStarts: new Date(),
-      orderEnds: new Date(),
-      maxOrders: 20,
-      cost: 1500,
-    });
-    const order = {
-      pickupAt: new Date(),
-      quantity: 2,
-      total: 3000,
-    };
-    menuItem = await Menu.findByIdAndUpdate(
-      menuItem._id,
+    const orders = [
       {
-        $push: {
-          orders: order,
-        },
+        pickupAt: new Date(),
+        quantity: 1,
+        total: 1500,
       },
       {
-        new: true,
-      }
-    ).exec();
+        pickupAt: new Date(),
+        quantity: 2,
+        total: 3000,
+      },
+    ];
+    menuItem = (
+      await Menu.create({
+        title: "menu item 1",
+        description: "menu item decription",
+        deliversOn: new Date(),
+        orderStarts: new Date(),
+        orderEnds: new Date(),
+        maxOrders: 20,
+        cost: 1500,
+        orders,
+      })
+    ).toJSON();
   });
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("menus");
   });
-  describe("Create Order", () => {
+  describe("createOrder", () => {
     const newOrder = {
       pickupAt: new Date(),
       quantity: 1,
@@ -56,7 +55,7 @@ describe("Order Utility", () => {
     it("should add an order to given menu item", async () => {
       const updatedMenuItem = await createOrder(menuItem._id, newOrder);
       const { orders } = updatedMenuItem.toJSON();
-      expect(orders.length).toBe(2);
+      expect(orders.length).toBe(menuItem.orders.length + 1);
     });
     it("should not accept the order without quantity", async () => {
       try {
@@ -99,6 +98,22 @@ describe("Order Utility", () => {
       }
     });
   });
-
+  describe("getOrderById", () => {
+    it("should find meal with order for given order id", async () => {
+      const orderId = menuItem.orders[0]._id;
+      const mealWithOrder = await getOrderById(orderId);
+      expect(mealWithOrder).toBeDefined();
+      const { orders } = mealWithOrder;
+      expect(orders).toBeDefined();
+      expect(orders.length).toBe(1);
+      const [order] = orders;
+      expect(order._id.toString()).toBe(orderId.toString());
+    });
+    it("should return Null when non-existent orderId is passed", async () => {
+      const orderId = new mongoose.Types.ObjectId().toString();
+      const mealWithOrder = await getOrderById(orderId);
+      expect(mealWithOrder).toBeNull();
+    });
+  });
   it("should pass empty test", () => {});
 });
