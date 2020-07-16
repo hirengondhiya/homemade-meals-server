@@ -1,13 +1,39 @@
 const Menu = require("../models/menu");
 
-const createMenu = async (menu) => {};
+// create new menu
+const createMenu = function (newMenu) {
+  return new Menu(newMenu);
+};
 
-const getMenuById = async (id) => {};
+// get post by id
+const getMenuById = function (id) {
+  return Menu.findById(id);
+};
 
-const getMenu = async () => {};
+// get all the menu
+// return query
+const getMenu = function () {
+  return Menu.find();
+};
 
-const getMenuOfTheDay = async () => {};
+// delete specific menu with id
+const deleteMenuById = function (id) {
+  return Menu.findByIdAndRemove(id);
+};
 
-const updateMenuById = async (id, menu) => {};
+// const getMenuOfTheDay = async () => {};
 
-const deleteMenuById = async (id) => {};
+const updateMenuById = function (id, updatedMenu) {
+  return Menu.findByIdAndUpdate(id, updatedMenu, {
+    new: true,
+  });
+};
+
+module.exports = {
+  createMenu,
+  getMenuById,
+  getMenu,
+  // getMenuOfTheDay,
+  updateMenuById,
+  deleteMenuById,
+};

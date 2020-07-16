@@ -1,38 +1,93 @@
+const {
+  createMenu,
+  getMenuById,
+  getMenu,
+  deleteMenuById,
+  updateMenuById,
+} = require("../utilities/menu-utility");
+
 const createMenuItem = (req, res) => {
-  const { body } = req;
-  res.send({ operation: "createMenuItem", ...body });
+  createMenu(req.body).save((err, menu) => {
+    if (err) {
+      res.status(500);
+      res.json({
+        error: err.message,
+      });
+    }
+    res.status(201);
+    res.send(menu);
+  });
 };
 
 const getAllMenuItems = (req, res) => {
-  res.send("getAllMenuItems");
+  getMenu(req).exec((err, menus) => {
+    if (err) {
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+    res.send(menus);
+  });
 };
 
+// get menu by id
 const getMenuItem = (req, res) => {
-  const { id } = req.params;
-  res.send({ operation: "getMenuItem", id });
+  getMenuById(req.params.id).exec((err, menuItem) => {
+    if (err) {
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+    if (menuItem) {
+      return res.send(menuItem);
+    }
+    res.status(404);
+    res.send("Menu not found");
+  });
 };
 
-const getMenuOfTheDay = (req, res) => {
-  res.send("getMenuOfTheDay");
-};
-
+// update Menu Item
 const updateMenuItem = (req, res) => {
   const { id } = req.params;
   const { body } = req;
-  res.send({ operation: "updateMenuItem", id, ...body });
+  updateMenuById(id, body).exec((err, updatedMenu) => {
+    if (err) {
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+    if (updatedMenu) {
+      res.status(200);
+      res.send(updatedMenu);
+    }
+    res.sendStatus(404);
+  });
 };
 
+// delete Menu
 const deleteMenuItem = (req, res) => {
-  const { id } = req.params;
-  const { body } = req;
-  res.send({ operation: "deleteMenuItem", id, ...body });
+  deleteMenuById(req.params.id).exec((err, menu) => {
+    if (err) {
+      res.status(500);
+      return res.json({
+        error: err.message,
+      });
+    }
+    if (menu) {
+      return res.sendStatus(204);
+    }
+    res.sendStatus(404);
+  });
 };
 
 module.exports = {
   createMenuItem,
   getAllMenuItems,
   getMenuItem,
-  getMenuOfTheDay,
+  // getMenuItemOfTheDay,
   updateMenuItem,
   deleteMenuItem,
 };
