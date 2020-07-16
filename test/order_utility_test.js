@@ -1,13 +1,22 @@
 const mongoose = require("mongoose");
 const expect = require("expect");
-const { createOrder, getOrderById } = require("../utilities/order_utility");
+const {
+  createOrder,
+  getOrderById,
+  getOrdersForMeal,
+} = require("../utilities/order_utility");
 const Menu = require("../models/menu");
 // getOrderById,
 // getOrders,
 // updateOrderById,
 // cancelOrderById
 const { connectTestDB, disconnectTestDb } = require("./config");
-let menuItem;
+let mealWithoutOrders;
+let mealWithOrders;
+
+const getRandomObjectId = () => {
+  return new mongoose.Types.ObjectId().toString();
+};
 
 describe("Order Utility", () => {
   before(async () => {
@@ -30,16 +39,27 @@ describe("Order Utility", () => {
         total: 3000,
       },
     ];
-    menuItem = (
+    mealWithOrders = (
       await Menu.create({
-        title: "menu item 1",
-        description: "menu item decription",
+        title: "meal item with orders",
+        description: "meal item decription",
         deliversOn: new Date(),
         orderStarts: new Date(),
         orderEnds: new Date(),
         maxOrders: 20,
         cost: 1500,
         orders,
+      })
+    ).toJSON();
+    mealWithoutOrders = (
+      await Menu.create({
+        title: "meal item without orders",
+        description: "meal item decription",
+        deliversOn: new Date(),
+        orderStarts: new Date(),
+        orderEnds: new Date(),
+        maxOrders: 10,
+        cost: 1000,
       })
     ).toJSON();
   });
@@ -53,14 +73,14 @@ describe("Order Utility", () => {
       total: 1500,
     };
     it("should add an order to given menu item", async () => {
-      const updatedMenuItem = await createOrder(menuItem._id, newOrder);
+      const updatedMenuItem = await createOrder(mealWithOrders._id, newOrder);
       const { orders } = updatedMenuItem.toJSON();
-      expect(orders.length).toBe(menuItem.orders.length + 1);
+      expect(orders.length).toBe(mealWithOrders.orders.length + 1);
     });
     it("should not accept the order without quantity", async () => {
       try {
         delete newOrder.quantity;
-        await createOrder(menuItem._id, newOrder);
+        await createOrder(mealWithOrders._id, newOrder);
       } catch (e) {
         expect(
           e.errors.orders.message.match(/Path `quantity` is required/)
@@ -70,7 +90,7 @@ describe("Order Utility", () => {
     it("should not accept the order with quantity 0", async () => {
       try {
         newOrder.quantity = 0;
-        await createOrder(menuItem._id, newOrder);
+        await createOrder(mealWithOrders._id, newOrder);
       } catch (e) {
         expect(
           e.errors.orders.message.match(/Atleast one meal must be ordered./)
@@ -80,7 +100,7 @@ describe("Order Utility", () => {
     it("should not accept the order without pickupAt value ", async () => {
       try {
         delete newOrder.pickupAt;
-        await createOrder(menuItem._id, newOrder);
+        await createOrder(mealWithOrders._id, newOrder);
       } catch (e) {
         expect(
           e.errors.orders.message.match(/Path `pickupAt` is required/)
@@ -90,7 +110,7 @@ describe("Order Utility", () => {
     it("should not accept the order without total value ", async () => {
       try {
         delete newOrder.total;
-        await createOrder(menuItem._id, newOrder);
+        await createOrder(mealWithOrders._id, newOrder);
       } catch (e) {
         expect(
           e.errors.orders.message.match(/Path `total` is required/)
@@ -100,7 +120,7 @@ describe("Order Utility", () => {
   });
   describe("getOrderById", () => {
     it("should find meal with order for given order id", async () => {
-      const orderId = menuItem.orders[0]._id;
+      const orderId = mealWithOrders.orders[0]._id;
       const mealWithOrder = await getOrderById(orderId);
       expect(mealWithOrder).toBeDefined();
       const { orders } = mealWithOrder;
@@ -110,9 +130,30 @@ describe("Order Utility", () => {
       expect(order._id.toString()).toBe(orderId.toString());
     });
     it("should return Null when non-existent orderId is passed", async () => {
-      const orderId = new mongoose.Types.ObjectId().toString();
+      const orderId = getRandomObjectId();
       const mealWithOrder = await getOrderById(orderId);
       expect(mealWithOrder).toBeNull();
+    });
+  });
+  describe("getOrdersForMeal", () => {
+    it("should find meal with all orders", async () => {
+      const mealId = mealWithOrders._id.toString();
+      const foundMeal = await getOrdersForMeal(mealId);
+      expect(foundMeal).toBeDefined();
+      expect(foundMeal._id.toString()).toBe(mealId);
+      expect(foundMeal.orders.length).toBe(mealWithOrders.orders.length);
+    });
+    it("should return Null for non existent meal id", async () => {
+      const mealId = getRandomObjectId();
+      const meal = await getOrdersForMeal(mealId);
+      expect(meal).toBeNull();
+    });
+    it("should return Meal even when there are no orders", async () => {
+      const mealId = mealWithoutOrders._id.toString();
+      const foundMeal = await getOrdersForMeal(mealId);
+      expect(foundMeal).toBeDefined();
+      expect(foundMeal._id.toString()).toBe(mealId);
+      expect(foundMeal.orders.length).toBe(0);
     });
   });
   it("should pass empty test", () => {});
