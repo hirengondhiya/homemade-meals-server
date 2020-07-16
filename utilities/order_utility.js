@@ -29,11 +29,17 @@ const getOrderById = async (orderId) => {
       },
     }
   ).exec();
-
   return mealWithOrder;
+};
+const getOrdersForMeal = async (mealId) => {
+  const mealWithAllOrders = await Menu.findOne({ _id: mealId })
+    .select("orders")
+    .exec();
+  return mealWithAllOrders;
 };
 
 module.exports = {
   createOrder,
   getOrderById,
+  getOrdersForMeal,
 };
