@@ -22,7 +22,7 @@ const createMenuItem = (req, res) => {
 const getAllMenuItems = (req, res) => {
   getMenu(req).exec((err, menus) => {
     if (err) {
-      res.staus(500);
+      res.status(500);
       return res.json({
         error: err.message,
       });
