@@ -2,7 +2,7 @@ require("./db/connect-db");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const menuRoutes = require("./routes/meal-routes");
+const mealRoutes = require("./routes/meal-routes");
 const orderRoutes = require("./routes/order-routes");
 
 const port = process.env.PORT || 3010;
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("homemade meals api!");
 });
-app.use("/menu", menuRoutes);
+app.use("/meals", mealRoutes);
 app.use("/orders", orderRoutes);
 
 app.listen(port, () =>

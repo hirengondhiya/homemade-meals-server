@@ -1,39 +1,39 @@
-const Menu = require("../models/meal");
+const Meal = require("../models/meal");
 
-// create new menu
-const createMenu = function (newMenu) {
-  return new Menu(newMenu);
+// create new meal
+const createMeal = function (newMeal) {
+  return new Meal(newMeal);
 };
 
 // get post by id
-const getMenuById = function (id) {
-  return Menu.findById(id);
+const getMealById = function (id) {
+  return Meal.findById(id);
 };
 
-// get all the menu
+// get all the meal
 // return query
-const getMenu = function () {
-  return Menu.find();
+const getMeal = function () {
+  return Meal.find();
 };
 
-// delete specific menu with id
-const deleteMenuById = function (id) {
-  return Menu.findByIdAndRemove(id);
+// delete specific meal with id
+const deleteMealById = function (id) {
+  return Meal.findByIdAndRemove(id);
 };
 
-// const getMenuOfTheDay = async () => {};
+// const getMealOfTheDay = async () => {};
 
-const updateMenuById = function (id, updatedMenu) {
-  return Menu.findByIdAndUpdate(id, updatedMenu, {
+const updateMealById = function (id, updatedMeal) {
+  return Meal.findByIdAndUpdate(id, updatedMeal, {
     new: true,
   });
 };
 
 module.exports = {
-  createMenu,
-  getMenuById,
-  getMenu,
-  // getMenuOfTheDay,
-  updateMenuById,
-  deleteMenuById,
+  createMeal,
+  getMealById,
+  getMeal,
+  // getMealOfTheDay,
+  updateMealById,
+  deleteMealById,
 };

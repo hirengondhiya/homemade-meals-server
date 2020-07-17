@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const expect = require("expect");
 const utilities = require("../utilities/meal-utility");
-const Menu = require("../models/meal");
+const Meal = require("../models/meal");
 const { connectTestDB, disconnectTestDb } = require("./config");
 
 // global variable
-let menuID;
+let mealID;
 
-describe("Menu Utility", () => {
+describe("Meal Utility", () => {
   before(async () => {
     await connectTestDB();
   });
@@ -18,61 +18,61 @@ describe("Menu Utility", () => {
   });
 
   beforeEach(async () => {
-    const menu = new Menu({
-      title: "menu item 1",
-      description: "menu item decription",
+    const meal = new Meal({
+      title: "meal item 1",
+      description: "meal item decription",
       deliversOn: new Date(),
       orderStarts: new Date(),
       orderEnds: new Date(),
       maxOrders: 20,
       cost: 1500,
     });
-    let data = await menu.save();
-    menuID = data._id;
+    let data = await meal.save();
+    mealID = data._id;
   });
 
-  //   get all the menus
-  describe("getMenu", () => {
-    it("should get all the menus", async function () {
+  //   get all the meals
+  describe("getMeal", () => {
+    it("should get all the meals", async function () {
       let req = {
         query: {},
       };
-      await utilities.getMenu(req).exec((err, menus) => {
-        expect(Object.keys(menus).length).toBe(1);
+      await utilities.getMeal(req).exec((err, meals) => {
+        expect(Object.keys(meals).length).toBe(1);
       });
     });
     it("maxOrders should be 20", async function () {
       let req = {
         query: {},
       };
-      await utilities.getMenu(req).exec((err, menus) => {
-        expect(menus[0].maxOrders).toBe(20);
+      await utilities.getMeal(req).exec((err, meals) => {
+        expect(meals[0].maxOrders).toBe(20);
       });
     });
   });
 
-  // get menu by id
+  // get meal by id
 
-  describe("getMenuById", () => {
-    it("title should be menu item 1", async function () {
+  describe("getMealById", () => {
+    it("title should be meal item 1", async function () {
       let req = {
         params: {
-          id: menuID,
+          id: mealID,
         },
       };
-      await utilities.getMenuById(req.params.id).exec((err, menu) => {
-        expect(menu.title).toBe("menu item 1");
+      await utilities.getMealById(req.params.id).exec((err, meal) => {
+        expect(meal.title).toBe("meal item 1");
       });
     });
   });
 
-  // create new menu
-  describe("createMenu", () => {
+  // create new meal
+  describe("createMeal", () => {
     it("should create a new post", async function () {
       let req = {
         body: {
-          title: "menu item 2",
-          description: "menu item decription",
+          title: "meal item 2",
+          description: "meal item decription",
           deliversOn: new Date(),
           orderStarts: new Date(),
           orderEnds: new Date(),
@@ -80,60 +80,60 @@ describe("Menu Utility", () => {
           cost: 20,
         },
       };
-      await utilities.createMenu(req.body).save((err, menu) => {
-        expect(menu.title).toBe("menu item 2");
+      await utilities.createMeal(req.body).save((err, meal) => {
+        expect(meal.title).toBe("meal item 2");
       });
     });
     it("should remove whitesapce in the user input data", async function () {
-      let newMenu = {
-        title: "   menu item 2",
-        description: "menu item decription",
+      let newMeal = {
+        title: "   meal item 2",
+        description: "meal item decription",
         deliversOn: new Date(),
         orderStarts: new Date(),
         orderEnds: new Date(),
         maxOrders: 15,
         cost: 20,
       };
-      await utilities.createMenu(newMenu).save((err, menu) => {
-        expect(menu.title).toBe("menu item 2");
+      await utilities.createMeal(newMeal).save((err, meal) => {
+        expect(meal.title).toBe("meal item 2");
       });
     });
   });
 
-  // delete menu with id
-  describe("deleteMenuById", () => {
-    it("should delete the specific menu with id", async function () {
+  // delete meal with id
+  describe("deleteMealById", () => {
+    it("should delete the specific meal with id", async function () {
       let req = {
         params: {
-          id: menuID,
+          id: mealID,
         },
       };
-      await utilities.deleteMenuById(req.params.id).exec();
-      await utilities.getMenuById(req.params.id).exec((err, menu) => {
-        expect(menu).toBe(null);
+      await utilities.deleteMealById(req.params.id).exec();
+      await utilities.getMealById(req.params.id).exec((err, meal) => {
+        expect(meal).toBe(null);
       });
     });
   });
 
-  // update Menu
-  describe("updateMenuByID", () => {
-    it("should update the specified menu with id", async function () {
-      let menuUpdates = {
-        title: "updated menu",
-        description: "menu item decription",
+  // update Meal
+  describe("updateMealByID", () => {
+    it("should update the specified meal with id", async function () {
+      let mealUpdates = {
+        title: "updated meal",
+        description: "meal item decription",
         deliversOn: new Date(),
         orderStarts: new Date(),
         orderEnds: new Date(),
         maxOrders: 15,
         cost: 20,
       };
-      await utilities.updateMenuById(menuID, menuUpdates).exec((err, menu) => {
-        expect(menu.title).toBe("updated menu");
+      await utilities.updateMealById(mealID, mealUpdates).exec((err, meal) => {
+        expect(meal.title).toBe("updated meal");
       });
     });
   });
 
   afterEach(async () => {
-    await mongoose.connection.db.dropCollection("menus");
+    await mongoose.connection.db.dropCollection("meals");
   });
 });

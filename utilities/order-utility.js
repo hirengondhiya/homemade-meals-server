@@ -1,10 +1,10 @@
-const Menu = require("../models/menu");
+const Meal = require("../models/meal");
 
 // creates order given mealId and order details
 // order object must have pickupAt (date-time string) and quantity(natural number) fields
 const createOrder = async (mealId, order) => {
   const { pickupAt, quantity, totalAmt } = order;
-  const mealWithAllOrders = await Menu.findByIdAndUpdate(
+  const mealWithAllOrders = await Meal.findByIdAndUpdate(
     mealId,
     {
       $push: {
@@ -26,7 +26,7 @@ const createOrder = async (mealId, order) => {
 // given orderId returns the order details encapsulated within the meal object that the order belongs to
 // returns null if order not found
 const getOrderById = async (orderId) => {
-  const mealWithOrder = await Menu.findOne(
+  const mealWithOrder = await Meal.findOne(
     {
       "orders._id": orderId,
     },
@@ -44,7 +44,7 @@ const getOrderById = async (orderId) => {
 // given mealId returns all the orders belonging to that meal encapsulated withing meal object
 // returns null if mealId not found
 const getOrdersForMeal = async (mealId) => {
-  const mealWithAllOrders = await Menu.findOne({ _id: mealId })
+  const mealWithAllOrders = await Meal.findOne({ _id: mealId })
     .select("orders")
     .exec();
   return mealWithAllOrders;
@@ -64,7 +64,7 @@ const updateOrderById = async (orderId, orderUpdates) => {
   if (totalAmt) {
     updates["orders.$.totalAmt"] = totalAmt;
   }
-  const mealWithUpdatedOrder = await Menu.findOneAndUpdate(
+  const mealWithUpdatedOrder = await Meal.findOneAndUpdate(
     {
       "orders._id": orderId,
     },
@@ -87,7 +87,7 @@ const updateOrderById = async (orderId, orderUpdates) => {
 // given valid orderId, sets cancelAt field within the order to indicate the order is cancelled and returns the cancelled order object encapsulated within the meal object it belongs to
 // returns null if order not found
 const cancelOrderById = async (orderId) => {
-  const mealWithCancelledOrder = await Menu.findOneAndUpdate(
+  const mealWithCancelledOrder = await Meal.findOneAndUpdate(
     {
       "orders._id": orderId,
     },

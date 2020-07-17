@@ -1,11 +1,11 @@
 const { Router } = require("express");
 const {
-  createMenuItem,
-  getAllMenuItems,
-  getMenuItem,
-  // getMenuItemOfTheDay,
-  updateMenuItem,
-  deleteMenuItem,
+  createMealItem,
+  getAllMealItems,
+  getMealItem,
+  // getMealItemOfTheDay,
+  updateMealItem,
+  deleteMealItem,
 } = require("../controllers/meals-controller");
 
 const {
@@ -13,17 +13,17 @@ const {
   createOrderForMeal,
 } = require("../controllers/orders-controller");
 
-const menuRoutes = Router();
+const mealRoutes = Router();
 
-menuRoutes.get("/", getAllMenuItems);
-// menuRoutes.get("/oftheday", getMenuItemOfTheDay);
-menuRoutes.get("/:id", getMenuItem);
+mealRoutes.get("/", getAllMealItems);
+// mealRoutes.get("/oftheday", getMealItemOfTheDay);
+mealRoutes.get("/:id", getMealItem);
 
-menuRoutes.post("/", createMenuItem);
-menuRoutes.put("/:id", updateMenuItem);
-menuRoutes.delete("/:id", deleteMenuItem);
+mealRoutes.post("/", createMealItem);
+mealRoutes.put("/:id", updateMealItem);
+mealRoutes.delete("/:id", deleteMealItem);
 
-menuRoutes.get("/:id/orders", getOrdersByMeal);
-menuRoutes.post("/:id/orders", createOrderForMeal);
+mealRoutes.get("/:id/orders", getOrdersByMeal);
+mealRoutes.post("/:id/orders", createOrderForMeal);
 
-module.exports = menuRoutes;
+module.exports = mealRoutes;

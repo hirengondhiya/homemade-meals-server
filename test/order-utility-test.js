@@ -7,7 +7,7 @@ const {
   updateOrderById,
   cancelOrderById,
 } = require("../utilities/order-utility");
-const Menu = require("../models/menu");
+const Meal = require("../models/meal");
 const { connectTestDB, disconnectTestDb } = require("./config");
 let mealWithoutOrders;
 let mealWithOrders;
@@ -38,7 +38,7 @@ describe("Order Utility", () => {
       },
     ];
     mealWithOrders = (
-      await Menu.create({
+      await Meal.create({
         title: "meal item with orders",
         description: "meal item decription",
         deliversOn: new Date(),
@@ -50,7 +50,7 @@ describe("Order Utility", () => {
       })
     ).toJSON();
     mealWithoutOrders = (
-      await Menu.create({
+      await Meal.create({
         title: "meal item without orders",
         description: "meal item decription",
         deliversOn: new Date().toISOString(),
@@ -62,7 +62,7 @@ describe("Order Utility", () => {
     ).toJSON();
   });
   afterEach(async () => {
-    await mongoose.connection.db.dropCollection("menus");
+    await mongoose.connection.db.dropCollection("meals");
   });
   describe("createOrder", () => {
     let newOrder;
@@ -81,7 +81,7 @@ describe("Order Utility", () => {
         },
       };
     });
-    it("should add an order to given menu item", async () => {
+    it("should add an order to given meal item", async () => {
       const mealWithNewOrder = await createOrder(mealWithOrders._id, newOrder);
       // console.log(mealWithNewOrder)
       expect(mealWithNewOrder.orders.length).toBe(1);
@@ -196,7 +196,7 @@ describe("Order Utility", () => {
         quantity: 5,
       };
       await updateOrderById(orderId, orderUpdates);
-      const meal = await Menu.findById(mealWithOrders._id);
+      const meal = await Meal.findById(mealWithOrders._id);
       expect(meal).toBeDefined();
       expect(meal.orders).toBeDefined();
       expect(meal.orders.length).toBe(mealWithOrders.orders.length);
@@ -243,7 +243,7 @@ describe("Order Utility", () => {
       const orderId = mealWithOrders.orders[0]._id.toString();
       await cancelOrderById(orderId);
       await cancelOrderById(orderId);
-      const meal = await Menu.findById(mealWithOrders._id);
+      const meal = await Meal.findById(mealWithOrders._id);
       expect(meal).toBeDefined();
       expect(meal.orders).toBeDefined();
       expect(meal.orders.length).toBe(mealWithOrders.orders.length);

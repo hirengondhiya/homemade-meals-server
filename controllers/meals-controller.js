@@ -1,87 +1,87 @@
 const { badRequest, internalServerError } = require("./controller-utils");
 
 const {
-  createMenu,
-  getMenuById,
-  getMenu,
-  deleteMenuById,
-  updateMenuById,
+  createMeal,
+  getMealById,
+  getMeal,
+  deleteMealById,
+  updateMealById,
 } = require("../utilities/meal-utility");
 
-const createMenuItem = (req, res) => {
+const createMealItem = (req, res) => {
   try {
-    createMenu(req.body).save((err, menu) => {
+    createMeal(req.body).save((err, meal) => {
       if (err) {
         badRequest(req, res, err);
       }
-      res.status(201).send(menu);
+      res.status(201).send(meal);
     });
   } catch (err) {
     internalServerError(req, res, err);
   }
 };
 
-const getAllMenuItems = (req, res) => {
+const getAllMealItems = (req, res) => {
   try {
-    getMenu(req).exec((err, menus) => {
+    getMeal(req).exec((err, meals) => {
       if (err) {
         badRequest(req, res, err);
       }
-      res.send(menus);
+      res.send(meals);
     });
   } catch (err) {
     internalServerError(req, res, err);
   }
 };
 
-// get menu by id
-const getMenuItem = (req, res) => {
+// get meal by id
+const getMealItem = (req, res) => {
   try {
-    getMenuById(req.params.id).exec((err, menuItem) => {
+    getMealById(req.params.id).exec((err, mealItem) => {
       if (err) {
         badRequest(req, res, err);
       }
-      if (menuItem) {
-        return res.send(menuItem);
+      if (mealItem) {
+        return res.send(mealItem);
       }
-      res.status(404).send({ errorMsg: "Menu not found" });
+      res.status(404).send({ errorMsg: "Meal not found" });
     });
   } catch (err) {
     internalServerError(req, res, err);
   }
 };
 
-// update Menu Item
-const updateMenuItem = (req, res) => {
+// update Meal Item
+const updateMealItem = (req, res) => {
   try {
     const { id } = req.params;
     const { body } = req;
-    updateMenuById(id, body).exec((err, updatedMenu) => {
+    updateMealById(id, body).exec((err, updatedMeal) => {
       if (err) {
         badRequest(req, res, err);
       }
-      if (updatedMenu) {
+      if (updatedMeal) {
         res.status(200);
-        res.send(updatedMenu);
+        res.send(updatedMeal);
       }
-      res.status(404).send({ errorMsg: "Menu not found" });
+      res.status(404).send({ errorMsg: "Meal not found" });
     });
   } catch (err) {
     internalServerError(req, res, err);
   }
 };
 
-// delete Menu
-const deleteMenuItem = (req, res) => {
+// delete Meal
+const deleteMealItem = (req, res) => {
   try {
-    deleteMenuById(req.params.id).exec((err, menu) => {
+    deleteMealById(req.params.id).exec((err, meal) => {
       if (err) {
         badRequest(req, res, err);
       }
-      if (menu) {
+      if (meal) {
         return res.sendStatus(204);
       }
-      res.status(404).send({ errorMsg: "Menu not found" });
+      res.status(404).send({ errorMsg: "Meal not found" });
     });
   } catch (err) {
     internalServerError(req, res, err);
@@ -89,10 +89,10 @@ const deleteMenuItem = (req, res) => {
 };
 
 module.exports = {
-  createMenuItem,
-  getAllMenuItems,
-  getMenuItem,
-  // getMenuItemOfTheDay,
-  updateMenuItem,
-  deleteMenuItem,
+  createMealItem,
+  getAllMealItems,
+  getMealItem,
+  // getMealItemOfTheDay,
+  updateMealItem,
+  deleteMealItem,
 };
