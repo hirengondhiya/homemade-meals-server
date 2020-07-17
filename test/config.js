@@ -17,9 +17,7 @@ const connectTestDB = async function () {
 };
 
 const disconnectTestDb = function () {
-  mongoose.disconnect(() => {
-    console.log("disconnected test db");
-  });
+  mongoose.disconnect(() => {});
 };
 
 module.exports = {
