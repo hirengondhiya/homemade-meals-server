@@ -8,7 +8,7 @@
     - [Test](#test)
     - [Lint](#lint)
   - [APIs](#apis)
-    - [Menu](#menu)
+    - [Meal](#meal)
 
 # Homemade Meals API Server
 
@@ -62,11 +62,11 @@ npm run lint
 
 ## APIs
 
-### Menu
+### Meal
 
-- GET /menu
-- GET /menu/:id
-- GET /menu/oftheday
-- POST /menu
-- PUT /menu/:id
-- DELETE /menu/:id
+- GET /meal
+- GET /meal/:id
+- GET /meal/oftheday
+- POST /meal
+- PUT /meal/:id
+- DELETE /meal/:id

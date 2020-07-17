@@ -1,0 +1,370 @@
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fadbeb744ae0b3f5bff84
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+
+
+  9 passing (967ms)
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fb6afc4728412247ca86f
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      1) should find meal with all orders
+
+
+  9 passing (950ms)
+  1 failing
+
+  1) Order Utility
+       getOrdersForMeal
+         should find meal with all orders:
+     TypeError: Cannot read property 'length' of undefined
+      at Context.<anonymous> (test/order_utility_test.js:128:30)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fb6c26cd80d1258ebcb4f
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+
+
+  10 passing (955ms)
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fb76eb8fad71349c3edff
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      1) should return Null for non existent meal id
+
+
+  10 passing (1s)
+  1 failing
+
+  1) Order Utility
+       getOrdersForMeal
+         should return Null for non existent meal id:
+     TypeError: mongoose.SchemaType.ObjectId is not a constructor
+      at Context.<anonymous> (test/order_utility_test.js:131:22)
+      at processImmediate (internal/timers.js:456:21)
+
+
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fcbce9e36cb16bcf287a8
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+
+
+  12 passing (1s)
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fdb06b685022188b7a4f7
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should return Null when non-existent order id is passed
+
+
+  14 passing (1s)
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fdf6619365e27a045c9e1
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      1) should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  14 passing (2s)
+  1 failing
+
+  1) Order Utility
+       updateOrderById
+         should not modify other orders:
+     Error: expect(received).toBeDefined()
+
+Received: undefined
+      at Context.<anonymous> (test/order_utility_test.js:183:27)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0fe4d6470d5c2d62c2d431
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  18 passing (2s)
+
+disconnected test db
+END-------------------------
+
+
+16-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f103ddeb768fa45697c5c6f
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity and pickupAt
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  18 passing (2s)
+
+disconnected test db
+END-------------------------
+
+

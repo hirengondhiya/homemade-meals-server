@@ -1,0 +1,182 @@
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+    getMenu
+      ✓ should get all the menus
+      ✓ maxOrders should be 20
+    getMenuById
+      ✓ title should be menu item 1
+    createMenu
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMenuById
+      ✓ should delete the specific menu with id
+    updateMenuByID
+      ✓ should update the specified menu with id
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  24 passing (2s)
+
+END-------------------------
+
+
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+    getMenu
+      ✓ should get all the menus
+      ✓ maxOrders should be 20
+    getMenuById
+      ✓ title should be menu item 1
+    createMenu
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMenuById
+      ✓ should delete the specific menu with id
+    updateMenuByID
+      ✓ should update the specified menu with id
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      1) should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  23 passing (2s)
+  1 failing
+
+  1) Order Utility
+       updateOrderById
+         should update an existing order given order id and updates:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 75000
+Received: 1500
+      at Context.<anonymous> (test/order_utility_test.js:188:55)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+END-------------------------
+
+
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+    getMenu
+      ✓ should get all the menus
+      ✓ maxOrders should be 20
+    getMenuById
+      ✓ title should be menu item 1
+    createMenu
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMenuById
+      ✓ should delete the specific menu with id
+    updateMenuByID
+      ✓ should update the specified menu with id
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      1) should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  23 passing (2s)
+  1 failing
+
+  1) Order Utility
+       updateOrderById
+         should update an existing order given order id and updates:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 75000
+Received: 1500
+      at Context.<anonymous> (test/order_utility_test.js:188:55)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+END-------------------------
+
+
