@@ -14,6 +14,10 @@ const OrderSchema = new Schema(
     cancelAt: {
       type: Date,
     },
+    totalAmt: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

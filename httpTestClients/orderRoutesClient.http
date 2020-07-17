@@ -5,7 +5,8 @@ content-type: application/json
 
 {
   "quantity": 1,
-  "pickupAt": "2020-07-13T08:08:11+10:00"
+  "pickupAt": "2020-07-13T08:08:11+10:00",
+  "totalAmt": 3000
 }
 
 ### get all orders for a meal
@@ -14,17 +15,19 @@ GET http://localhost:3010/menu/5f110c3da03cb419d1151255/orders/ HTTP/1.1
 
 ###  get order by id
 ### GET http://localhost:3010/orders/{order_id}/ HTTP/1.1
-GET http://localhost:3010/orders/5f110c3da03cb419d1151255/ HTTP/1.1
+GET http://localhost:3010/orders/5f1137b422bdba3326504780/ HTTP/1.1
 
 ### update order by id
 ### PUT http://localhost:3010/orders/{order_id} HTTP/1.1
-PUT http://localhost:3010/orders/5f110c3da03cb419d1151255/ HTTP/1.1
+PUT http://localhost:3010/orders/5f1137b422bdba3326504780/ HTTP/1.1
 content-type: application/json
 
 {
-  "quantity": 1,
-  "pickupAt": "2020-07-13T08:08:11+10:00"
+  "quantity": 3,
+  "pickupAt": "2020-07-13T10:08:11+10:00",
+  "totalAmt": 9000
 }
 
 ###  cancel order by id
-DELETE http://localhost:3010/orders/{order_id}/ HTTP/1.1
+#### DELETE http://localhost:3010/orders/{order_id}/ HTTP/1.1
+DELETE http://localhost:3010/orders/5f1137b422bdba3326504780/ HTTP/1.1

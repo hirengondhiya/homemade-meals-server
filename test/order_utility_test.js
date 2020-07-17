@@ -29,12 +29,12 @@ describe("Order Utility", () => {
       {
         pickupAt: new Date(),
         quantity: 1,
-        total: 1500,
+        totalAmt: 1500,
       },
       {
         pickupAt: new Date(),
         quantity: 2,
-        total: 3000,
+        totalAmt: 3000,
       },
     ];
     mealWithOrders = (
@@ -71,7 +71,7 @@ describe("Order Utility", () => {
       newOrder = {
         pickupAt: new Date().toISOString(),
         quantity: 1,
-        total: 1500,
+        totalAmt: 1500,
       };
       error = {
         errors: {
@@ -83,8 +83,10 @@ describe("Order Utility", () => {
     });
     it("should add an order to given menu item", async () => {
       const mealWithNewOrder = await createOrder(mealWithOrders._id, newOrder);
+      // console.log(mealWithNewOrder)
       expect(mealWithNewOrder.orders.length).toBe(1);
       expect(mealWithOrders.orders[0].quantity).toBe(newOrder.quantity);
+      expect(mealWithOrders.orders[0].totalAmt).toBe(newOrder.totalAmt);
       expect(mealWithOrders.orders[0].pickupAt).toBeDefined();
       expect(mealWithOrders.orders.map((o) => o._id.toString())).not.toContain(
         mealWithNewOrder.orders[0]._id.toString()
@@ -121,11 +123,10 @@ describe("Order Utility", () => {
       ).rejects.toMatchObject(error);
     });
 
-    it("should ignore other fields except quantity and pickupAt", async () => {
+    it("should ignore other fields except quantity, pickupAt and totalAmout", async () => {
+      newOrder.randomField = "some infor";
       const mealWithNewOrder = await createOrder(mealWithOrders._id, newOrder);
-      expect(mealWithNewOrder.orders[0].quantity).toBeDefined();
-      expect(mealWithNewOrder.orders[0].pickupAt).toBeDefined();
-      expect(mealWithNewOrder.orders[0].total).toBeUndefined();
+      expect(mealWithNewOrder.orders[0].randomField).toBeUndefined();
     });
   });
   describe("getOrderById", () => {
@@ -172,6 +173,7 @@ describe("Order Utility", () => {
       const orderUpdates = {
         pickupAt: new Date().toISOString(),
         quantity: 5,
+        totalAmt: 75000,
       };
       const mealWithUpdatedOrder = await updateOrderById(orderId, orderUpdates);
       expect(mealWithUpdatedOrder).toBeDefined();
@@ -182,6 +184,9 @@ describe("Order Utility", () => {
       expect(mealWithUpdatedOrder.orders[0]._id.toString()).toBe(orderId);
       expect(mealWithUpdatedOrder.orders[0].quantity).toBe(
         orderUpdates.quantity
+      );
+      expect(mealWithUpdatedOrder.orders[0].totalAmt).toBe(
+        orderUpdates.totalAmt
       );
     });
     it("should not modify other orders", async () => {
