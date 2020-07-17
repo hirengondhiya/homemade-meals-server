@@ -4,6 +4,7 @@ const {
   createMeal,
   getMealById,
   getMeal,
+  getMealsAccpetingOrders,
   deleteMealById,
   updateMealById,
 } = require("../utilities/meal-utility");
@@ -48,6 +49,20 @@ const getMealItem = (req, res) => {
           return res.send(mealItem);
         }
         res.status(404).send({ errorMsg: "Meal not found" });
+      })
+      .catch((err) => {
+        badRequest(req, res, err);
+      });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+const getMealsOpenForOrders = (req, res) => {
+  try {
+    getMealsAccpetingOrders()
+      .then((meals) => {
+        res.send(meals);
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -102,7 +117,7 @@ module.exports = {
   createMealItem,
   getAllMealItems,
   getMealItem,
-  // getMealItemOfTheDay,
+  getMealsOpenForOrders,
   updateMealItem,
   deleteMealItem,
 };

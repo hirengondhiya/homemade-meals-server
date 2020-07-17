@@ -180,3 +180,282 @@ Received: 1500
 END-------------------------
 
 
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      ✓ should return no meals when there is no meal accepting orders
+      1) should return meal accepting orders
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  25 passing (3s)
+  1 failing
+
+  1) Meal Utility
+       getMealsAccpetingOrders
+         should return meal accepting orders:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 0
+      at Context.<anonymous> (test/meal-utility-test.js:154:28)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+END-------------------------
+
+
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      1) should return no meals when there is no meal accepting orders
+      2) should return meal accepting orders
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  24 passing (2s)
+  2 failing
+
+  1) Meal Utility
+       getMealsAccpetingOrders
+         should return no meals when there is no meal accepting orders:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 0
+Received: 2
+      at Context.<anonymous> (test/meal-utility-test.js:147:28)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+  2) Meal Utility
+       getMealsAccpetingOrders
+         should return meal accepting orders:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 2
+      at Context.<anonymous> (test/meal-utility-test.js:154:28)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+END-------------------------
+
+
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      1) should return no meals when there is no meal accepting orders
+      2) should return meal accepting orders
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  24 passing (2s)
+  2 failing
+
+  1) Meal Utility
+       getMealsAccpetingOrders
+         should return no meals when there is no meal accepting orders:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 0
+Received: 2
+      at Context.<anonymous> (test/meal-utility-test.js:147:28)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+  2) Meal Utility
+       getMealsAccpetingOrders
+         should return meal accepting orders:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: "5f119086b4b9836e2867da4a"
+Received: "5f119086b4b9836e2867da49"
+      at Context.<anonymous> (test/meal-utility-test.js:155:39)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+END-------------------------
+
+
+17-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      ✓ should return no meals when there is no meal accepting orders
+      ✓ should return meal accepting orders
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+
+
+  26 passing (2s)
+
+END-------------------------
+
+

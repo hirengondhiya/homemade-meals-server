@@ -3,6 +3,11 @@ const expect = require("expect");
 const utilities = require("../utilities/meal-utility");
 const Meal = require("../models/meal");
 const { connectTestDB, disconnectTestDb } = require("./config");
+const {
+  createMealAcceptingOrder,
+  createMealOrderClosed,
+  createMealOrdersNotOpened,
+} = require("./create-meal-data");
 
 // global variable
 let mealID;
@@ -130,6 +135,24 @@ describe("Meal Utility", () => {
       await utilities.updateMealById(mealID, mealUpdates).exec((err, meal) => {
         expect(meal.title).toBe("updated meal");
       });
+    });
+  });
+
+  describe("getMealsAccpetingOrders", () => {
+    it("should return no meals when there is no meal accepting orders", async () => {
+      await createMealOrderClosed();
+      await createMealOrdersNotOpened();
+      const meals = await utilities.getMealsAccpetingOrders();
+
+      expect(meals.length).toBe(0);
+    });
+    it("should return meal accepting orders", async () => {
+      const mealAcceptingOrder = await createMealAcceptingOrder();
+      // console.log(mealAcceptingOrder)
+      const meals = await utilities.getMealsAccpetingOrders();
+      // console.log(meals)
+      expect(meals.length).toBe(1);
+      expect(meals[0]._id.toString()).toBe(mealAcceptingOrder._id.toString());
     });
   });
 
