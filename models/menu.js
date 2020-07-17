@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { OrderSchema } = require("./order");
 const Schema = mongoose.Schema;
 
 const Menu = new Schema(
@@ -43,6 +44,7 @@ const Menu = new Schema(
       type: Number,
       required: true,
     },
+    orders: [OrderSchema],
   },
   { timestamps: true }
 );

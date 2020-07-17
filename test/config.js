@@ -9,7 +9,6 @@ const connectTestDB = async function () {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-      // userCreateIndex: true
     });
   } catch (e) {
     console.log("Error connecting db.");
@@ -18,9 +17,7 @@ const connectTestDB = async function () {
 };
 
 const disconnectTestDb = function () {
-  mongoose.disconnect(() => {
-    console.log("disconnected test db");
-  });
+  mongoose.disconnect(() => {});
 };
 
 module.exports = {
