@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const menuRoutes = require("./routes/menu-routes");
+const orderRoutes = require("./routes/order-routes");
 
 const port = process.env.PORT || 3010;
 
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
   res.send("homemade meals api!");
 });
 app.use("/menu", menuRoutes);
+app.use("/orders", orderRoutes);
 
 app.listen(port, () =>
   console.log(`Homemade meals server listening on port ${port}`)
