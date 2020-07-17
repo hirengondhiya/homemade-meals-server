@@ -1,3 +1,5 @@
+const { badRequest, internalServerError } = require("./controller_utils");
+
 const {
   createMenu,
   getMenuById,
@@ -7,80 +9,83 @@ const {
 } = require("../utilities/menu-utility");
 
 const createMenuItem = (req, res) => {
-  createMenu(req.body).save((err, menu) => {
-    if (err) {
-      res.status(500);
-      res.json({
-        error: err.message,
-      });
-    }
-    res.status(201);
-    res.send(menu);
-  });
+  try {
+    createMenu(req.body).save((err, menu) => {
+      if (err) {
+        badRequest(req, res, err);
+      }
+      res.status(201).send(menu);
+    });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
 };
 
 const getAllMenuItems = (req, res) => {
-  getMenu(req).exec((err, menus) => {
-    if (err) {
-      res.status(500);
-      return res.json({
-        error: err.message,
-      });
-    }
-    res.send(menus);
-  });
+  try {
+    getMenu(req).exec((err, menus) => {
+      if (err) {
+        badRequest(req, res, err);
+      }
+      res.send(menus);
+    });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
 };
 
 // get menu by id
 const getMenuItem = (req, res) => {
-  getMenuById(req.params.id).exec((err, menuItem) => {
-    if (err) {
-      res.status(500);
-      return res.json({
-        error: err.message,
-      });
-    }
-    if (menuItem) {
-      return res.send(menuItem);
-    }
-    res.status(404);
-    res.send("Menu not found");
-  });
+  try {
+    getMenuById(req.params.id).exec((err, menuItem) => {
+      if (err) {
+        badRequest(req, res, err);
+      }
+      if (menuItem) {
+        return res.send(menuItem);
+      }
+      res.status(404).send("Menu not found");
+    });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
 };
 
 // update Menu Item
 const updateMenuItem = (req, res) => {
-  const { id } = req.params;
-  const { body } = req;
-  updateMenuById(id, body).exec((err, updatedMenu) => {
-    if (err) {
-      res.status(500);
-      return res.json({
-        error: err.message,
-      });
-    }
-    if (updatedMenu) {
-      res.status(200);
-      res.send(updatedMenu);
-    }
-    res.sendStatus(404);
-  });
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    updateMenuById(id, body).exec((err, updatedMenu) => {
+      if (err) {
+        badRequest(req, res, err);
+      }
+      if (updatedMenu) {
+        res.status(200);
+        res.send(updatedMenu);
+      }
+      res.status(404).send("Menu not found");
+    });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
 };
 
 // delete Menu
 const deleteMenuItem = (req, res) => {
-  deleteMenuById(req.params.id).exec((err, menu) => {
-    if (err) {
-      res.status(500);
-      return res.json({
-        error: err.message,
-      });
-    }
-    if (menu) {
-      return res.sendStatus(204);
-    }
-    res.sendStatus(404);
-  });
+  try {
+    deleteMenuById(req.params.id).exec((err, menu) => {
+      if (err) {
+        badRequest(req, res, err);
+      }
+      if (menu) {
+        return res.sendStatus(204);
+      }
+      res.status(404).send("Menu not found");
+    });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
 };
 
 module.exports = {
