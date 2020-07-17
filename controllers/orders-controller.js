@@ -16,7 +16,7 @@ const createOrderForMeal = (req, res) => {
         if (mealWithNewOrder) {
           return res.status(201).send(mealWithNewOrder.toObject());
         }
-        res.status(404).send(new Error(`Meal with ${mealId} not found.`));
+        res.status(404).send({ errorMsg: `Meal with ${mealId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -34,7 +34,7 @@ const getOrder = (req, res) => {
         if (mealWithOrder) {
           return res.send(mealWithOrder.toObject());
         }
-        res.status(404).send(new Error(`Order with ${orderId} not found.`));
+        res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -52,7 +52,7 @@ const getOrdersByMeal = (req, res) => {
         if (mealWithOrders) {
           return res.send(mealWithOrders.toObject());
         }
-        res.status(404).send(new Error(`Meal with ${mealId} not found.`));
+        res.status(404).send({ errorMsg: `Meal with ${mealId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -71,7 +71,7 @@ const updateOrder = (req, res) => {
         if (mealWithOrder) {
           return res.send(mealWithOrder.toObject());
         }
-        res.status(404).send(new Error(`Order with ${orderId} not found.`));
+        res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -89,7 +89,7 @@ const cancelOrder = (req, res) => {
         if (mealWithCancelOrder) {
           return res.sendStatus(204);
         }
-        res.status(404).send(new Error(`Order with ${orderId} not found.`));
+        res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);

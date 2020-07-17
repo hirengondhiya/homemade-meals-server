@@ -44,7 +44,7 @@ const getMenuItem = (req, res) => {
       if (menuItem) {
         return res.send(menuItem);
       }
-      res.status(404).send("Menu not found");
+      res.status(404).send({ errorMsg: "Menu not found" });
     });
   } catch (err) {
     internalServerError(req, res, err);
@@ -64,7 +64,7 @@ const updateMenuItem = (req, res) => {
         res.status(200);
         res.send(updatedMenu);
       }
-      res.status(404).send("Menu not found");
+      res.status(404).send({ errorMsg: "Menu not found" });
     });
   } catch (err) {
     internalServerError(req, res, err);
@@ -81,7 +81,7 @@ const deleteMenuItem = (req, res) => {
       if (menu) {
         return res.sendStatus(204);
       }
-      res.status(404).send("Menu not found");
+      res.status(404).send({ errorMsg: "Menu not found" });
     });
   } catch (err) {
     internalServerError(req, res, err);
