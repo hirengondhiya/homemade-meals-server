@@ -1,0 +1,28 @@
+15-07-20-15-49
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/naisha/Desktop/Gentech/Term3/FinalProject/server
+> mocha
+
+
+
+  Menu Utility
+    getMenu
+      ✓ should get all the menus
+      ✓ maxOrders should be 20
+    getMenuById
+      ✓ title should be menu item 1
+    createMenu
+      ✓ should create a new post
+    deleteMenuById
+      ✓ should delete the specific menu with id
+    updateMenuByID
+      ✓ should update the specified menu with id
+
+
+  6 passing (828ms)
+
+disconnected test db
+END-------------------------
+
+
