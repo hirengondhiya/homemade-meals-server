@@ -21,7 +21,19 @@ const deleteMealById = function (id) {
   return Meal.findByIdAndRemove(id);
 };
 
-// const getMealOfTheDay = async () => {};
+const getMealsAccpetingOrders = async () => {
+  const now = new Date().toISOString();
+  // console.log(now)
+  const meals = await Meal.find({
+    orderStarts: {
+      $lte: now,
+    },
+    orderEnds: {
+      $gt: now,
+    },
+  });
+  return meals;
+};
 
 const updateMealById = function (id, updatedMeal) {
   return Meal.findByIdAndUpdate(id, updatedMeal, {
@@ -33,7 +45,7 @@ module.exports = {
   createMeal,
   getMealById,
   getMeal,
-  // getMealOfTheDay,
+  getMealsAccpetingOrders,
   updateMealById,
   deleteMealById,
 };

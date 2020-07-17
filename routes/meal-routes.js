@@ -3,7 +3,7 @@ const {
   createMealItem,
   getAllMealItems,
   getMealItem,
-  // getMealItemOfTheDay,
+  getMealsOpenForOrders,
   updateMealItem,
   deleteMealItem,
 } = require("../controllers/meals-controller");
@@ -16,7 +16,7 @@ const {
 const mealRoutes = Router();
 
 mealRoutes.get("/", getAllMealItems);
-// mealRoutes.get("/oftheday", getMealItemOfTheDay);
+mealRoutes.get("/openfororders", getMealsOpenForOrders);
 mealRoutes.get("/:id", getMealItem);
 
 mealRoutes.post("/", createMealItem);

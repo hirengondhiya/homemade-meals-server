@@ -17,20 +17,28 @@ const orderData = {
   totalAmt: 1500,
 };
 
-const getMealDataWithOrders = async () => {
+const createMealDataWithOrders = async () => {
   const orders = [orderData, { ...orderData, quantity: 2, totalAmt: 3000 }];
-  const mealWithOrders = await Meal.create({ ...mealData, orders });
+  const mealWithOrders = await Meal.create({
+    ...mealData,
+    title: "Meal With Orders",
+    orders,
+  });
   return mealWithOrders.toJSON();
 };
 
-const getMealDataWihoutOrders = async () => {
-  const mealWithoutOrders = await Meal.create(mealData);
+const createMealDataWihoutOrders = async () => {
+  const mealWithoutOrders = await Meal.create({
+    ...mealData,
+    title: "Meal Without Orders",
+  });
   return mealWithoutOrders.toJSON();
 };
 
-const getMealOrderClosed = async () => {
+const createMealOrderClosed = async () => {
   const mealOrderClosed = {
     ...mealData,
+    title: "Meal With Orders Closed",
     orderStarts: moment().subtract(3, "days").toISOString(),
     orderEnds: moment().subtract(1, "days").toISOString(),
   };
@@ -39,9 +47,10 @@ const getMealOrderClosed = async () => {
   return meal.toJSON();
 };
 
-const getMealOrdersNotOpened = async () => {
+const createMealOrdersNotOpened = async () => {
   const mealOrdersNotOpened = {
     ...mealData,
+    title: "Meal With Orders Not Opened",
     orderStarts: moment().add(1, "days").toISOString(),
     orderEnds: moment().add(3, "days").toISOString(),
   };
@@ -50,9 +59,10 @@ const getMealOrdersNotOpened = async () => {
   return meal.toJSON();
 };
 
-const getMealAcceptingOrder = async () => {
+const createMealAcceptingOrder = async () => {
   const mealAcceptingOrders = {
     ...mealData,
+    title: "Meal Accepting Orders",
     orderStarts: moment().subtract(1, "days").toISOString(),
     orderEnds: moment().add(1, "days").toISOString(),
   };
@@ -62,11 +72,11 @@ const getMealAcceptingOrder = async () => {
 };
 
 module.exports = {
-  getMealAcceptingOrder,
-  getMealDataWihoutOrders,
-  getMealDataWithOrders,
-  getMealOrderClosed,
-  getMealOrdersNotOpened,
+  createMealAcceptingOrder,
+  createMealDataWihoutOrders,
+  createMealDataWithOrders,
+  createMealOrderClosed,
+  createMealOrdersNotOpened,
   mealData,
   orderData,
 };

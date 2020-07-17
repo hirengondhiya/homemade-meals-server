@@ -10,8 +10,8 @@ const {
 } = require("../utilities/order-utility");
 const { connectTestDB, disconnectTestDb } = require("./config");
 const {
-  getMealDataWithOrders,
-  getMealDataWihoutOrders,
+  createMealDataWithOrders,
+  createMealDataWihoutOrders,
   orderData,
 } = require("./create-meal-data");
 let mealWithoutOrders;
@@ -30,8 +30,8 @@ describe("Order Utility", () => {
     await disconnectTestDb();
   });
   beforeEach(async () => {
-    mealWithOrders = await getMealDataWithOrders();
-    mealWithoutOrders = await getMealDataWihoutOrders();
+    mealWithOrders = await createMealDataWithOrders();
+    mealWithoutOrders = await createMealDataWihoutOrders();
   });
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("meals");
