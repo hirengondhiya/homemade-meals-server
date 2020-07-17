@@ -6,7 +6,7 @@ const {
   getOrdersForMeal,
   updateOrderById,
   cancelOrderById,
-} = require("../utilities/order_utility");
+} = require("../utilities/order-utility");
 const Menu = require("../models/menu");
 const { connectTestDB, disconnectTestDb } = require("./config");
 let mealWithoutOrders;

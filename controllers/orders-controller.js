@@ -5,7 +5,7 @@ const {
   getOrderById,
   getOrdersForMeal,
   updateOrderById,
-} = require("../utilities/order_utility");
+} = require("../utilities/order-utility");
 
 const createOrderForMeal = (req, res) => {
   try {
