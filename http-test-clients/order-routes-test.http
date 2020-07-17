@@ -1,0 +1,91 @@
+### create order for meal
+### replace {meal_id} with object id of meal
+POST http://localhost:3010/menu/{meal_id}/orders/ HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 1,
+  "pickupAt": "2020-07-13T08:08:11+10:00",
+  "totalAmt": 3000
+}
+
+### create order for meal - Bad request totalAmt required
+### replace {meal_id} with object id of meal
+POST http://localhost:3010/menu/{meal_id}/orders/ HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 1,
+  "pickupAt": "2020-07-13T08:08:11+10:00"
+}
+
+
+### get all orders for a meal
+### replace {meal_id} with object id of meal
+ GET http://localhost:3010/menu/{meal_id}/orders/ HTTP/1.1
+
+###  get order by id
+### replace {order_id} with object id of order
+### GET http://localhost:3010/orders/{order_id}/ HTTP/1.1
+
+### update order by id
+### replace {order_id} with object id of order
+PUT http://localhost:3010/orders/{order_id} HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 3,
+  "pickupAt": "2020-07-13T10:08:11+10:00",
+  "totalAmt": 9000
+}
+
+###  cancel order by id
+### replace {order_id} with object id of order
+DELETE http://localhost:3010/orders/{order_id}/ HTTP/1.1
+
+
+### Staging tests
+### create order for meal
+### replace {meal_id} with object id of meal
+POST https://homemade-meals-server-dev.herokuapp.com/menu/5f114419aceec700040e968e/orders/ HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 1,
+  "pickupAt": "2020-07-13T08:08:11+10:00",
+  "totalAmt": 3000
+}
+
+### create order for meal - Bad request totalAmt required
+### replace {meal_id} with object id of meal
+POST https://homemade-meals-server-dev.herokuapp.com/menu/5f114419aceec700040e968e/orders/ HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 1,
+  "pickupAt": "2020-07-13T08:08:11+10:00"
+}
+
+
+### get all orders for a meal
+### replace {meal_id} with object id of meal
+ GET https://homemade-meals-server-dev.herokuapp.com/menu/5f114419aceec700040e968e/orders/ HTTP/1.1
+
+###  get order by id
+### replace {order_id} with object id of order
+### GET https://homemade-meals-server-dev.herokuapp.com/orders/{order_id}/ HTTP/1.1
+
+### update order by id
+### replace {order_id} with object id of order
+PUT https://homemade-meals-server-dev.herokuapp.com/orders/5f11527ca01a190004c66d2e HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 3,
+  "pickupAt": "2020-07-13T10:08:11+10:00",
+  "totalAmt": 9000
+}
+
+###  cancel order by id
+### replace {order_id} with object id of order
+DELETE https://homemade-meals-server-dev.herokuapp.com/orders/5f11527ca01a190004c66d2e/ HTTP/1.1
