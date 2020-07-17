@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const expect = require("expect");
 const utilities = require("../utilities/menu-utility");
-const Menu = require("../models/menu");
+const Menu = require("../models/meal");
 const { connectTestDB, disconnectTestDb } = require("./config");
 
 // global variable

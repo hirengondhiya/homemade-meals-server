@@ -1,4 +1,4 @@
-const Menu = require("../models/menu");
+const Menu = require("../models/meal");
 
 // create new menu
 const createMenu = function (newMenu) {
