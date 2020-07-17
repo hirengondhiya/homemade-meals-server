@@ -1,5 +1,5 @@
 const badRequest = (req, res, err) => {
-  res.sendStatus(400);
+  res.status(400).send({ errorMsg: err.message });
   logInfo(req, err);
 };
 
