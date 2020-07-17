@@ -5,11 +5,10 @@ const testDbUrl = "mongodb://localhost:27017/homemade-meals-test";
 
 const connectTestDB = async function () {
   try {
-    const connection = await mongoose.connect(testDbUrl, {
+    await mongoose.connect(testDbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-      // userCreateIndex: true
     });
   } catch (e) {
     console.log("Error connecting db.");
@@ -18,9 +17,7 @@ const connectTestDB = async function () {
 };
 
 const disconnectTestDb = function () {
-  mongoose.disconnect(() => {
-    console.log("disconnected test db");
-  });
+  mongoose.disconnect(() => {});
 };
 
 module.exports = {
