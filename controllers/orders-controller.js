@@ -14,7 +14,7 @@ const createOrderForMeal = (req, res) => {
     createOrder(mealId, order)
       .then((mealWithNewOrder) => {
         if (mealWithNewOrder) {
-          return res.send(mealWithNewOrder.toObject());
+          return res.status(201).send(mealWithNewOrder.toObject());
         }
         res.status(404).send(new Error(`Meal with ${mealId} not found.`));
       })
