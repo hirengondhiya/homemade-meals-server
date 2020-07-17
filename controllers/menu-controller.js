@@ -1,4 +1,4 @@
-const { badRequest, internalServerError } = require("./controller_utils");
+const { badRequest, internalServerError } = require("./controller-utils");
 
 const {
   createMenu,
