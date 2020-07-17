@@ -2,7 +2,7 @@ require("./db/connect-db");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const menuRoutes = require("./routes/menu-routes");
+const menuRoutes = require("./routes/meal-routes");
 const orderRoutes = require("./routes/order-routes");
 
 const port = process.env.PORT || 3010;
