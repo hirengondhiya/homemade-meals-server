@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Meal = require("../models/meal");
 const expect = require("expect");
 const {
   createOrder,
@@ -7,8 +8,12 @@ const {
   updateOrderById,
   cancelOrderById,
 } = require("../utilities/order-utility");
-const Meal = require("../models/meal");
 const { connectTestDB, disconnectTestDb } = require("./config");
+const {
+  getMealDataWithOrders,
+  getMealDataWihoutOrders,
+  orderData,
+} = require("./create-meal-data");
 let mealWithoutOrders;
 let mealWithOrders;
 
@@ -25,41 +30,8 @@ describe("Order Utility", () => {
     await disconnectTestDb();
   });
   beforeEach(async () => {
-    const orders = [
-      {
-        pickupAt: new Date(),
-        quantity: 1,
-        totalAmt: 1500,
-      },
-      {
-        pickupAt: new Date(),
-        quantity: 2,
-        totalAmt: 3000,
-      },
-    ];
-    mealWithOrders = (
-      await Meal.create({
-        title: "meal item with orders",
-        description: "meal item decription",
-        deliversOn: new Date(),
-        orderStarts: new Date(),
-        orderEnds: new Date(),
-        maxOrders: 20,
-        cost: 1500,
-        orders,
-      })
-    ).toJSON();
-    mealWithoutOrders = (
-      await Meal.create({
-        title: "meal item without orders",
-        description: "meal item decription",
-        deliversOn: new Date().toISOString(),
-        orderStarts: new Date().toISOString(),
-        orderEnds: new Date().toISOString(),
-        maxOrders: 10,
-        cost: 1000,
-      })
-    ).toJSON();
+    mealWithOrders = await getMealDataWithOrders();
+    mealWithoutOrders = await getMealDataWihoutOrders();
   });
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("meals");
@@ -68,11 +40,7 @@ describe("Order Utility", () => {
     let newOrder;
     let error;
     beforeEach(() => {
-      newOrder = {
-        pickupAt: new Date().toISOString(),
-        quantity: 1,
-        totalAmt: 1500,
-      };
+      newOrder = { ...orderData };
       error = {
         errors: {
           orders: {
@@ -171,7 +139,7 @@ describe("Order Utility", () => {
     it("should update an existing order given order id and updates", async () => {
       const orderId = mealWithOrders.orders[0]._id.toString();
       const orderUpdates = {
-        pickupAt: new Date().toISOString(),
+        ...orderData,
         quantity: 5,
         totalAmt: 75000,
       };
@@ -192,7 +160,7 @@ describe("Order Utility", () => {
     it("should not modify other orders", async () => {
       const orderId = mealWithOrders.orders[0]._id.toString();
       const orderUpdates = {
-        pickupAt: new Date().toISOString(),
+        ...orderData,
         quantity: 5,
       };
       await updateOrderById(orderId, orderUpdates);
@@ -213,10 +181,7 @@ describe("Order Utility", () => {
     });
     it("should return Null when non-existent order id is passed", async () => {
       const orderId = getRandomObjectId();
-      const orderUpdates = {
-        pickupAt: new Date().toISOString(),
-        quantity: 5,
-      };
+      const orderUpdates = { ...orderData };
       const meal = await updateOrderById(orderId, orderUpdates);
       expect(meal).toBeNull();
     });
