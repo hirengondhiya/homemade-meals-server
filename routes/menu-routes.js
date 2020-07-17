@@ -6,7 +6,7 @@ const {
   // getMenuItemOfTheDay,
   updateMenuItem,
   deleteMenuItem,
-} = require("../controllers/menu-controller");
+} = require("../controllers/meals-controller");
 
 const {
   getOrdersByMeal,
