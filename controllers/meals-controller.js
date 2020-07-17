@@ -6,7 +6,7 @@ const {
   getMenu,
   deleteMenuById,
   updateMenuById,
-} = require("../utilities/menu-utility");
+} = require("../utilities/meal-utility");
 
 const createMenuItem = (req, res) => {
   try {
