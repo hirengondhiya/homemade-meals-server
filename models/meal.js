@@ -44,9 +44,19 @@ const Meal = new Schema(
       type: Number,
       required: true,
     },
+    soldBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      autopopulate: true,
+    },
     orders: [OrderSchema],
   },
   { timestamps: true }
 );
-
+Meal.plugin(require("mongoose-autopopulate"));
+Meal.methods.isSoldBy = function (userId) {
+  return (
+    (this.soldBy && this.soldBy._id.toString() === userId.toString()) || false
+  );
+};
 module.exports = mongoose.model("Meal", Meal);
