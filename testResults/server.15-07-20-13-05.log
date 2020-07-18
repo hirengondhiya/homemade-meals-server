@@ -1,0 +1,23 @@
+15-07-20-13-05
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/naisha/Desktop/Gentech/Term3/FinalProject/server
+> mocha
+
+
+
+  Menu Utility
+    getMenu
+      ✓ should get all the menus
+      ✓ maxOrders should be 20
+    getMenuById
+5f0e729a619d48381684c9d9
+      ✓ title should be menu item 1
+
+
+  3 passing (577ms)
+
+disconnected test db
+END-------------------------
+
+
