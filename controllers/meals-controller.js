@@ -11,14 +11,39 @@ const {
 
 const createMealItem = (req, res) => {
   try {
-    createMeal(req.body)
-      .save()
-      .then((meal) => {
-        res.status(201).send(meal);
+    if (req.user.isSeller()) {
+      const {
+        title,
+        description,
+        deliversOn,
+        mealType,
+        orderStarts,
+        orderEnds,
+        maxOrders,
+        cost,
+      } = req.body;
+      const soldBy = req.user && req.user._id;
+      createMeal({
+        title,
+        description,
+        deliversOn,
+        mealType,
+        orderStarts,
+        orderEnds,
+        maxOrders,
+        cost,
+        soldBy,
       })
-      .catch((err) => {
-        badRequest(req, res, err);
-      });
+        .save()
+        .then((meal) => {
+          res.status(201).send(meal);
+        })
+        .catch((err) => {
+          badRequest(req, res, err);
+        });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (err) {
     internalServerError(req, res, err);
   }
