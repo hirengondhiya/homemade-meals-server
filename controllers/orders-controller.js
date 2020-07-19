@@ -9,18 +9,23 @@ const {
 
 const createOrderForMeal = (req, res) => {
   try {
-    const { id: mealId } = req.params;
-    const { body: order } = req;
-    createOrder(mealId, order)
-      .then((mealWithNewOrder) => {
-        if (mealWithNewOrder) {
-          return res.status(201).send(mealWithNewOrder.toObject());
-        }
-        res.status(404).send({ errorMsg: `Meal with ${mealId} not found.` });
-      })
-      .catch((e) => {
-        badRequest(req, res, e);
-      });
+    if (req.user.isBuyer()) {
+      const { mealId, quantity, pickupAt, totalAmt } = req.body;
+      const { _id: customer } = req.user;
+
+      createOrder(mealId, { quantity, pickupAt, totalAmt, customer })
+        .then((mealWithNewOrder) => {
+          if (mealWithNewOrder) {
+            return res.status(201).send(mealWithNewOrder.toObject());
+          }
+          res.status(404).send({ errorMsg: `Meal with ${mealId} not found.` });
+        })
+        .catch((e) => {
+          badRequest(req, res, e);
+        });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (err) {
     internalServerError(req, res, err);
   }
