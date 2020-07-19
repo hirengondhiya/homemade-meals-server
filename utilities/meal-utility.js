@@ -36,9 +36,19 @@ const getMealsAccpetingOrders = async () => {
 };
 
 const updateMealById = function (id, updatedMeal) {
-  return Meal.findByIdAndUpdate(id, updatedMeal, {
-    new: true,
-  });
+  Object.keys(updatedMeal).forEach(
+    (key) => updatedMeal[key] === undefined && delete updatedMeal[key]
+  );
+  return Meal.findByIdAndUpdate(
+    id,
+    {
+      $set: updatedMeal,
+    },
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
 };
 
 module.exports = {
