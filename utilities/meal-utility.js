@@ -31,7 +31,7 @@ const getMealsAccpetingOrders = async () => {
     orderEnds: {
       $gt: now,
     },
-  });
+  }).select("-orders");
   return meals;
 };
 
