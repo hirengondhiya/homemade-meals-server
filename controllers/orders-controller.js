@@ -4,6 +4,7 @@ const {
   createOrder,
   getOrderById,
   getOrdersForMeal,
+  getOrdersPlacedByCustomer,
   updateOrderById,
 } = require("../utilities/order-utility");
 
@@ -67,6 +68,24 @@ const getOrdersByMeal = (req, res) => {
   }
 };
 
+const getOrdersPlacedByMe = (req, res) => {
+  try {
+    if (req.user.isBuyer()) {
+      getOrdersPlacedByCustomer(req.user._id)
+        .then((mealsWithOrders) => {
+          res.send(mealsWithOrders);
+        })
+        .catch((e) => {
+          badRequest(req, res, e);
+        });
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
 const updateOrder = (req, res) => {
   try {
     const { orderId } = req.params;
@@ -108,6 +127,7 @@ module.exports = {
   createOrderForMeal,
   getOrder,
   getOrdersByMeal,
+  getOrdersPlacedByMe,
   updateOrder,
   cancelOrder,
 };
