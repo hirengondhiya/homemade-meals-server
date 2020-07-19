@@ -16,6 +16,17 @@ const getMeal = function () {
   return Meal.find();
 };
 
+// get
+const getMealsSoldBy = (sellerId) => {
+  return Meal.find({ soldBy: sellerId.toString() });
+};
+const getMealSoldBy = (sellerId, mealId) => {
+  return Meal.findOne({
+    _id: mealId.toString(),
+    soldBy: sellerId.toString(),
+  });
+};
+
 // delete specific meal with id
 const deleteMealById = function (id) {
   return Meal.findByIdAndRemove(id);
@@ -52,6 +63,8 @@ const updateMealById = function (id, updatedMeal) {
 };
 
 module.exports = {
+  getMealSoldBy,
+  getMealsSoldBy,
   createMeal,
   getMealById,
   getMeal,

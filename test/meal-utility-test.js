@@ -7,6 +7,8 @@ const {
   createMealAcceptingOrder,
   createMealOrderClosed,
   createMealOrdersNotOpened,
+  createMealWithSeller,
+  findOrCreateSeller,
 } = require("./create-meal-data");
 
 // global variable
@@ -123,6 +125,7 @@ describe("Meal Utility", () => {
   // update Meal
   describe("updateMealByID", () => {
     it("should update the specified meal with id", async function () {
+      expect.assertions(1);
       let mealUpdates = {
         title: "updated meal",
         description: "meal item decription",
@@ -132,9 +135,9 @@ describe("Meal Utility", () => {
         maxOrders: 15,
         cost: 20,
       };
-      await utilities.updateMealById(mealID, mealUpdates).exec((err, meal) => {
-        expect(meal.title).toBe("updated meal");
-      });
+
+      const meal = await utilities.updateMealById(mealID, mealUpdates).exec();
+      expect(meal.title).toBe("updated meal");
     });
   });
 
@@ -156,6 +159,28 @@ describe("Meal Utility", () => {
     });
   });
 
+  describe("getMealsSoldBy", () => {
+    beforeEach(async () => {
+      await createMealWithSeller();
+    });
+    it("should return all meals sold by a seller", async () => {
+      const seller = await findOrCreateSeller();
+      const meals = await utilities.getMealsSoldBy(seller._id);
+      expect(meals.length).toBe(1);
+    });
+  });
+
+  describe("getMealSoldBy", () => {
+    beforeEach(async () => {
+      const meal = await createMealWithSeller();
+      mealID = meal._id;
+    });
+    it("should return the meal by a seller", async () => {
+      const seller = await findOrCreateSeller();
+      const meal = await utilities.getMealSoldBy(seller._id, mealID);
+      expect(meal._id.toString()).toBe(mealID.toString());
+    });
+  });
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("meals");
   });

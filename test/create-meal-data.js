@@ -1,4 +1,5 @@
 const Meal = require("../models/meal");
+const User = require("../models/user");
 const moment = require("moment");
 
 const mealData = {
@@ -15,6 +16,33 @@ const orderData = {
   pickupAt: new Date().toISOString(),
   quantity: 1,
   totalAmt: 1500,
+};
+
+const seller = {
+  username: "seller",
+  email: "seller@email.com",
+  role: "seller",
+};
+
+const findOrCreateSeller = async () => {
+  let mealSeller = await User.findOne({ role: "seller" });
+  if (!mealSeller) {
+    mealSeller = await User.create(seller);
+  }
+  return mealSeller;
+};
+
+const buyer = {
+  username: "buyer",
+  email: "buyer@email.com",
+  role: "buyer",
+};
+const findOrCreateBuyer = async () => {
+  let mealBuyer = await User.findOne({ role: "buyer" });
+  if (!mealBuyer) {
+    mealBuyer = await User.create(buyer);
+  }
+  return mealBuyer;
 };
 
 const createMealDataWithOrders = async () => {
@@ -60,6 +88,8 @@ const createMealOrdersNotOpened = async () => {
 };
 
 const createMealAcceptingOrder = async () => {
+  await findOrCreateSeller();
+  await findOrCreateBuyer();
   const mealAcceptingOrders = {
     ...mealData,
     title: "Meal Accepting Orders",
@@ -71,12 +101,25 @@ const createMealAcceptingOrder = async () => {
   return meal.toJSON();
 };
 
+const createMealWithSeller = async () => {
+  const mealSeller = await findOrCreateSeller();
+  const mealWithSeller = {
+    ...mealData,
+    soldBy: mealSeller._id.toString(),
+  };
+  const meal = await Meal.create(mealWithSeller);
+  return meal;
+};
+
 module.exports = {
   createMealAcceptingOrder,
   createMealDataWihoutOrders,
   createMealDataWithOrders,
   createMealOrderClosed,
   createMealOrdersNotOpened,
+  createMealWithSeller,
   mealData,
   orderData,
+  findOrCreateSeller,
+  findOrCreateBuyer,
 };
