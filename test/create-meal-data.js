@@ -55,6 +55,21 @@ const createMealDataWithOrders = async () => {
   return mealWithOrders.toJSON();
 };
 
+const createMealDataWithCustomerOrders = async () => {
+  const mealBuyer = await findOrCreateBuyer();
+  const customer = mealBuyer._id.toString();
+  const orders = [
+    { ...orderData, customer },
+    { ...orderData, quantity: 2, totalAmt: 3000, customer },
+  ];
+  const mealWithOrders = await Meal.create({
+    ...mealData,
+    title: "Meal With Orders",
+    orders,
+  });
+  return mealWithOrders.toJSON();
+};
+
 const createMealDataWihoutOrders = async () => {
   const mealWithoutOrders = await Meal.create({
     ...mealData,
@@ -114,6 +129,7 @@ const createMealWithSeller = async () => {
 module.exports = {
   createMealAcceptingOrder,
   createMealDataWihoutOrders,
+  createMealDataWithCustomerOrders,
   createMealDataWithOrders,
   createMealOrderClosed,
   createMealOrdersNotOpened,

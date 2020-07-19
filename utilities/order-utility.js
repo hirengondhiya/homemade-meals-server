@@ -41,6 +41,50 @@ const getOrderById = async (orderId) => {
   return mealWithOrder;
 };
 
+const getOrdersPlacedByCustomer = async (customerId) => {
+  const mealsWithOrder = await Meal.aggregate([
+    {
+      $unwind: "$orders",
+    },
+    {
+      $match: { "orders.customer": customerId },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "soldBy",
+        foreignField: "_id",
+        as: "soldBy",
+      },
+    },
+    {
+      $project: {
+        mealType: 1,
+        title: 1,
+        description: 1,
+        deliversOn: 1,
+        cost: 1,
+        soldBy: {
+          $let: {
+            vars: {
+              firstUser: {
+                $arrayElemAt: ["$soldBy", 0],
+              },
+            },
+            in: {
+              _id: "$$firstUser._id",
+              name: "$$firstUser.username",
+              email: "$$firstUser.email",
+            },
+          },
+        },
+        order: "$orders",
+      },
+    },
+  ]);
+  return mealsWithOrder;
+};
+
 // given mealId returns all the orders belonging to that meal encapsulated withing meal object
 // returns null if mealId not found
 const getOrdersForMeal = async (mealId) => {
@@ -113,5 +157,6 @@ module.exports = {
   createOrder,
   getOrderById,
   getOrdersForMeal,
+  getOrdersPlacedByCustomer,
   updateOrderById,
 };

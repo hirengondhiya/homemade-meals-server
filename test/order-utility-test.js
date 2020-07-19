@@ -7,15 +7,19 @@ const {
   getOrdersForMeal,
   updateOrderById,
   cancelOrderById,
+  getOrdersPlacedByCustomer,
 } = require("../utilities/order-utility");
 const { connectTestDB, disconnectTestDb } = require("./config");
 const {
   createMealDataWithOrders,
+  createMealDataWithCustomerOrders,
   createMealDataWihoutOrders,
   orderData,
+  findOrCreateBuyer,
 } = require("./create-meal-data");
 let mealWithoutOrders;
 let mealWithOrders;
+let mealWithCustomerOrders;
 
 const getRandomObjectId = () => {
   return new mongoose.Types.ObjectId().toString();
@@ -229,5 +233,16 @@ describe("Order Utility", () => {
       expect(meal).toBeNull();
     });
   });
+  describe("getOrdersPlacedByCustomer", () => {
+    beforeEach(async () => {
+      mealWithCustomerOrders = await createMealDataWithCustomerOrders();
+    });
+    it("should return all orders placed by a customer", async () => {
+      const mealBuyer = await findOrCreateBuyer();
+      const meals = await getOrdersPlacedByCustomer(mealBuyer._id);
+      expect(meals.length).toBe(mealWithCustomerOrders.orders.length);
+    });
+  });
+
   it("should pass empty test", () => {});
 });
