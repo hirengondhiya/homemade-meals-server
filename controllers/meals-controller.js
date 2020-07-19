@@ -5,6 +5,8 @@ const {
   getMealById,
   getMeal,
   getMealsAccpetingOrders,
+  getMealSoldBy,
+  getMealsSoldBy,
   deleteMealById,
   updateMealById,
 } = require("../utilities/meal-utility");
@@ -59,6 +61,41 @@ const getAllMealItems = (req, res) => {
       .catch((err) => {
         badRequest(req, res, err);
       });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+const getMealSoldByMe = (req, res) => {
+  try {
+    const { id: mealId } = req.params;
+    getMealSoldBy(req.user._id, mealId)
+      .exec()
+      .then((meal) => {
+        res.send(meal);
+      })
+      .catch((err) => {
+        badRequest(req, res, err);
+      });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+const getAllMealsSoldByMe = (req, res) => {
+  try {
+    if (req.user.isSeller()) {
+      getMealsSoldBy(req.user._id)
+        .exec()
+        .then((meals) => {
+          res.send(meals);
+        })
+        .catch((err) => {
+          badRequest(req, res, err);
+        });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (err) {
     internalServerError(req, res, err);
   }
@@ -142,6 +179,8 @@ module.exports = {
   createMealItem,
   getAllMealItems,
   getMealItem,
+  getAllMealsSoldByMe,
+  getMealSoldByMe,
   getMealsOpenForOrders,
   updateMealItem,
   deleteMealItem,
