@@ -26,7 +26,7 @@ const createMealItem = (req, res) => {
 
 const getAllMealItems = (req, res) => {
   try {
-    getMeal(req)
+    getMeal()
       .exec()
       .then((meals) => {
         res.send(meals);
