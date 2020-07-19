@@ -1,4 +1,5 @@
 const { Schema } = require("mongoose");
+require("./user");
 
 const OrderSchema = new Schema(
   {
