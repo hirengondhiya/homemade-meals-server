@@ -92,7 +92,7 @@ const cancelOrder = (req, res) => {
     cancelOrderById(orderId)
       .then((mealWithCancelOrder) => {
         if (mealWithCancelOrder) {
-          return res.sendStatus(204);
+          return res.send(mealWithCancelOrder);
         }
         res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
