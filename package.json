@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "mocha",
+    "test": "mocha --exit",
     "lint": "eslint ./ --fix --ignore-path .gitignore"
   },
   "keywords": [],
