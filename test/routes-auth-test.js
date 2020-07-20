@@ -1,7 +1,8 @@
 require("./helpers/config");
 const mongoose = require("mongoose");
-const request = require("supertest");
 const app = require("../app");
+const request = require("supertest");
+const api = request(app);
 const agent = request.agent(app);
 const expect = require("expect");
 const {
@@ -10,7 +11,7 @@ const {
   buyerData,
   sellerData,
   loginAsBuyer,
-  LoginAsSeller,
+  loginAsSeller,
 } = require("./helpers/routes-test-helper");
 
 describe("Authentication Routes", () => {
@@ -21,94 +22,77 @@ describe("Authentication Routes", () => {
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("users");
   });
-  describe("GET /logout", function () {
+  describe("GET /logout", () => {
     beforeEach(async () => {
       await createBuyer();
       await createSeller();
     });
-    it("should logout buyer", function (done) {
-      loginAsBuyer(agent, done);
-      agent.get("/logout").expect(200, done);
+    it("should logout buyer", async () => {
+      await loginAsBuyer(agent);
+      await agent.get("/logout").expect(200);
     });
-    it("should logout seller", function (done) {
-      LoginAsSeller(agent, done);
-      agent.get("/logout").expect(200, done);
+    it("should logout seller", async () => {
+      await loginAsSeller(agent);
+      await agent.get("/logout").expect(200);
     });
   });
-  describe("POST /login", function () {
+  describe("POST /login", () => {
     beforeEach(async () => {
       await createBuyer();
       await createSeller();
     });
-    it("should login buyer", function (done) {
-      const { username, password } = buyerData;
-      request(app)
+    it("should login buyer", async () => {
+      const { username, password, role, email } = buyerData;
+      const { body } = await api
         .post("/login")
         .send({ username, password })
         .expect("Content-Type", /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.role).toMatch(buyerData.role);
-          return done();
-        })
-        .catch((err) => done(err));
+        .expect(200);
+      expect(body).toMatchObject({ username, email, role });
     });
-    it("should login seller", function (done) {
-      const { username, password } = sellerData;
-      request(app)
+    it("should login seller", async () => {
+      const { username, password, role, email } = sellerData;
+      const { body } = await api
         .post("/login")
         .send({ username, password })
         .expect("Content-Type", /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.role).toMatch(sellerData.role);
-          return done();
-        })
-        .catch((err) => done(err));
+        .expect(200);
+      expect(body).toMatchObject({ username, email, role });
     });
-    it("should not accept invalid password", function (done) {
+    it("should not accept invalid password", async () => {
       const { username, password } = sellerData;
-      request(app)
+      await api
         .post("/login")
         .send({ username, password: password + "!" })
-        .expect(401, done);
+        .expect(401);
     });
   });
-  describe("POST /register", function () {
-    it("should accept seller registrtion", function (done) {
-      request(app)
+  describe("POST /register", () => {
+    it("should accept seller registrtion", async () => {
+      const { username, email, role } = sellerData;
+      const { body } = await api
         .post("/register")
         .send(sellerData)
         .expect("Content-Type", /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.role).toMatch(sellerData.role);
-          return done();
-        })
-        .catch((err) => done(err));
+        .expect(200);
+      expect(body).toMatchObject({ username, email, role });
     });
-    it("should accept buyer registrtion", function (done) {
-      request(app)
+    it("should accept buyer registration", async () => {
+      const { username, email, role } = buyerData;
+      const { body } = await api
         .post("/register")
         .send(buyerData)
         .expect("Content-Type", /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.role).toMatch(buyerData.role);
-          return done();
-        })
-        .catch((err) => done(err));
+        .expect(200);
+      expect(body).toMatchObject({ username, email, role });
     });
-    it("should not accept double registration", function (done) {
-      createBuyer()
-        .then(() => {
-          request(app)
-            .post("/register")
-            .send(buyerData)
-            .expect("Content-Type", /json/)
-            .expect(400, done);
-        })
-        .catch((err) => done(err));
+    it("should not accept double registration", async () => {
+      await createBuyer();
+      await api
+        .post("/register")
+        .send(buyerData)
+        .expect("Content-Type", /json/)
+        .expect(400);
     });
   });
 });
