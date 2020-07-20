@@ -40,19 +40,19 @@ describe("Meal Utility", () => {
 
   //   get all the meals
   describe("getMeal", () => {
-    it("should get all the meals", async function () {
+    it("should get all the meals", function () {
       let req = {
         query: {},
       };
-      await utilities.getMeal(req).exec((err, meals) => {
+      utilities.getMeal(req).exec((err, meals) => {
         expect(Object.keys(meals).length).toBe(1);
       });
     });
-    it("maxOrders should be 20", async function () {
+    it("maxOrders should be 20", function () {
       let req = {
         query: {},
       };
-      await utilities.getMeal(req).exec((err, meals) => {
+      utilities.getMeal(req).exec((err, meals) => {
         expect(meals[0].maxOrders).toBe(20);
       });
     });
@@ -61,13 +61,13 @@ describe("Meal Utility", () => {
   // get meal by id
 
   describe("getMealById", () => {
-    it("title should be meal item 1", async function () {
+    it("title should be meal item 1", function () {
       let req = {
         params: {
           id: mealID,
         },
       };
-      await utilities.getMealById(req.params.id).exec((err, meal) => {
+      utilities.getMealById(req.params.id).exec((err, meal) => {
         expect(meal.title).toBe("meal item 1");
       });
     });
@@ -75,7 +75,7 @@ describe("Meal Utility", () => {
 
   // create new meal
   describe("createMeal", () => {
-    it("should create a new post", async function () {
+    it("should create a new post", function () {
       let req = {
         body: {
           title: "meal item 2",
@@ -87,11 +87,11 @@ describe("Meal Utility", () => {
           cost: 20,
         },
       };
-      await utilities.createMeal(req.body).save((err, meal) => {
+      utilities.createMeal(req.body).save((err, meal) => {
         expect(meal.title).toBe("meal item 2");
       });
     });
-    it("should remove whitesapce in the user input data", async function () {
+    it("should remove whitesapce in the user input data", function () {
       let newMeal = {
         title: "   meal item 2",
         description: "meal item decription",
@@ -101,7 +101,7 @@ describe("Meal Utility", () => {
         maxOrders: 15,
         cost: 20,
       };
-      await utilities.createMeal(newMeal).save((err, meal) => {
+      utilities.createMeal(newMeal).save((err, meal) => {
         expect(meal.title).toBe("meal item 2");
       });
     });
@@ -116,9 +116,8 @@ describe("Meal Utility", () => {
         },
       };
       await utilities.deleteMealById(req.params.id).exec();
-      await utilities.getMealById(req.params.id).exec((err, meal) => {
-        expect(meal).toBe(null);
-      });
+      const meal = await utilities.getMealById(req.params.id).exec();
+      expect(meal).toBe(null);
     });
   });
 
