@@ -1,6 +1,5 @@
 const badRequest = (req, res, err) => {
   res.status(400).send({ errorMsg: err.message });
-  logError(req, err);
 };
 
 const internalServerError = (req, res, err) => {
