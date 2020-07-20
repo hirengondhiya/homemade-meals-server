@@ -1,4 +1,4 @@
-require("./config");
+require("./helpers/config");
 const mongoose = require("mongoose");
 const expect = require("expect");
 const utilities = require("../utilities/meal-utility");
@@ -10,7 +10,7 @@ const {
   createMealOrdersNotOpened,
   createMealWithSeller,
   findOrCreateSeller,
-} = require("./create-meal-data");
+} = require("./helpers/meal-data-helper");
 
 // global variable
 let mealID;

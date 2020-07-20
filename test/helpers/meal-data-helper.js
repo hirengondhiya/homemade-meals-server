@@ -1,5 +1,5 @@
-const Meal = require("../models/meal");
-const User = require("../models/user");
+const Meal = require("../../models/meal");
+const User = require("../../models/user");
 const moment = require("moment");
 
 const mealData = {

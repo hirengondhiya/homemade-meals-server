@@ -1,4 +1,4 @@
-require("./config");
+require("./helpers/config");
 const mongoose = require("mongoose");
 const Meal = require("../models/meal");
 const expect = require("expect");
@@ -17,7 +17,7 @@ const {
   createMealDataWihoutOrders,
   orderData,
   findOrCreateBuyer,
-} = require("./create-meal-data");
+} = require("./helpers/meal-data-helper");
 let mealWithoutOrders;
 let mealWithOrders;
 let mealWithCustomerOrders;
