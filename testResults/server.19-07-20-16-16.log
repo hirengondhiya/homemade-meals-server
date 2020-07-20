@@ -1,0 +1,78 @@
+19-07-20-16-16
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha --exit
+
+
+
+  Authentication Routes
+    GET /logout
+      ✓ should logout buyer
+      ✓ should logout seller
+    POST /login
+      ✓ should login buyer (231ms)
+      ✓ should login seller (231ms)
+    POST /register
+      ✓ should accept seller registrtion (530ms)
+      ✓ should accept buyer registrtion (520ms)
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      ✓ should return no meals when there is no meal accepting orders
+      ✓ should return meal accepting orders (67ms)
+    getMealsSoldBy
+      ✓ should return all meals sold by a seller
+    getMealSoldBy
+      ✓ should return the meal by a seller
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+    getOrdersPlacedByCustomer
+      ✓ should return all orders placed by a customer
+
+  Root Routes
+    GET /
+      ✓ responds with 200
+    GET /random
+      ✓ responds with 404
+
+
+  37 passing (7s)
+
+END-------------------------
+
+
