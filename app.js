@@ -49,5 +49,10 @@ app.use("/", authRouter);
 app.use("/meals", mealRoutes);
 app.use("/orders", orderRoutes);
 
+// send 404 for rest of the end points
+app.use("*", (req, res) => {
+  res.sendStatus(404);
+});
+// close db connection on close
 app.on("close", disconnectDb);
 module.exports = app.listen(port);
