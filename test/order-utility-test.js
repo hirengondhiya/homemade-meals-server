@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Meal = require("../models/meal");
 const expect = require("expect");
 const {
   createOrder,
@@ -6,11 +7,19 @@ const {
   getOrdersForMeal,
   updateOrderById,
   cancelOrderById,
-} = require("../utilities/order_utility");
-const Menu = require("../models/menu");
+  getOrdersPlacedByCustomer,
+} = require("../utilities/order-utility");
 const { connectTestDB, disconnectTestDb } = require("./config");
+const {
+  createMealDataWithOrders,
+  createMealDataWithCustomerOrders,
+  createMealDataWihoutOrders,
+  orderData,
+  findOrCreateBuyer,
+} = require("./create-meal-data");
 let mealWithoutOrders;
 let mealWithOrders;
+let mealWithCustomerOrders;
 
 const getRandomObjectId = () => {
   return new mongoose.Types.ObjectId().toString();
@@ -25,54 +34,17 @@ describe("Order Utility", () => {
     await disconnectTestDb();
   });
   beforeEach(async () => {
-    const orders = [
-      {
-        pickupAt: new Date(),
-        quantity: 1,
-        totalAmt: 1500,
-      },
-      {
-        pickupAt: new Date(),
-        quantity: 2,
-        totalAmt: 3000,
-      },
-    ];
-    mealWithOrders = (
-      await Menu.create({
-        title: "meal item with orders",
-        description: "meal item decription",
-        deliversOn: new Date(),
-        orderStarts: new Date(),
-        orderEnds: new Date(),
-        maxOrders: 20,
-        cost: 1500,
-        orders,
-      })
-    ).toJSON();
-    mealWithoutOrders = (
-      await Menu.create({
-        title: "meal item without orders",
-        description: "meal item decription",
-        deliversOn: new Date().toISOString(),
-        orderStarts: new Date().toISOString(),
-        orderEnds: new Date().toISOString(),
-        maxOrders: 10,
-        cost: 1000,
-      })
-    ).toJSON();
+    mealWithOrders = await createMealDataWithOrders();
+    mealWithoutOrders = await createMealDataWihoutOrders();
   });
   afterEach(async () => {
-    await mongoose.connection.db.dropCollection("menus");
+    await mongoose.connection.db.dropCollection("meals");
   });
   describe("createOrder", () => {
     let newOrder;
     let error;
     beforeEach(() => {
-      newOrder = {
-        pickupAt: new Date().toISOString(),
-        quantity: 1,
-        totalAmt: 1500,
-      };
+      newOrder = { ...orderData };
       error = {
         errors: {
           orders: {
@@ -81,7 +53,7 @@ describe("Order Utility", () => {
         },
       };
     });
-    it("should add an order to given menu item", async () => {
+    it("should add an order to given meal item", async () => {
       const mealWithNewOrder = await createOrder(mealWithOrders._id, newOrder);
       // console.log(mealWithNewOrder)
       expect(mealWithNewOrder.orders.length).toBe(1);
@@ -171,7 +143,7 @@ describe("Order Utility", () => {
     it("should update an existing order given order id and updates", async () => {
       const orderId = mealWithOrders.orders[0]._id.toString();
       const orderUpdates = {
-        pickupAt: new Date().toISOString(),
+        ...orderData,
         quantity: 5,
         totalAmt: 75000,
       };
@@ -192,11 +164,11 @@ describe("Order Utility", () => {
     it("should not modify other orders", async () => {
       const orderId = mealWithOrders.orders[0]._id.toString();
       const orderUpdates = {
-        pickupAt: new Date().toISOString(),
+        ...orderData,
         quantity: 5,
       };
       await updateOrderById(orderId, orderUpdates);
-      const meal = await Menu.findById(mealWithOrders._id);
+      const meal = await Meal.findById(mealWithOrders._id);
       expect(meal).toBeDefined();
       expect(meal.orders).toBeDefined();
       expect(meal.orders.length).toBe(mealWithOrders.orders.length);
@@ -213,10 +185,7 @@ describe("Order Utility", () => {
     });
     it("should return Null when non-existent order id is passed", async () => {
       const orderId = getRandomObjectId();
-      const orderUpdates = {
-        pickupAt: new Date().toISOString(),
-        quantity: 5,
-      };
+      const orderUpdates = { ...orderData };
       const meal = await updateOrderById(orderId, orderUpdates);
       expect(meal).toBeNull();
     });
@@ -243,7 +212,7 @@ describe("Order Utility", () => {
       const orderId = mealWithOrders.orders[0]._id.toString();
       await cancelOrderById(orderId);
       await cancelOrderById(orderId);
-      const meal = await Menu.findById(mealWithOrders._id);
+      const meal = await Meal.findById(mealWithOrders._id);
       expect(meal).toBeDefined();
       expect(meal.orders).toBeDefined();
       expect(meal.orders.length).toBe(mealWithOrders.orders.length);
@@ -264,5 +233,16 @@ describe("Order Utility", () => {
       expect(meal).toBeNull();
     });
   });
+  describe("getOrdersPlacedByCustomer", () => {
+    beforeEach(async () => {
+      mealWithCustomerOrders = await createMealDataWithCustomerOrders();
+    });
+    it("should return all orders placed by a customer", async () => {
+      const mealBuyer = await findOrCreateBuyer();
+      const meals = await getOrdersPlacedByCustomer(mealBuyer._id);
+      expect(meals.length).toBe(mealWithCustomerOrders.orders.length);
+    });
+  });
+
   it("should pass empty test", () => {});
 });

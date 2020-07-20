@@ -1,26 +1,32 @@
-const { badRequest, internalServerError } = require("./controller_utils");
+const { badRequest, internalServerError } = require("./controller-utils");
 const {
   cancelOrderById,
   createOrder,
   getOrderById,
   getOrdersForMeal,
+  getOrdersPlacedByCustomer,
   updateOrderById,
-} = require("../utilities/order_utility");
+} = require("../utilities/order-utility");
 
 const createOrderForMeal = (req, res) => {
   try {
-    const { id: mealId } = req.params;
-    const { body: order } = req;
-    createOrder(mealId, order)
-      .then((mealWithNewOrder) => {
-        if (mealWithNewOrder) {
-          return res.send(mealWithNewOrder.toObject());
-        }
-        res.status(404).send(new Error(`Meal with ${mealId} not found.`));
-      })
-      .catch((e) => {
-        badRequest(req, res, e);
-      });
+    if (req.user.isBuyer()) {
+      const { mealId, quantity, pickupAt, totalAmt } = req.body;
+      const { _id: customer } = req.user;
+
+      createOrder(mealId, { quantity, pickupAt, totalAmt, customer })
+        .then((mealWithNewOrder) => {
+          if (mealWithNewOrder) {
+            return res.status(201).send(mealWithNewOrder.toObject());
+          }
+          res.status(404).send({ errorMsg: `Meal with ${mealId} not found.` });
+        })
+        .catch((e) => {
+          badRequest(req, res, e);
+        });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (err) {
     internalServerError(req, res, err);
   }
@@ -34,7 +40,7 @@ const getOrder = (req, res) => {
         if (mealWithOrder) {
           return res.send(mealWithOrder.toObject());
         }
-        res.status(404).send(new Error(`Order with ${orderId} not found.`));
+        res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -52,11 +58,29 @@ const getOrdersByMeal = (req, res) => {
         if (mealWithOrders) {
           return res.send(mealWithOrders.toObject());
         }
-        res.status(404).send(new Error(`Meal with ${mealId} not found.`));
+        res.status(404).send({ errorMsg: `Meal with ${mealId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
       });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+const getOrdersPlacedByMe = (req, res) => {
+  try {
+    if (req.user.isBuyer()) {
+      getOrdersPlacedByCustomer(req.user._id)
+        .then((mealsWithOrders) => {
+          res.send(mealsWithOrders);
+        })
+        .catch((e) => {
+          badRequest(req, res, e);
+        });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (err) {
     internalServerError(req, res, err);
   }
@@ -71,7 +95,7 @@ const updateOrder = (req, res) => {
         if (mealWithOrder) {
           return res.send(mealWithOrder.toObject());
         }
-        res.status(404).send(new Error(`Order with ${orderId} not found.`));
+        res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -87,9 +111,9 @@ const cancelOrder = (req, res) => {
     cancelOrderById(orderId)
       .then((mealWithCancelOrder) => {
         if (mealWithCancelOrder) {
-          return res.sendStatus(204);
+          return res.send(mealWithCancelOrder);
         }
-        res.status(404).send(new Error(`Order with ${orderId} not found.`));
+        res.status(404).send({ errorMsg: `Order with ${orderId} not found.` });
       })
       .catch((e) => {
         badRequest(req, res, e);
@@ -103,6 +127,7 @@ module.exports = {
   createOrderForMeal,
   getOrder,
   getOrdersByMeal,
+  getOrdersPlacedByMe,
   updateOrder,
   cancelOrder,
 };

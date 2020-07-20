@@ -1,14 +1,14 @@
 const badRequest = (req, res, err) => {
   res.status(400).send({ errorMsg: err.message });
-  logInfo(req, err);
+  logError(req, err);
 };
 
 const internalServerError = (req, res, err) => {
   res.sendStatus(500);
-  logInfo(req, err);
+  logError(req, err);
 };
 
-const logInfo = (req, err) => {
+const logError = (req, err) => {
   const { baseUrl, method, params, body } = req;
   console.error(`Error responding ${req.baseUrl}`);
   console.log({ baseUrl, method, params, body });
