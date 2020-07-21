@@ -26,6 +26,10 @@ const {
 const Meal = require("../models/meal");
 const User = require("../models/user");
 let meal;
+const modifiedMealData = {
+  title: "modified meal title",
+  description: "modified desc",
+};
 
 describe("Meal Routes", () => {
   after(async () => {
@@ -184,7 +188,7 @@ describe("Meal Routes", () => {
       });
     });
   });
-  describe.only("GET /meals/:id", () => {
+  describe("GET /meals/:id", () => {
     beforeEach(async () => {
       const seller = await User.findOne({ username: sellerData.username });
       meal = await Meal.findOne({ soldBy: seller._id });
@@ -247,6 +251,79 @@ describe("Meal Routes", () => {
     describe("for unauthenticated user", () => {
       it("should return 403 when user is not authenticated", async () => {
         await api.get(`/meals/${meal._id.toString()}`).expect(403);
+      });
+    });
+  });
+  describe.only("PUT /meals/:id", () => {
+    beforeEach(async () => {
+      const seller = await User.findOne({ username: sellerData.username });
+      meal = await Meal.findOne({ soldBy: seller._id });
+      // console.log(meal, seller)
+    });
+    describe("for seller1", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(sellerData));
+      });
+      it("should update meal by id", async () => {
+        const { body } = await agent
+          .put(`/meals/${meal._id.toString()}`)
+          .set("content-type", "application/json")
+          .send(modifiedMealData)
+          .expect(200)
+          .expect("Content-Type", /json/);
+
+        expect(body).toBeDefined();
+        const mealProps = Object.keys(mealData);
+        mealProps.forEach((prop) => expect(body).toHaveProperty(prop));
+        expect(body).toHaveProperty("soldBy.username", sellerData.username);
+      });
+      it("should return 404 when meal not found", async () => {
+        const { body } = await agent
+          .put(`/meals/${mongoose.Types.ObjectId().toString()}`)
+          .set("content-type", "application/json")
+          .send(modifiedMealData)
+          .expect(404)
+          .expect("Content-Type", /json/);
+        expect(body).toHaveProperty("errMsg");
+        expect(body.errMsg).toMatch(/Meal not found/);
+      });
+      it("should return 400 for integer meal id", async () => {
+        await agent.put(`/meals/1`).expect(400);
+      });
+    });
+    describe("for seller2", () => {
+      beforeEach(async () => {
+        const seller2Data = { ...sellerData, username: "seller2" };
+        await createSeller(seller2Data);
+        await login(agent, getCred(seller2Data));
+      });
+      it("should return 403 when updating a meal is not created by logged in seller", async () => {
+        await agent
+          .put(`/meals/${meal._id.toString()}`)
+          .set("content-type", "application/json")
+          .send(modifiedMealData)
+          .expect(403);
+      });
+    });
+    describe("for buyer", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(buyerData));
+      });
+      it("should return 403 when logged in user is not a seller", async () => {
+        await agent
+          .put(`/meals/${meal._id.toString()}`)
+          .set("content-type", "application/json")
+          .send(modifiedMealData)
+          .expect(403);
+      });
+    });
+    describe("for unauthenticated user", () => {
+      it("should return 403 when user is not authenticated", async () => {
+        await api
+          .put(`/meals/${meal._id.toString()}`)
+          .set("content-type", "application/json")
+          .send(modifiedMealData)
+          .expect(403);
       });
     });
   });
