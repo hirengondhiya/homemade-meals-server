@@ -14,12 +14,12 @@ const buyerData = {
   email: "buyer@email.com",
   role: "buyer",
 };
-const createSeller = () => {
+const createSeller = (seller) => {
   return new Promise((resolve, reject) => {
-    const { username, email, role } = sellerData;
+    const { username, email, role } = seller;
     User.register(
       new User({ username, email, role }),
-      sellerData.password,
+      seller.password,
       function (err, res) {
         if (err) {
           return reject(err);
@@ -29,12 +29,12 @@ const createSeller = () => {
     );
   });
 };
-const createBuyer = () => {
+const createBuyer = (buyer) => {
   return new Promise((resolve, reject) => {
-    const { username, email, role } = buyerData;
+    const { username, email, role } = buyer;
     User.register(
       new User({ username, email, role }),
-      buyerData.password,
+      buyer.password,
       function (err, res) {
         if (err) {
           return reject(err);
@@ -44,13 +44,8 @@ const createBuyer = () => {
     );
   });
 };
-const loginAsBuyer = async (agent) => {
-  const { username, password } = buyerData;
-  agent.post("/login").send({ username, password }).expect(200);
-};
-const loginAsSeller = async (agent) => {
-  const { username, password } = sellerData;
-  await agent.post("/login").send({ username, password }).expect(200);
+const login = async (agent, user) => {
+  agent.post("/login").send(user).expect(200);
 };
 
 module.exports = {
@@ -58,6 +53,5 @@ module.exports = {
   createBuyer,
   createSeller,
   sellerData,
-  loginAsBuyer,
-  loginAsSeller,
+  login,
 };

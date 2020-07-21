@@ -10,9 +10,16 @@ const {
   createBuyer,
   buyerData,
   sellerData,
-  loginAsBuyer,
-  loginAsSeller,
+  login,
 } = require("./helpers/routes-test-helper");
+const buyerCred = {
+  username: buyerData.username,
+  password: buyerData.password,
+};
+const sellerCred = {
+  username: sellerData.username,
+  password: sellerData.password,
+};
 
 describe("Authentication Routes", () => {
   after(async () => {
@@ -24,22 +31,22 @@ describe("Authentication Routes", () => {
   });
   describe("GET /logout", () => {
     beforeEach(async () => {
-      await createBuyer();
-      await createSeller();
+      await createBuyer(buyerData);
+      await createSeller(sellerData);
     });
     it("should logout buyer", async () => {
-      await loginAsBuyer(agent);
+      await login(agent, buyerCred);
       await agent.get("/logout").expect(200);
     });
     it("should logout seller", async () => {
-      await loginAsSeller(agent);
+      await login(agent, sellerCred);
       await agent.get("/logout").expect(200);
     });
   });
   describe("POST /login", () => {
     beforeEach(async () => {
-      await createBuyer();
-      await createSeller();
+      await createBuyer(buyerData);
+      await createSeller(sellerData);
     });
     it("should login buyer", async () => {
       const { username, password, role, email } = buyerData;
@@ -87,7 +94,7 @@ describe("Authentication Routes", () => {
       expect(body).toMatchObject({ username, email, role });
     });
     it("should not accept double registration", async () => {
-      await createBuyer();
+      await createBuyer(buyerData);
       await api
         .post("/register")
         .send(buyerData)
