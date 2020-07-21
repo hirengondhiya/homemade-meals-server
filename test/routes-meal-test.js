@@ -128,7 +128,7 @@ describe("Meal Routes", () => {
     });
     describe("for unauthenticated user", () => {
       it("should return 403", async () => {
-        await agent.get("/meals").expect(403);
+        await api.get("/meals").expect(403);
       });
     });
   });
@@ -173,7 +173,7 @@ describe("Meal Routes", () => {
     });
     describe("for unauthenticated user", () => {
       it("should return 403", async () => {
-        await agent
+        await api
           .post("/meals")
           .set("content-type", "application/json")
           .send(mealData)
