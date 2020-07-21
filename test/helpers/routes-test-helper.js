@@ -1,6 +1,4 @@
 const User = require("../../models/user");
-// const request = require("supertest")
-// const app = require("../app")
 
 const sellerData = {
   username: "seller",
@@ -45,8 +43,10 @@ const createBuyer = (buyer) => {
   });
 };
 const login = async (agent, user) => {
-  agent.post("/login").send(user).expect(200);
+  await agent.post("/login").send(user).expect(200);
 };
+
+const getCred = ({ username, password }) => ({ username, password });
 
 module.exports = {
   buyerData,
@@ -54,4 +54,5 @@ module.exports = {
   createSeller,
   sellerData,
   login,
+  getCred,
 };
