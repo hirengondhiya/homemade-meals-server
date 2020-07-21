@@ -6,15 +6,16 @@ const authenticate = passport.authenticate("local");
 
 function loginUser(req, res) {
   try {
-    authenticate(req, res, function (err, result) {
+    // authenticate(req, res, function (err, result) {
+    authenticate(req, res, function (err) {
       if (err) {
         return badRequest(req, res, err);
       }
       // See what we have
-      console.log("authenticated", req.user.username);
-      console.log("session object:", req.session);
-      console.log("req.user:", req.user);
-      console.log(result);
+      // console.log("authenticated", req.user.username);
+      // console.log("session object:", req.session);
+      // console.log("req.user:", req.user);
+      // console.log(result);
       // send back the user
       const { username, email, role } = req.user;
       res.json({ username, email, role });
@@ -48,10 +49,10 @@ const register = function (req, res) {
 
 const logout = function (req, res) {
   try {
-    console.log(`logging out user ${req.user}`);
+    // console.log(`logging out user ${req.user}`);
     req.logout();
-    console.log("session object:", req.session);
-    console.log("req.user:", req.user);
+    // console.log("session object:", req.session);
+    // console.log("req.user:", req.user);
     res.sendStatus(200);
   } catch (err) {
     internalServerError(req, res, err);

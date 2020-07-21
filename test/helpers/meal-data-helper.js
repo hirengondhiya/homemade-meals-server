@@ -1,10 +1,11 @@
-const Meal = require("../models/meal");
-const User = require("../models/user");
+const Meal = require("../../models/meal");
+const User = require("../../models/user");
 const moment = require("moment");
 
 const mealData = {
   title: "meal item 1",
   description: "meal item decription",
+  mealType: "dinner",
   deliversOn: new Date().toISOString(),
   orderStarts: new Date().toISOString(),
   orderEnds: new Date().toISOString(),

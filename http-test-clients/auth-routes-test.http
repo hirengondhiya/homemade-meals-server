@@ -1,0 +1,43 @@
+### get meal item of the day -- for home screen
+GET http://localhost:3010/logout HTTP/1.1
+
+### Register Store Admin
+POST http://localhost:3010/register HTTP/1.1
+content-type: application/json
+
+{
+  "username": "hungry",
+  "email":"hungry@email.com",
+  "password":"feedme1",
+  "role": "seller"
+}
+
+
+### Register Customer
+POST http://localhost:3010/register HTTP/1.1
+content-type: application/json
+
+{
+  "username": "customer",
+  "email":"customer@email.com",
+  "password":"somenice-pw",
+  "role": "buyer"
+}
+
+### Login Store Admin
+POST http://localhost:3010/login HTTP/1.1
+content-type: application/json
+
+{
+  "username": "hungry",
+  "password":"feedme1"
+}
+
+### Login Customer
+POST http://localhost:3010/login HTTP/1.1
+content-type: application/json
+
+{
+  "username": "customer1",
+  "password":"somenice-pw"
+}

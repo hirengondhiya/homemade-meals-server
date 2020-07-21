@@ -1,3 +1,4 @@
+require("./helpers/config");
 const mongoose = require("mongoose");
 const Meal = require("../models/meal");
 const expect = require("expect");
@@ -9,14 +10,14 @@ const {
   cancelOrderById,
   getOrdersPlacedByCustomer,
 } = require("../utilities/order-utility");
-const { connectTestDB, disconnectTestDb } = require("./config");
+const { connectDb, disconnectDb } = require("../db/connect-db");
 const {
   createMealDataWithOrders,
   createMealDataWithCustomerOrders,
   createMealDataWihoutOrders,
   orderData,
   findOrCreateBuyer,
-} = require("./create-meal-data");
+} = require("./helpers/meal-data-helper");
 let mealWithoutOrders;
 let mealWithOrders;
 let mealWithCustomerOrders;
@@ -27,11 +28,11 @@ const getRandomObjectId = () => {
 
 describe("Order Utility", () => {
   before(async () => {
-    await connectTestDB();
+    await connectDb();
   });
   after(async () => {
     await mongoose.connection.db.dropDatabase();
-    await disconnectTestDb();
+    await disconnectDb();
   });
   beforeEach(async () => {
     mealWithOrders = await createMealDataWithOrders();

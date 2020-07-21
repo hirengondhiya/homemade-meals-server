@@ -1,27 +1,28 @@
+require("./helpers/config");
 const mongoose = require("mongoose");
 const expect = require("expect");
 const utilities = require("../utilities/meal-utility");
 const Meal = require("../models/meal");
-const { connectTestDB, disconnectTestDb } = require("./config");
+const { connectDb, disconnectDb } = require("../db/connect-db");
 const {
   createMealAcceptingOrder,
   createMealOrderClosed,
   createMealOrdersNotOpened,
   createMealWithSeller,
   findOrCreateSeller,
-} = require("./create-meal-data");
+} = require("./helpers/meal-data-helper");
 
 // global variable
 let mealID;
 
 describe("Meal Utility", () => {
   before(async () => {
-    await connectTestDB();
+    await connectDb();
   });
 
   after(async () => {
     await mongoose.connection.db.dropDatabase();
-    await disconnectTestDb();
+    await disconnectDb();
   });
 
   beforeEach(async () => {

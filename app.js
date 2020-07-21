@@ -1,4 +1,4 @@
-require("./db/connect-db");
+const { connectDb, disconnectDb } = require("./db/connect-db");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -13,6 +13,12 @@ const orderRoutes = require("./routes/order-routes");
 const port = process.env.PORT || 3010;
 
 const app = express();
+
+// let app crash if db does not connect
+connectDb().then(() => {
+  // console.log('connected to db')
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -43,6 +49,10 @@ app.use("/", authRouter);
 app.use("/meals", mealRoutes);
 app.use("/orders", orderRoutes);
 
-app.listen(port, () =>
-  console.log(`Homemade meals server listening on port ${port}`)
-);
+// send 404 for rest of the end points
+app.use("*", (req, res) => {
+  res.sendStatus(404);
+});
+// close db connection on close
+app.on("close", disconnectDb);
+module.exports = app.listen(port);

@@ -38,7 +38,7 @@ const createMealItem = (req, res) => {
       })
         .save()
         .then((meal) => {
-          res.status(201).send(meal);
+          res.status(201).json(meal);
         })
         .catch((err) => {
           badRequest(req, res, err);
@@ -56,7 +56,7 @@ const getAllMealItems = (req, res) => {
     getMeal()
       .exec()
       .then((meals) => {
-        res.send(meals);
+        res.json(meals);
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -72,7 +72,7 @@ const getMealSoldByMe = (req, res) => {
     getMealSoldBy(req.user._id, mealId)
       .exec()
       .then((meal) => {
-        res.send(meal);
+        res.json(meal);
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -88,7 +88,7 @@ const getAllMealsSoldByMe = (req, res) => {
       getMealsSoldBy(req.user._id)
         .exec()
         .then((meals) => {
-          res.send(meals);
+          res.json(meals);
         })
         .catch((err) => {
           badRequest(req, res, err);
@@ -108,9 +108,9 @@ const getMealItem = (req, res) => {
       .exec()
       .then((mealItem) => {
         if (mealItem) {
-          return res.send(mealItem);
+          return res.json(mealItem);
         }
-        res.status(404).send({ errorMsg: "Meal not found" });
+        res.status(404).json({ errorMsg: "Meal not found" });
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -124,7 +124,7 @@ const getMealsOpenForOrders = (req, res) => {
   try {
     getMealsAccpetingOrders()
       .then((meals) => {
-        res.send(meals);
+        res.json(meals);
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -143,10 +143,9 @@ const updateMealItem = (req, res) => {
       .exec()
       .then((updatedMeal) => {
         if (updatedMeal) {
-          res.status(200);
-          res.send(updatedMeal);
+          return res.json(updatedMeal);
         }
-        res.status(404).send({ errorMsg: "Meal not found" });
+        res.status(404).json({ errorMsg: "Meal not found" });
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -165,7 +164,7 @@ const deleteMealItem = (req, res) => {
         if (meal) {
           return res.sendStatus(204);
         }
-        res.status(404).send({ errorMsg: "Meal not found" });
+        res.status(404).json({ errorMsg: "Meal not found" });
       })
       .catch((err) => {
         badRequest(req, res, err);
