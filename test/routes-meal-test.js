@@ -23,6 +23,9 @@ const {
   createMealWithSeller,
   mealData,
 } = require("./helpers/meal-data-helper");
+const Meal = require("../models/meal");
+const User = require("../models/user");
+let meal;
 
 describe("Meal Routes", () => {
   after(async () => {
@@ -178,6 +181,72 @@ describe("Meal Routes", () => {
           .set("content-type", "application/json")
           .send(mealData)
           .expect(403);
+      });
+    });
+  });
+  describe.only("GET /meals/:id", () => {
+    beforeEach(async () => {
+      const seller = await User.findOne({ username: sellerData.username });
+      meal = await Meal.findOne({ soldBy: seller._id });
+      // console.log(meal)
+    });
+    describe("for seller1", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(sellerData));
+      });
+      it("should return meal by id", async () => {
+        const { body } = await agent
+          .get(`/meals/${meal._id.toString()}`)
+          .expect(200)
+          .expect("Content-Type", /json/);
+
+        const mealProps = Object.keys(mealData);
+        mealProps.forEach((prop) => expect(body).toHaveProperty(prop));
+        expect(body).toHaveProperty("soldBy.username", sellerData.username);
+      });
+      it("meal should have order data", async () => {
+        const { body } = await agent
+          .get(`/meals/${meal._id.toString()}`)
+          .expect(200)
+          .expect("Content-Type", /json/);
+
+        const mealProps = Object.keys(mealData);
+        mealProps.forEach((prop) => expect(body).toHaveProperty(prop));
+        expect(body).toHaveProperty("soldBy.username", sellerData.username);
+      });
+      it("should return 404 when meal not found", async () => {
+        const { body } = await agent
+          .get(`/meals/${mongoose.Types.ObjectId().toString()}`)
+          .expect(404)
+          .expect("Content-Type", /json/);
+        expect(body).toHaveProperty("errMsg");
+        expect(body.errMsg).toMatch(/Meal not found/);
+      });
+      it("should return 400 for integer meal id", async () => {
+        await agent.get(`/meals/1`).expect(400);
+      });
+    });
+    describe("for seller2", () => {
+      beforeEach(async () => {
+        const seller2Data = { ...sellerData, username: "seller2" };
+        await createSeller(seller2Data);
+        await login(agent, getCred(seller2Data));
+      });
+      it("should return 403 when meal is not created by logged in seller", async () => {
+        await agent.get(`/meals/${meal._id.toString()}`).expect(403);
+      });
+    });
+    describe("for buyer", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(buyerData));
+      });
+      it("should return 403 when logged in user is not a seller", async () => {
+        await agent.get(`/meals/${meal._id.toString()}`).expect(403);
+      });
+    });
+    describe("for unauthenticated user", () => {
+      it("should return 403 when user is not authenticated", async () => {
+        await api.get(`/meals/${meal._id.toString()}`).expect(403);
       });
     });
   });
