@@ -1,0 +1,51 @@
+21-07-20-20-13
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha --exit
+
+
+
+  Meal Routes
+    PUT /meals/:id
+      for seller1
+{
+  mealType: 'dinner',
+  _id: 5f16bfbccd92a248840225fa,
+  title: 'meal item 1',
+  description: 'meal item decription',
+  deliversOn: 2020-07-21T10:13:15.795Z,
+  orderStarts: 2020-07-21T10:13:15.795Z,
+  orderEnds: 2020-07-21T10:13:15.795Z,
+  maxOrders: 10,
+  cost: 1000,
+  soldBy: {
+    _id: 5f16bfbccd92a248840225ef,
+    username: 'seller',
+    email: 'seller@email.com',
+    role: 'seller',
+    createdAt: 2020-07-21T10:13:16.556Z,
+    updatedAt: 2020-07-21T10:13:16.556Z,
+    __v: 0
+  },
+  orders: [],
+  createdAt: 2020-07-21T10:13:16.657Z,
+  updatedAt: 2020-07-21T10:13:16.657Z,
+  __v: 0
+} {
+  _id: 5f16bfbccd92a248840225ef,
+  username: 'seller',
+  email: 'seller@email.com',
+  role: 'seller',
+  createdAt: 2020-07-21T10:13:16.556Z,
+  updatedAt: 2020-07-21T10:13:16.556Z,
+  __v: 0
+}
+        ✓ should update meal by id
+
+
+  1 passing (1s)
+
+END-------------------------
+
+
