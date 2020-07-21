@@ -1,4 +1,5 @@
 const { Schema } = require("mongoose");
+require("./user");
 
 const OrderSchema = new Schema(
   {
@@ -18,11 +19,23 @@ const OrderSchema = new Schema(
       type: Number,
       required: true,
     },
+    customer: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      autopopulate: true,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+OrderSchema.methods.isRequestedBy = function (userId) {
+  return (
+    (this.customer && this.customer._id.toString() === userId.toString()) ||
+    false
+  );
+};
 
 module.exports = {
   OrderSchema,

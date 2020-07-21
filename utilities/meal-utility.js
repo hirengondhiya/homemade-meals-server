@@ -16,6 +16,17 @@ const getMeal = function () {
   return Meal.find();
 };
 
+// get
+const getMealsSoldBy = (sellerId) => {
+  return Meal.find({ soldBy: sellerId.toString() });
+};
+const getMealSoldBy = (sellerId, mealId) => {
+  return Meal.findOne({
+    _id: mealId.toString(),
+    soldBy: sellerId.toString(),
+  });
+};
+
 // delete specific meal with id
 const deleteMealById = function (id) {
   return Meal.findByIdAndRemove(id);
@@ -31,17 +42,29 @@ const getMealsAccpetingOrders = async () => {
     orderEnds: {
       $gt: now,
     },
-  });
+  }).select("-orders");
   return meals;
 };
 
 const updateMealById = function (id, updatedMeal) {
-  return Meal.findByIdAndUpdate(id, updatedMeal, {
-    new: true,
-  });
+  Object.keys(updatedMeal).forEach(
+    (key) => updatedMeal[key] === undefined && delete updatedMeal[key]
+  );
+  return Meal.findByIdAndUpdate(
+    id,
+    {
+      $set: updatedMeal,
+    },
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
 };
 
 module.exports = {
+  getMealSoldBy,
+  getMealsSoldBy,
   createMeal,
   getMealById,
   getMeal,

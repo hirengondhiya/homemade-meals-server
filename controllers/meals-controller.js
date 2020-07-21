@@ -5,16 +5,58 @@ const {
   getMealById,
   getMeal,
   getMealsAccpetingOrders,
+  getMealSoldBy,
+  getMealsSoldBy,
   deleteMealById,
   updateMealById,
 } = require("../utilities/meal-utility");
 
 const createMealItem = (req, res) => {
   try {
-    createMeal(req.body)
-      .save()
-      .then((meal) => {
-        res.status(201).send(meal);
+    if (req.user.isSeller()) {
+      const {
+        title,
+        description,
+        deliversOn,
+        mealType,
+        orderStarts,
+        orderEnds,
+        maxOrders,
+        cost,
+      } = req.body;
+      const soldBy = req.user && req.user._id;
+      createMeal({
+        title,
+        description,
+        deliversOn,
+        mealType,
+        orderStarts,
+        orderEnds,
+        maxOrders,
+        cost,
+        soldBy,
+      })
+        .save()
+        .then((meal) => {
+          res.status(201).send(meal);
+        })
+        .catch((err) => {
+          badRequest(req, res, err);
+        });
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+const getAllMealItems = (req, res) => {
+  try {
+    getMeal()
+      .exec()
+      .then((meals) => {
+        res.send(meals);
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -24,16 +66,36 @@ const createMealItem = (req, res) => {
   }
 };
 
-const getAllMealItems = (req, res) => {
+const getMealSoldByMe = (req, res) => {
   try {
-    getMeal(req)
+    const { id: mealId } = req.params;
+    getMealSoldBy(req.user._id, mealId)
       .exec()
-      .then((meals) => {
-        res.send(meals);
+      .then((meal) => {
+        res.send(meal);
       })
       .catch((err) => {
         badRequest(req, res, err);
       });
+  } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+const getAllMealsSoldByMe = (req, res) => {
+  try {
+    if (req.user.isSeller()) {
+      getMealsSoldBy(req.user._id)
+        .exec()
+        .then((meals) => {
+          res.send(meals);
+        })
+        .catch((err) => {
+          badRequest(req, res, err);
+        });
+    } else {
+      res.sendStatus(403);
+    }
   } catch (err) {
     internalServerError(req, res, err);
   }
@@ -117,6 +179,8 @@ module.exports = {
   createMealItem,
   getAllMealItems,
   getMealItem,
+  getAllMealsSoldByMe,
+  getMealSoldByMe,
   getMealsOpenForOrders,
   updateMealItem,
   deleteMealItem,

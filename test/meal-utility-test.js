@@ -7,6 +7,8 @@ const {
   createMealAcceptingOrder,
   createMealOrderClosed,
   createMealOrdersNotOpened,
+  createMealWithSeller,
+  findOrCreateSeller,
 } = require("./create-meal-data");
 
 // global variable
@@ -38,42 +40,39 @@ describe("Meal Utility", () => {
 
   //   get all the meals
   describe("getMeal", () => {
-    it("should get all the meals", async function () {
+    it("should get all the meals", async () => {
       let req = {
         query: {},
       };
-      await utilities.getMeal(req).exec((err, meals) => {
-        expect(Object.keys(meals).length).toBe(1);
-      });
+      const meals = await utilities.getMeal(req).exec();
+      expect(Object.keys(meals).length).toBe(1);
     });
-    it("maxOrders should be 20", async function () {
+    it("maxOrders should be 20", async () => {
       let req = {
         query: {},
       };
-      await utilities.getMeal(req).exec((err, meals) => {
-        expect(meals[0].maxOrders).toBe(20);
-      });
+      const meals = await utilities.getMeal(req).exec();
+      expect(meals[0].maxOrders).toBe(20);
     });
   });
 
   // get meal by id
 
   describe("getMealById", () => {
-    it("title should be meal item 1", async function () {
+    it("title should be meal item 1", async () => {
       let req = {
         params: {
           id: mealID,
         },
       };
-      await utilities.getMealById(req.params.id).exec((err, meal) => {
-        expect(meal.title).toBe("meal item 1");
-      });
+      const meal = await utilities.getMealById(req.params.id).exec();
+      expect(meal.title).toBe("meal item 1");
     });
   });
 
   // create new meal
   describe("createMeal", () => {
-    it("should create a new post", async function () {
+    it("should create a new post", async () => {
       let req = {
         body: {
           title: "meal item 2",
@@ -85,11 +84,10 @@ describe("Meal Utility", () => {
           cost: 20,
         },
       };
-      await utilities.createMeal(req.body).save((err, meal) => {
-        expect(meal.title).toBe("meal item 2");
-      });
+      const meal = await utilities.createMeal(req.body).save();
+      expect(meal.title).toBe("meal item 2");
     });
-    it("should remove whitesapce in the user input data", async function () {
+    it("should remove whitesapce in the user input data", async () => {
       let newMeal = {
         title: "   meal item 2",
         description: "meal item decription",
@@ -99,30 +97,29 @@ describe("Meal Utility", () => {
         maxOrders: 15,
         cost: 20,
       };
-      await utilities.createMeal(newMeal).save((err, meal) => {
-        expect(meal.title).toBe("meal item 2");
-      });
+      const meal = await utilities.createMeal(newMeal).save();
+      expect(meal.title).toBe("meal item 2");
     });
   });
 
   // delete meal with id
   describe("deleteMealById", () => {
-    it("should delete the specific meal with id", async function () {
+    it("should delete the specific meal with id", async () => {
       let req = {
         params: {
           id: mealID,
         },
       };
       await utilities.deleteMealById(req.params.id).exec();
-      await utilities.getMealById(req.params.id).exec((err, meal) => {
-        expect(meal).toBe(null);
-      });
+      const meal = await utilities.getMealById(req.params.id).exec();
+      expect(meal).toBe(null);
     });
   });
 
   // update Meal
   describe("updateMealByID", () => {
-    it("should update the specified meal with id", async function () {
+    it("should update the specified meal with id", async () => {
+      expect.assertions(1);
       let mealUpdates = {
         title: "updated meal",
         description: "meal item decription",
@@ -132,9 +129,9 @@ describe("Meal Utility", () => {
         maxOrders: 15,
         cost: 20,
       };
-      await utilities.updateMealById(mealID, mealUpdates).exec((err, meal) => {
-        expect(meal.title).toBe("updated meal");
-      });
+
+      const meal = await utilities.updateMealById(mealID, mealUpdates).exec();
+      expect(meal.title).toBe("updated meal");
     });
   });
 
@@ -156,6 +153,28 @@ describe("Meal Utility", () => {
     });
   });
 
+  describe("getMealsSoldBy", () => {
+    beforeEach(async () => {
+      await createMealWithSeller();
+    });
+    it("should return all meals sold by a seller", async () => {
+      const seller = await findOrCreateSeller();
+      const meals = await utilities.getMealsSoldBy(seller._id);
+      expect(meals.length).toBe(1);
+    });
+  });
+
+  describe("getMealSoldBy", () => {
+    beforeEach(async () => {
+      const meal = await createMealWithSeller();
+      mealID = meal._id;
+    });
+    it("should return the meal by a seller", async () => {
+      const seller = await findOrCreateSeller();
+      const meal = await utilities.getMealSoldBy(seller._id, mealID);
+      expect(meal._id.toString()).toBe(mealID.toString());
+    });
+  });
   afterEach(async () => {
     await mongoose.connection.db.dropCollection("meals");
   });
