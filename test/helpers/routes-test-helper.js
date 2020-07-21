@@ -44,34 +44,13 @@ const createBuyer = () => {
     );
   });
 };
-const loginAsBuyer = (agent, done) => {
-  // const agent = request.agent(app)
+const loginAsBuyer = async (agent) => {
   const { username, password } = buyerData;
-  agent
-    .post("/login")
-    .send({ username, password })
-    .expect("Content-Type", /json/)
-    .expect(200)
-    .end((err) => {
-      if (err) {
-        return done(err);
-      }
-    });
-  // return agent
+  agent.post("/login").send({ username, password }).expect(200);
 };
-const LoginAsSeller = (agent, done) => {
-  // const agent = request.agent(app)
+const loginAsSeller = async (agent) => {
   const { username, password } = sellerData;
-  agent
-    .post("/login")
-    .send({ username, password })
-    .expect("Content-Type", /json/)
-    .expect(200)
-    .end((err) => {
-      if (err) {
-        return done(err);
-      }
-    });
+  await agent.post("/login").send({ username, password }).expect(200);
 };
 
 module.exports = {
@@ -80,5 +59,5 @@ module.exports = {
   createSeller,
   sellerData,
   loginAsBuyer,
-  LoginAsSeller,
+  loginAsSeller,
 };
