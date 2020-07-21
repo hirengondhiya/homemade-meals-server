@@ -1,75 +1,37 @@
 ### route of the api server
 GET http://localhost:3010/ HTTP/1.1
 
-### Get all meal items
-GET http://localhost:3010/meals/ HTTP/1.1
-
 ### Get meal items open for orders
 GET http://localhost:3010/meals/openfororders HTTP/1.1
 
-### get meal item by id
-GET http://localhost:3010/meals/5f0f9a28036e9a473e082a37 HTTP/1.1
+### Get all meal items created by logged in seller
+GET http://localhost:3010/meals/ HTTP/1.1
 
-### with invalid id
-GET http://localhost:3010/meals/3 HTTP/1.1
 
-### with id that has been deleted
-GET http://localhost:3010/meals/5f0fefe35ae353518e24508f HTTP/1.1
-
-### get meal item of the day -- for home screen
-GET http://localhost:3010/meals/oftheday HTTP/1.1
-
-### create meal item
+### create meal item for logged in seller
 POST http://localhost:3010/meals HTTP/1.1
 content-type: application/json
 
 {
-  "title": "pizzas",
+  "title": "Pizza",
   "description": "Home made",
-  "deliversOn": "2020-07-13T08:08:11+10:00",
+  "deliversOn": "2020-07-21T08:08:11+10:00",
   "mealType": "lunch",
-  "orderStarts": "2020-07-12T10:08:11+10:00",
-  "orderEnds": "2020-07-12T16:08:11+10:00",
+  "orderStarts": "2020-07-18T10:08:11+10:00",
+  "orderEnds": "2020-07-20T16:08:11+10:00",
   "maxOrders": 20,
   "cost": 20
 }
+
+### get meal item by id for seller
+GET http://localhost:3010/meals/5f13a3490d0b9e244a94dd74 HTTP/1.1
 
 ### update meal item by id
-PUT http://localhost:3010/meals/5f0f9a28036e9a473e082a37 HTTP/1.1
+PUT http://localhost:3010/meals/5f13a3490d0b9e244a94dd74 HTTP/1.1
 content-type: application/json
 
 {
   "title": "Burger",
-  "description": "Home made",
-  "deliversOn": "2020-07-13T08:08:11+10:00",
-  "mealType": "lunch",
-  "orderStarts": "2020-07-12T10:08:11+10:00",
-  "orderEnds": "2020-07-12T16:08:11+10:00",
-  "maxOrders": 20,
-  "cost": 20
-}
-
-### update meal item by id that has been deleted
-PUT http://localhost:3010/meals/5f0fefe35ae353518e24508f HTTP/1.1
-content-type: application/json
-
-{
-  "title": "Burger",
-  "description": "Home made",
-  "deliversOn": "2020-07-15",
-  "mealType": "Dinner",
-  "orderStarts": "2020-07-12",
-  "orderEnds": "2020-07-16",
-  "maxOrders": 20,
-  "cost": 20
-}
-
-### update meal item with invalid id
-PUT http://localhost:3010/meals/9 HTTP/1.1
-content-type: application/json
-
-{
-  "title": "Dumpling",
   "description": "Home made",
   "deliversOn": "2020-07-15",
   "mealType": "Dinner",
@@ -80,105 +42,5 @@ content-type: application/json
 }
 
 ### delete meal item by id 
-DELETE  http://localhost:3010/meals/5f0f9a28036e9a473e082a37 HTTP/1.1
-content-type: application/json
-
-### delete meal item by id that has been deleted
-DELETE  http://localhost:3010/meals/5f0fefe35ae353518e24508f HTTP/1.1
-content-type: application/json
-
-### delete meal item with invalid id
-DELETE  http://localhost:3010/meals/5 HTTP/1.1
-content-type: application/json
-
-
-### Tests for staging
-### route of the api server
-GET https://homemade-meals-server-dev.herokuapp.com/ HTTP/1.1
-
-### Get all meal items
-GET https://homemade-meals-server-dev.herokuapp.com/meals/ HTTP/1.1
-
-### get meal item by id
-GET https://homemade-meals-server-dev.herokuapp.com/meals/5f11437de481430004f67bff HTTP/1.1
-
-### with invalid id
-GET https://homemade-meals-server-dev.herokuapp.com/meals/3 HTTP/1.1
-
-### with id that has been deleted
-GET https://homemade-meals-server-dev.herokuapp.com/meals/5f0fefe35ae353518e24508f HTTP/1.1
-
-### get meal item of the day -- for home screen
-GET https://homemade-meals-server-dev.herokuapp.com/meals/oftheday HTTP/1.1
-
-### create meal item
-POST https://homemade-meals-server-dev.herokuapp.com/meals HTTP/1.1
-content-type: application/json
-
-{
-  "title": "pizzas",
-  "description": "Home made",
-  "deliversOn": "2020-07-13T08:08:11+10:00",
-  "mealType": "lunch",
-  "orderStarts": "2020-07-12T10:08:11+10:00",
-  "orderEnds": "2020-07-12T16:08:11+10:00",
-  "maxOrders": 20,
-  "cost": 20
-}
-
-### update meal item by id
-PUT https://homemade-meals-server-dev.herokuapp.com/meals/5f11437de481430004f67bff HTTP/1.1
-content-type: application/json
-
-{
-  "title": "Burger",
-  "description": "Home made",
-  "deliversOn": "2020-07-13T08:08:11+10:00",
-  "mealType": "lunch",
-  "orderStarts": "2020-07-12T10:08:11+10:00",
-  "orderEnds": "2020-07-12T16:08:11+10:00",
-  "maxOrders": 20,
-  "cost": 20
-}
-
-### update meal item by id that has been deleted
-PUT https://homemade-meals-server-dev.herokuapp.com/meals/5f0fefe35ae353518e24508f HTTP/1.1
-content-type: application/json
-
-{
-  "title": "Burger",
-  "description": "Home made",
-  "deliversOn": "2020-07-15",
-  "mealType": "Dinner",
-  "orderStarts": "2020-07-12",
-  "orderEnds": "2020-07-16",
-  "maxOrders": 20,
-  "cost": 20
-}
-
-### update meal item with invalid id
-PUT https://homemade-meals-server-dev.herokuapp.com/meals/9 HTTP/1.1
-content-type: application/json
-
-{
-  "title": "Dumpling",
-  "description": "Home made",
-  "deliversOn": "2020-07-15",
-  "mealType": "Dinner",
-  "orderStarts": "2020-07-12",
-  "orderEnds": "2020-07-16",
-  "maxOrders": 20,
-  "cost": 20
-}
-
-### delete meal item by id 
-DELETE  https://homemade-meals-server-dev.herokuapp.com/meals/5f11437de481430004f67bff HTTP/1.1
-content-type: application/json
-
-### delete meal item by id that has been deleted
-DELETE  https://homemade-meals-server-dev.herokuapp.com/meals/5f0fefe35ae353518e24508f HTTP/1.1
-content-type: application/json
-
-### delete meal item with invalid id
-DELETE  https://homemade-meals-server-dev.herokuapp.com/meals/5 HTTP/1.1
+DELETE  http://localhost:3010/meals/5f12f7a2b82be24bb5938e45 HTTP/1.1
 content-type: application/json
