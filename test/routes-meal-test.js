@@ -132,4 +132,53 @@ describe("Meal Routes", () => {
       });
     });
   });
+  describe("POST /meals", () => {
+    describe("for seller", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(sellerData));
+      });
+      it("should create meal", async () => {
+        const { body: meal } = await agent
+          .post("/meals")
+          .set("content-type", "application/json")
+          .send(mealData)
+          .expect(201)
+          .expect("Content-Type", /json/);
+
+        const mealProps = Object.keys(mealData);
+        mealProps.forEach((prop) => expect(meal).toHaveProperty(prop));
+      });
+      it("should have property soldBy with value of seller details", async () => {
+        const { body: meal } = await agent
+          .post("/meals")
+          .set("content-type", "application/json")
+          .send(mealData)
+          .expect(201)
+          .expect("Content-Type", /json/);
+
+        expect(meal).toHaveProperty("soldBy.username", sellerData.username);
+      });
+    });
+    describe("for buyer", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(buyerData));
+      });
+      it("should return 403", async () => {
+        await agent
+          .post("/meals")
+          .set("content-type", "application/json")
+          .send(mealData)
+          .expect(403);
+      });
+    });
+    describe("for unauthenticated user", () => {
+      it("should return 403", async () => {
+        await agent
+          .post("/meals")
+          .set("content-type", "application/json")
+          .send(mealData)
+          .expect(403);
+      });
+    });
+  });
 });
