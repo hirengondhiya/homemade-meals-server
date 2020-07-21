@@ -11,6 +11,7 @@ const {
   buyerData,
   sellerData,
   login,
+  getCred,
 } = require("./helpers/routes-test-helper");
 const {
   createMealAcceptingOrder,
@@ -22,7 +23,6 @@ const {
   createMealWithSeller,
   mealData,
 } = require("./helpers/meal-data-helper");
-const { describe } = require("mocha");
 
 describe("Meal Routes", () => {
   after(async () => {
@@ -74,6 +74,62 @@ describe("Meal Routes", () => {
       Object.keys(mealData).forEach((prop) =>
         expect(body[0]).toHaveProperty(prop)
       );
+    });
+  });
+  describe("GET /meals", () => {
+    describe("for seller1", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(sellerData));
+      });
+      it("should return all meals sold by seller1", async () => {
+        const { body: meals } = await agent
+          .get("/meals")
+          .expect(200)
+          .expect("Content-Type", /json/);
+
+        const mealProps = Object.keys(mealData);
+        meals.forEach((meal) => {
+          mealProps.forEach((prop) => expect(meal).toHaveProperty(prop));
+          expect(meal).toHaveProperty("soldBy.username", sellerData.username);
+        });
+      });
+      it("meals should have orders data", async () => {
+        const { body: meals } = await agent
+          .get("/meals")
+          .expect(200)
+          .expect("Content-Type", /json/);
+
+        meals.forEach((meal) => {
+          expect(meal).toHaveProperty("orders");
+        });
+      });
+    });
+    describe("for seller2", () => {
+      beforeEach(async () => {
+        const seller2Data = { ...sellerData, username: "seller2" };
+        await createSeller(seller2Data);
+        await login(agent, getCred(seller2Data));
+      });
+      it("should return empty meals array", async () => {
+        const { body: meals } = await agent
+          .get("/meals")
+          .expect(200)
+          .expect("Content-Type", /json/);
+        expect(meals).toHaveLength(0);
+      });
+    });
+    describe("for buyer", () => {
+      beforeEach(async () => {
+        await login(agent, getCred(buyerData));
+      });
+      it("should return 403", async () => {
+        await agent.get("/meals").expect(403);
+      });
+    });
+    describe("for unauthenticated user", () => {
+      it("should return 403", async () => {
+        await agent.get("/meals").expect(403);
+      });
     });
   });
 });
