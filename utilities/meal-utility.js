@@ -48,7 +48,13 @@ const getMealsAccpetingOrders = async () => {
 
 const updateMealById = function (id, updatedMeal) {
   Object.keys(updatedMeal).forEach(
-    (key) => updatedMeal[key] === undefined && delete updatedMeal[key]
+    (key) =>
+      (updatedMeal[key] === undefined ||
+        // do not allow _id, soldBy, orders to be updated while updating a meal
+        key === "_id" ||
+        key === "soldBy" ||
+        key === "orders") &&
+      delete updatedMeal[key]
   );
   return Meal.findByIdAndUpdate(
     id,
