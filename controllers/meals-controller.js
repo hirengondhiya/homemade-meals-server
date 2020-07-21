@@ -38,7 +38,7 @@ const createMealItem = (req, res) => {
       })
         .save()
         .then((meal) => {
-          res.status(201).send(meal);
+          res.status(201).json(meal);
         })
         .catch((err) => {
           badRequest(req, res, err);
@@ -56,7 +56,7 @@ const getAllMealItems = (req, res) => {
     getMeal()
       .exec()
       .then((meals) => {
-        res.send(meals);
+        res.json(meals);
       })
       .catch((err) => {
         badRequest(req, res, err);
@@ -124,7 +124,7 @@ const getMealsOpenForOrders = (req, res) => {
   try {
     getMealsAccpetingOrders()
       .then((meals) => {
-        res.send(meals);
+        res.json(meals);
       })
       .catch((err) => {
         badRequest(req, res, err);
