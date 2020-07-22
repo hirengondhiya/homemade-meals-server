@@ -11,6 +11,10 @@ const mealRoutes = require("./routes/meal-routes");
 const orderRoutes = require("./routes/order-routes");
 
 const port = process.env.PORT || 3010;
+const allowList = [
+  "http://localhost:3000",
+  "https://homemade-meals.netlify.app/",
+];
 
 const app = express();
 
@@ -19,7 +23,18 @@ connectDb().then(() => {
   // console.log('connected to db')
 });
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: function (origin, callback) {
+      // Check each url in allowList and see if it includes the origin (instead of matching exact string)
+      const allowListIndex = allowList.findIndex((url) => url.includes(origin));
+      // console.log("found allowListIndex", allowListIndex)
+      callback(null, allowListIndex > -1);
+    },
+  })
+);
+
 app.use(bodyParser.json());
 
 app.use(
