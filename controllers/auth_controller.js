@@ -65,4 +65,20 @@ const logout = function (req, res) {
   }
 };
 
-module.exports = { register, login: loginUser, logout };
+const activeUserSession = (req, res) => {
+  // console.log("in activeUserSession sessionID", req.sessionID)
+  // console.log("in activeUserSession user", req.user)
+  if (req.sessionID && req.user) {
+    res.status(200);
+    res.send(req.user);
+  } else {
+    res.sendStatus(404);
+  }
+};
+
+module.exports = {
+  register,
+  login: loginUser,
+  logout,
+  activeUserSession,
+};
