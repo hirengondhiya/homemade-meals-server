@@ -9,7 +9,7 @@ function loginUser(req, res) {
     // authenticate(req, res, function (err, result) {
     authenticate(req, res, function (err) {
       if (err) {
-        return badRequest(req, res, err);
+        return;
       }
       // See what we have
       // console.log("authenticated", req.user.username);
