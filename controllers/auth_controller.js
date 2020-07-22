@@ -37,7 +37,13 @@ const register = function (req, res) {
       password,
       function (err) {
         if (err) {
-          return badRequest(req, res, err);
+          if (err.name === "UserExistsError") {
+            res.status(409).json({
+              errMsg: err.message,
+            });
+          } else {
+            badRequest(req, res, err);
+          }
         }
         loginUser(req, res);
       }
