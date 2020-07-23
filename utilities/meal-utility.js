@@ -1,4 +1,5 @@
 const Meal = require("../models/meal");
+const moment = require("moment");
 
 // create new meal
 const createMeal = function (newMeal) {
@@ -14,6 +15,24 @@ const getMealById = function (id) {
 // return query
 const getMeal = function () {
   return Meal.find();
+};
+
+// meals to deliver
+const getMealsToDeliver = async (sellerId) => {
+  const now = new Date().toISOString();
+  const nowPlus1 = moment().add(1, "days").toISOString();
+  const meals = await Meal.find({
+    soldBy: sellerId.toString(),
+    orderEnds: {
+      $lt: now,
+    },
+    deliversOn: {
+      $gte: now,
+      $lt: nowPlus1,
+    },
+  }).exec();
+
+  return meals;
 };
 
 // get
@@ -74,6 +93,7 @@ module.exports = {
   createMeal,
   getMealById,
   getMeal,
+  getMealsToDeliver,
   getMealsAccpetingOrders,
   updateMealById,
   deleteMealById,

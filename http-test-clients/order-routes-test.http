@@ -13,6 +13,18 @@ content-type: application/json
   "totalAmt": 3000
 }
 
+### to check the getMeaToDeliver
+POST http://localhost:3010/orders HTTP/1.1
+content-type: application/json
+
+{
+  "mealId": "5f190853a76cceca4281a022",
+  "quantity": 1,
+  "pickupAt": "2020-07-23T18:08:11+10:00",
+  "totalAmt": 20
+}
+
+
 ###  get order by id
 ### replace {order_id} with object id of order
 GET http://localhost:3010/orders/{order_id}/ HTTP/1.1

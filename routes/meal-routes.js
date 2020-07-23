@@ -3,6 +3,7 @@ const {
   createMealItem,
   // getAllMealItems,
   // getMealItem,
+  findMealsToDelivery,
   getMealsOpenForOrders,
   getAllMealsSoldByMe,
   getMealSoldByMe,
@@ -25,9 +26,10 @@ mealRoutes.get("/openfororders", getMealsOpenForOrders);
 mealRoutes.use(userAuthenticated);
 mealRoutes.get("/", getAllMealsSoldByMe);
 mealRoutes.post("/", createMealItem);
+mealRoutes.get("/deliverytoday", findMealsToDelivery);
 
 mealRoutes.use("/:id", verifyMealSeller);
-
+// meals to deliver
 mealRoutes.get("/:id", getMealSoldByMe);
 mealRoutes.put("/:id", updateMealItem);
 mealRoutes.delete("/:id", deleteMealItem);

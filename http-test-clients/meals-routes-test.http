@@ -23,6 +23,21 @@ content-type: application/json
   "cost": 20
 }
 
+### create meal item for logged in seller for getMealForDelivery
+POST http://localhost:3010/meals HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Momoss",
+  "description": "Home made",
+  "deliversOn": "2020-07-23T16:08:11+10:00",
+  "mealType": "lunch",
+  "orderStarts": "2020-07-22T08:08:11+10:00",
+  "orderEnds": "2020-07-22T11:08:11+10:00",
+  "maxOrders": 20,
+  "cost": 20
+}
+
 ### get meal item by id for seller
 GET http://localhost:3010/meals/5f13a3490d0b9e244a94dd74 HTTP/1.1
 
@@ -43,4 +58,7 @@ content-type: application/json
 
 ### delete meal item by id 
 DELETE  http://localhost:3010/meals/5f12f7a2b82be24bb5938e45 HTTP/1.1
-content-type: application/json
+
+
+### execute meals for deliver today
+GET http://localhost:3010/meals/deliverytoday HTTP/1.1
