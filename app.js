@@ -14,6 +14,7 @@ const port = process.env.PORT || 3010;
 const allowList = [
   "http://localhost:3000",
   "https://homemade-meals.netlify.app/",
+  "https://homemade-meals-dev.netlify.app/",
 ];
 
 const app = express();
