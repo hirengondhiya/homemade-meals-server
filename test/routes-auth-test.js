@@ -99,7 +99,7 @@ describe("Authentication Routes", () => {
         .post("/register")
         .send(buyerData)
         .expect("Content-Type", /json/)
-        .expect(400);
+        .expect(409);
     });
   });
 });

@@ -1,5 +1,7 @@
-### get meal item of the day -- for home screen
+### logout current user session
 GET http://localhost:3010/logout HTTP/1.1
+### get current logged in user
+GET http://localhost:3010/user HTTP/1.1
 
 ### Register Store Admin
 POST http://localhost:3010/register HTTP/1.1
@@ -32,6 +34,8 @@ content-type: application/json
   "username": "hungry5",
   "password":"feedme1"
 }
+
+
 
 ### Login Customer
 POST http://localhost:3010/login HTTP/1.1

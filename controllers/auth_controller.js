@@ -9,7 +9,7 @@ function loginUser(req, res) {
     // authenticate(req, res, function (err, result) {
     authenticate(req, res, function (err) {
       if (err) {
-        return badRequest(req, res, err);
+        return;
       }
       // See what we have
       // console.log("authenticated", req.user.username);
@@ -37,7 +37,13 @@ const register = function (req, res) {
       password,
       function (err) {
         if (err) {
-          return badRequest(req, res, err);
+          if (err.name === "UserExistsError") {
+            res.status(409).json({
+              errMsg: err.message,
+            });
+          } else {
+            badRequest(req, res, err);
+          }
         }
         loginUser(req, res);
       }
@@ -59,4 +65,20 @@ const logout = function (req, res) {
   }
 };
 
-module.exports = { register, login: loginUser, logout };
+const activeUserSession = (req, res) => {
+  // console.log("in activeUserSession sessionID", req.sessionID)
+  // console.log("in activeUserSession user", req.user)
+  if (req.sessionID && req.user) {
+    res.status(200);
+    res.send(req.user);
+  } else {
+    res.sendStatus(404);
+  }
+};
+
+module.exports = {
+  register,
+  login: loginUser,
+  logout,
+  activeUserSession,
+};

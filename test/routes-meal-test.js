@@ -62,7 +62,7 @@ describe("Meal Routes", () => {
         expect(body[0]).toHaveProperty(prop)
       );
     });
-    it("should not reveal orders for meals open fo rorders", async () => {
+    it("should not reveal orders for meals open for rorders", async () => {
       const { body } = await api
         .get("/meals/openfororders")
         .expect(200)
