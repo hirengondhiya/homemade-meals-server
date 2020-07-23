@@ -8,7 +8,7 @@ POST http://localhost:3010/register HTTP/1.1
 content-type: application/json
 
 {
-  "username": "hungry",
+  "username": "hungry5",
   "email":"hungry@email.com",
   "password":"feedme1",
   "role": "seller"
@@ -20,7 +20,7 @@ POST http://localhost:3010/register HTTP/1.1
 content-type: application/json
 
 {
-  "username": "customer",
+  "username": "customer5",
   "email":"customer@email.com",
   "password":"somenice-pw",
   "role": "buyer"
@@ -31,7 +31,7 @@ POST http://localhost:3010/login HTTP/1.1
 content-type: application/json
 
 {
-  "username": "hungry",
+  "username": "hungry5",
   "password":"feedme1"
 }
 
@@ -42,6 +42,6 @@ POST http://localhost:3010/login HTTP/1.1
 content-type: application/json
 
 {
-  "username": "customer1",
+  "username": "customer5",
   "password":"somenice-pw"
 }

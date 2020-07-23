@@ -23,6 +23,8 @@ content-type: application/json
   "cost": 20
 }
 
+
+
 ### get meal item by id for seller
 GET http://localhost:3010/meals/5f13a3490d0b9e244a94dd74 HTTP/1.1
 
@@ -43,4 +45,7 @@ content-type: application/json
 
 ### delete meal item by id 
 DELETE  http://localhost:3010/meals/5f12f7a2b82be24bb5938e45 HTTP/1.1
-content-type: application/json
+
+
+### get meals for delivery
+GET http://localhost:3010/meals/deliverytoday HTTP/1.1

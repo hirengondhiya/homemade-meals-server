@@ -4,6 +4,7 @@ const {
   createMeal,
   getMealById,
   getMeal,
+  getMealsToDeliver,
   getMealsAccpetingOrders,
   getMealSoldBy,
   getMealsSoldBy,
@@ -62,6 +63,23 @@ const getAllMealItems = (req, res) => {
         badRequest(req, res, err);
       });
   } catch (err) {
+    internalServerError(req, res, err);
+  }
+};
+
+// meals to deliver
+const findMealsToDelivery = (req, res) => {
+  console.log(req.user._id);
+  try {
+    getMealsToDeliver(req.user._id)
+      .then((meals) => {
+        res.json(meals);
+      })
+      .catch((err) => {
+        badRequest(req, res, err);
+      });
+  } catch (err) {
+    console.log(err);
     internalServerError(req, res, err);
   }
 };
@@ -178,6 +196,7 @@ module.exports = {
   createMealItem,
   getAllMealItems,
   getMealItem,
+  findMealsToDelivery,
   getAllMealsSoldByMe,
   getMealSoldByMe,
   getMealsOpenForOrders,
