@@ -46,9 +46,8 @@ describe("Order Routes", () => {
           .get("/orders")
           .expect(200)
           .expect("Content-Type", /json/);
-        // console.log(mealsWithOrders)
         const orderProps = Object.keys(orderData);
-        mealsWithOrders.forEach(({ order }) => {
+        mealsWithOrders.forEach(({ orders: [order] }) => {
           orderProps.forEach((prop) => expect(order).toHaveProperty(prop));
           expect(order).toHaveProperty("customer", buyer._id.toString());
         });
