@@ -1,24 +1,36 @@
 const Meal = require("../models/meal");
+const mongoose = require("mongoose");
 
 // creates order given mealId and order details
 // order object must have pickupAt (date-time string) and quantity(natural number) fields
 const createOrder = async (mealId, order) => {
+  // generate object id to make sure we return only the order which is generated
+  const _id = new mongoose.Types.ObjectId();
   const { pickupAt, quantity, totalAmt, customer } = order;
-  const mealWithAllOrders = await Meal.findByIdAndUpdate(
+  const mealWithNewOrder = await Meal.findByIdAndUpdate(
     mealId,
     {
       $push: {
-        orders: { pickupAt, quantity, totalAmt, customer },
+        orders: { _id, pickupAt, quantity, totalAmt, customer },
       },
     },
     {
+      select: {
+        title: 1,
+        mealType: 1,
+        description: 1,
+        deliversOn: 1,
+        cost: 1,
+        orders: {
+          $elemMatch: {
+            _id: _id,
+          },
+        },
+      },
       new: true,
       runValidators: true,
     }
   ).exec();
-  const mealWithNewOrder = await getOrderById(
-    mealWithAllOrders.orders[mealWithAllOrders.orders.length - 1]
-  );
 
   return mealWithNewOrder;
 };
@@ -31,6 +43,11 @@ const getOrderById = async (orderId) => {
       "orders._id": orderId,
     },
     {
+      title: 1,
+      mealType: 1,
+      description: 1,
+      deliversOn: 1,
+      cost: 1,
       orders: {
         $elemMatch: {
           _id: orderId,
@@ -78,7 +95,7 @@ const getOrdersPlacedByCustomer = async (customerId) => {
             },
           },
         },
-        order: "$orders",
+        orders: ["$orders"],
       },
     },
   ]);
@@ -115,6 +132,11 @@ const updateOrderById = async (orderId, orderUpdates) => {
     updates,
     {
       select: {
+        title: 1,
+        mealType: 1,
+        description: 1,
+        deliversOn: 1,
+        cost: 1,
         orders: {
           $elemMatch: {
             _id: orderId,
@@ -140,6 +162,11 @@ const cancelOrderById = async (orderId) => {
     },
     {
       select: {
+        title: 1,
+        mealType: 1,
+        description: 1,
+        deliversOn: 1,
+        cost: 1,
         orders: {
           $elemMatch: {
             _id: orderId,
