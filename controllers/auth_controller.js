@@ -17,8 +17,8 @@ function loginUser(req, res) {
       // console.log("req.user:", req.user);
       // console.log(result);
       // send back the user
-      const { username, email, role } = req.user;
-      res.json({ username, email, role });
+      const { username, email, role, _id } = req.user;
+      res.json({ username, email, role, _id });
     });
   } catch (err) {
     internalServerError(req, res, err);

@@ -1,0 +1,192 @@
+25-07-20-18-13
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha --exit
+
+
+
+  Authentication Routes
+    GET /logout
+      ✓ should logout buyer (274ms)
+      ✓ should logout seller (238ms)
+    POST /login
+      ✓ should login buyer (235ms)
+      ✓ should login seller (231ms)
+      ✓ should not accept invalid password (231ms)
+    POST /register
+      ✓ should accept seller registrtion (520ms)
+      ✓ should accept buyer registration (522ms)
+      ✓ should not accept double registration (291ms)
+
+  Meal Routes
+    GET /meals/openfororders
+      ✓ should return meals open for orders - unauthenticated user
+      ✓ should not reveal orders for meals open for rorders
+      ✓ should return meals open for orders - authenticated user (289ms)
+    GET /meals
+      for seller1
+        ✓ should return all meals sold by seller1
+        ✓ meals should have orders data
+      for seller2
+        ✓ should return empty meals array
+      for buyer
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    POST /meals
+      for seller
+        ✓ should create meal
+        ✓ should have property soldBy with value of seller details
+      for buyer
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    GET /meals/:id
+      for seller1
+        ✓ should return meal by id
+        ✓ meal should have order data
+        ✓ should return 404 when meal not found
+        ✓ should return 400 for integer meal id
+      for seller2
+        ✓ should return 403 when meal is not created by logged in seller
+      for buyer
+        ✓ should return 403 when logged in user is not a seller
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    PUT /meals/:id
+      for seller1
+        ✓ should update meal by id
+        ✓ should return 404 when meal not found
+        ✓ should return 400 for integer meal id
+      for seller2
+        ✓ should return 403 when updating a meal is not created by logged in seller
+      for buyer
+        ✓ should return 403 when logged in user is not a seller
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    DELETE /meals/:id
+      for seller1
+        ✓ should delete meal by id
+        ✓ should return 404 when meal not found
+        ✓ should return 400 for integer meal id
+      for seller2
+        ✓ should return 403 when updating a meal is not created by logged in seller
+      for buyer
+        ✓ should return 403 when logged in user is not a seller
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+
+  Order Routes
+    GET /orders
+      for buyer1
+        ✓ should return all orders placed by buyer1
+        ✓ should return meal data associated with the order
+      for buyer2
+        ✓ should return empty array
+      for seller
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    POST /orders
+      for buyer
+        ✓ should create order
+        ✓ should create order for the provided meal id
+      for seller
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    GET /orders/:id
+      for buyer1
+        ✓ should return order by id
+        ✓ should have meal Id
+        ✓ should return 404 when order not found
+        ✓ should return 400 when provided order id can not be converted to object id
+      for buyer2
+        ✓ should return 403 when order is not created by logged in buyer
+      for seller
+        ✓ should return 403 when logged in user is not a buyer
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    PUT /orders/:id
+      for buyer1
+        ✓ should update order by id
+        ✓ should return 404 when order not found
+        ✓ should return 400 for order id that is not valid object id
+      for buyer2
+        ✓ should return 403 when updating a order that is not created by logged in buyer
+      for seller
+        ✓ should return 403 when logged in user is not a buyer
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    DELETE /orders/:id
+      for buyer1
+        ✓ should cancel order by id
+        ✓ should return 404 when order not found
+        ✓ should return 400 for order id that can not be converted to valid object id
+      for buyer2
+        ✓ should return 403 when updating an order that is not created by logged in buyer
+      for seller
+        ✓ should return 403 when logged in user is not a buyer
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+
+  Root Routes
+    GET /
+      ✓ responds with 200
+    GET /random
+      ✓ responds with 404
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      ✓ should return no meals when there is no meal accepting orders
+      ✓ should return meal accepting orders (61ms)
+    getMealsSoldBy
+      ✓ should return all meals sold by a seller
+    getMealSoldBy
+      ✓ should return the meal by a seller
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+    getOrdersPlacedByCustomer
+      ✓ should return all orders placed by a customer
+
+
+  98 passing (1m)
+
+END-------------------------
+
+
