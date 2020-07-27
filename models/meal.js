@@ -73,6 +73,9 @@ Meal.virtual("dueSoon").get(function () {
   const deliversOnPlus3 = moment(this.deliversOn).add(3, "hours").toDate();
   return this.orderEnds < now && now < deliversOnPlus3;
 });
+Meal.virtual("available").get(function () {
+  return this.maxOrders - this.orderCount;
+});
 Meal.plugin(require("mongoose-autopopulate"));
 
 Meal.methods.isSoldBy = function (userId) {
