@@ -47,6 +47,10 @@ const Meal = new Schema(
       type: Number,
       required: true,
     },
+    orderCount: {
+      type: Number,
+      default: 0,
+    },
     soldBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
