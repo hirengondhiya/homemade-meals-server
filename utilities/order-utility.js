@@ -160,6 +160,7 @@ const cancelOrderById = async (orderId) => {
     },
     {
       "orders.$.cancelAt": new Date().toISOString(),
+      $inc: { orderCount: -1 },
     },
     {
       select: {
