@@ -55,6 +55,7 @@ const getMealsAccpetingOrders = async () => {
   const now = new Date().toISOString();
   // console.log(now)
   const meals = await Meal.find({
+    $expr: { $lt: ["$orderCount", "$maxOrders"] },
     orderStarts: {
       $lte: now,
     },
