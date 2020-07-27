@@ -10,6 +10,7 @@ const createOrder = async (mealId, order) => {
   const mealWithNewOrder = await Meal.findByIdAndUpdate(
     mealId,
     {
+      $inc: { orderCount: 1 },
       $push: {
         orders: { _id, pickupAt, quantity, totalAmt, customer },
       },
