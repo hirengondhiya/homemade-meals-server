@@ -47,6 +47,10 @@ const Meal = new Schema(
       type: Number,
       required: true,
     },
+    orderCount: {
+      type: Number,
+      default: 0,
+    },
     soldBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -68,6 +72,9 @@ Meal.virtual("dueSoon").get(function () {
   const now = new Date();
   const deliversOnPlus3 = moment(this.deliversOn).add(3, "hours").toDate();
   return this.orderEnds < now && now < deliversOnPlus3;
+});
+Meal.virtual("available").get(function () {
+  return this.maxOrders - this.orderCount;
 });
 Meal.plugin(require("mongoose-autopopulate"));
 
