@@ -23,7 +23,7 @@ Server: https://homemade-meals-server.herokuapp.com/
     - [1.2.3. Order Management](#123-order-management)
     - [1.2.4. Menu Management](#124-menu-management)
   - [1.3. Target audience](#13-target-audience)
-  - [1.4. Tech stack GENERAL](#14-tech-stackgeneral)
+  - [1.4. Tech stack GENERAL](#14-tech-stack-general)
 - [2. Dataflow Diagram](#2-dataflow-diagram)
 - [3. Application Architecture Diagram](#3-application-architecture-diagram)
 - [4. User Stories](#4-user-stories)
@@ -243,7 +243,6 @@ Below screen prints shows state of tasks in various stages of the project.
 
 1 **Trello Image (03-07-2020)**
 ![Trello Image 1](docs/trello/Trello1.png)
-
 2
 ![Trello Image 2](docs/trello/Trello2.png)
 3
