@@ -1,0 +1,213 @@
+15-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0edd03c5c9514c04c04929
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    Create Order
+      ✓ should add an order to given menu item
+      1) should not accept the order with quantity 0
+
+
+  3 passing (453ms)
+  1 failing
+
+  1) Order Utility
+       Create Order
+         should not accept the order with quantity 0:
+     Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 2
+      at Context.<anonymous> (test/order_utility_test.js:68:29)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+
+
+
+disconnected test db
+END-------------------------
+
+
+15-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0ee33540a75a4e5cde5554
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    Create Order
+      ✓ should add an order to given menu item
+{ pickupAt: 2020-07-15T11:06:29.618Z, total: 1500 }
+      1) should not accept the order with quantity 0
+
+
+  3 passing (478ms)
+  1 failing
+
+  1) Order Utility
+       Create Order
+         should not accept the order with quantity 0:
+     Error: Cannot create order for provided menuId
+      at createOrder (utilities/order_utility.js:19:11)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+      at async Context.<anonymous> (test/order_utility_test.js:68:31)
+
+
+
+disconnected test db
+END-------------------------
+
+
+15-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0ee3fc0748264eef56dce7
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    Create Order
+      ✓ should add an order to given menu item
+{ pickupAt: 2020-07-15T11:09:48.297Z, total: 1500 }
+undefined
+      1) should not accept the order with quantity 0
+
+
+  3 passing (436ms)
+  1 failing
+
+  1) Order Utility
+       Create Order
+         should not accept the order with quantity 0:
+     Error: Cannot create order for provided menuId
+      at createOrder (utilities/order_utility.js:20:11)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+      at async Context.<anonymous> (test/order_utility_test.js:68:31)
+
+
+
+disconnected test db
+END-------------------------
+
+
+15-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0ee415047dda4f31b41c3b
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    Create Order
+      ✓ should add an order to given menu item
+{ pickupAt: 2020-07-15T11:10:13.565Z, total: 1500 }
+Error: Validation failed: quantity: Path `quantity` is required.
+    at ValidationError.inspect (/Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/node_modules/mongoose/lib/error/validation.js:48:26)
+    at formatValue (internal/util/inspect.js:723:31)
+    at inspect (internal/util/inspect.js:289:10)
+    at formatWithOptionsInternal (internal/util/inspect.js:1918:40)
+    at formatWithOptions (internal/util/inspect.js:1802:10)
+    at Object.Console.<computed> (internal/console/constructor.js:304:10)
+    at Object.log (internal/console/constructor.js:314:61)
+    at createOrder (/Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/utilities/order_utility.js:19:13)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Context.<anonymous> (/Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/test/order_utility_test.js:68:31) {
+  errors: {
+    quantity: ValidatorError: Path `quantity` is required.
+        at validate (/Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/node_modules/mongoose/lib/schematype.js:1210:13)
+        at /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/node_modules/mongoose/lib/schematype.js:1193:7
+        at Array.forEach (<anonymous>)
+        at SchemaNumber.SchemaType.doValidate (/Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/node_modules/mongoose/lib/schematype.js:1138:14)
+        at /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server/node_modules/mongoose/lib/document.js:2388:18
+        at processTicksAndRejections (internal/process/task_queues.js:79:11) {
+      properties: [Object],
+      kind: 'required',
+      path: 'quantity',
+      value: undefined,
+      reason: undefined,
+      [Symbol(mongoose:validatorError)]: true
+    }
+  },
+  _message: 'Validation failed',
+  path: 'orders'
+}
+      1) should not accept the order with quantity 0
+
+
+  3 passing (449ms)
+  1 failing
+
+  1) Order Utility
+       Create Order
+         should not accept the order with quantity 0:
+     Error: Cannot create order for provided menuId
+      at createOrder (utilities/order_utility.js:20:11)
+      at processTicksAndRejections (internal/process/task_queues.js:97:5)
+      at async Context.<anonymous> (test/order_utility_test.js:68:31)
+
+
+
+disconnected test db
+END-------------------------
+
+
+15-07-20
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha
+
+
+
+  Menu Utility
+5f0eed55ebd2b4570a23c9a3
+    ✓ should pass empty test
+
+  Order Utility
+disconnected test db
+    ✓ should pass empty test
+    Create Order
+      ✓ should add an order to given menu item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should not accept the order without total value 
+
+
+  7 passing (688ms)
+
+disconnected test db
+END-------------------------
+
+

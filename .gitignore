@@ -1,6 +1,10 @@
 # Logs
 logs
 *.log
+
+# do not ignore testResult logs
+!testResults/*.log
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -114,3 +118,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# environment
+*.env
+
+# visual studio code
+.vscode

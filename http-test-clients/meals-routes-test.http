@@ -1,0 +1,51 @@
+### route of the api server
+GET http://localhost:3010/ HTTP/1.1
+
+### Get meal items open for orders
+GET http://localhost:3010/meals/openfororders HTTP/1.1
+
+### Get all meal items created by logged in seller
+GET http://localhost:3010/meals/ HTTP/1.1
+
+
+### create meal item for logged in seller
+POST http://localhost:3010/meals HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Pizza",
+  "description": "Home made",
+  "deliversOn": "2020-07-21T08:08:11+10:00",
+  "mealType": "lunch",
+  "orderStarts": "2020-07-18T10:08:11+10:00",
+  "orderEnds": "2020-07-20T16:08:11+10:00",
+  "maxOrders": 20,
+  "cost": 20
+}
+
+
+
+### get meal item by id for seller
+GET http://localhost:3010/meals/5f13a3490d0b9e244a94dd74 HTTP/1.1
+
+### update meal item by id
+PUT http://localhost:3010/meals/5f13a3490d0b9e244a94dd74 HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Burger",
+  "description": "Home made",
+  "deliversOn": "2020-07-15",
+  "mealType": "Dinner",
+  "orderStarts": "2020-07-12",
+  "orderEnds": "2020-07-16",
+  "maxOrders": 20,
+  "cost": 20
+}
+
+### delete meal item by id 
+DELETE  http://localhost:3010/meals/5f12f7a2b82be24bb5938e45 HTTP/1.1
+
+
+### get meals for delivery
+GET http://localhost:3010/meals/deliverytoday HTTP/1.1

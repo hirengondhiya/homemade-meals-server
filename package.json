@@ -6,31 +6,46 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "mocha"
+    "test": "mocha --exit",
+    "lint": "eslint ./ --fix --ignore-path .gitignore"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "1.19.0",
+    "connect-mongo": "3.2.0",
     "cors": "2.8.5",
     "express": "4.17.1",
-    "mongoose": "5.9.23"
+    "express-session": "1.17.1",
+    "moment": "2.27.0",
+    "mongoose": "5.9.23",
+    "mongoose-autopopulate": "0.12.2",
+    "passport": "0.4.1",
+    "passport-local": "1.0.0",
+    "passport-local-mongoose": "6.0.1"
   },
   "engines": {
     "node": "10.x"
   },
   "devDependencies": {
+    "eslint": "7.4.0",
+    "eslint-config-prettier": "6.11.0",
     "expect": "26.1.0",
     "husky": "4.2.5",
+    "lint-staged": "10.2.11",
     "mocha": "8.0.1",
     "nodemon": "2.0.4",
     "prettier": "2.0.5",
-    "pretty-quick": "2.0.1"
+    "supertest": "4.0.2"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

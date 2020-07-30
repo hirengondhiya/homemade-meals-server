@@ -1,0 +1,36 @@
+### Get all orders placed by logged in buyer
+GET http://localhost:3010/orders HTTP/1.1
+
+### create order for meal
+### replace {meal_id} with object id of meal
+POST http://localhost:3010/orders HTTP/1.1
+content-type: application/json
+
+{
+  "mealId": "5f130967c12fdc5659410049",
+  "quantity": 1,
+  "pickupAt": "2020-07-13T08:08:11+10:00",
+  "totalAmt": 3000
+}
+
+###  get order by id
+### replace {order_id} with object id of order
+GET http://localhost:3010/orders/{order_id}/ HTTP/1.1
+
+### update order by id
+### replace {order_id} with object id of order
+PUT http://localhost:3010/orders/5f12fddd463fcd50aff1abd0 HTTP/1.1
+content-type: application/json
+
+{
+  "quantity": 3,
+  "totalAmt": 9000
+}
+
+###  cancel order by id
+### replace {order_id} with object id of order
+GET http://localhost:3010/orders/5f12fddd463fcd50aff1abd0/ HTTP/1.1
+
+###  cancel order by id
+### replace {order_id} with object id of order
+DELETE http://localhost:3010/orders/{order_id}/ HTTP/1.1
