@@ -20,9 +20,9 @@ POST http://localhost:3010/register HTTP/1.1
 content-type: application/json
 
 {
-  "username": "customer5",
-  "email":"customer@email.com",
-  "password":"somenice-pw",
+  "username": "foody",
+  "email":"customfoodyer@email.com",
+  "password":"1234",
   "role": "buyer"
 }
 
