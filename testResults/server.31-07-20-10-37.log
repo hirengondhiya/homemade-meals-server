@@ -1,0 +1,555 @@
+31-07-20-10-37
+START-------------------------
+
+> homemade-meals-server@1.0.0 test /Users/hirengondhiya/code/gt/t3/final-project/homemade-meals-server
+> mocha --exit
+
+
+
+  Authentication Routes
+    GET /logout
+      ✓ should logout buyer (292ms)
+      ✓ should logout seller (266ms)
+    POST /login
+      ✓ should login buyer (263ms)
+      ✓ should login seller (249ms)
+      ✓ should not accept invalid password (247ms)
+    POST /register
+      ✓ should accept seller registrtion (557ms)
+      ✓ should accept buyer registration (551ms)
+      ✓ should not accept double registration (309ms)
+
+  Meal Routes
+    GET /meals/openfororders
+      ✓ should return meals open for orders - unauthenticated user
+      ✓ should not reveal orders for meals open for rorders
+      ✓ should return meals open for orders - authenticated user (306ms)
+    GET /meals
+      for seller1
+        1) should return all meals sold by seller1
+        2) meals should have orders data
+      for seller2
+        3) should return empty meals array
+      for buyer
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    POST /meals
+      for seller
+        4) should create meal
+        5) should have property soldBy with value of seller details
+      for buyer
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    GET /meals/:id
+      for seller1
+        6) should return meal by id
+        7) meal should have order data
+        8) should return 404 when meal not found
+        9) should return 400 for integer meal id
+      for seller2
+        ✓ should return 403 when meal is not created by logged in seller
+      for buyer
+        ✓ should return 403 when logged in user is not a seller
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    PUT /meals/:id
+      for seller1
+        10) should update meal by id
+        11) should return 404 when meal not found
+        12) should return 400 for integer meal id
+      for seller2
+        ✓ should return 403 when updating a meal is not created by logged in seller
+      for buyer
+        ✓ should return 403 when logged in user is not a seller
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    DELETE /meals/:id
+      for seller1
+        13) should delete meal by id
+        14) should return 404 when meal not found
+        15) should return 400 for integer meal id
+      for seller2
+        ✓ should return 403 when updating a meal is not created by logged in seller
+      for buyer
+        ✓ should return 403 when logged in user is not a seller
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+
+  Order Routes
+    GET /orders
+      for buyer1
+        16) should return all orders placed by buyer1
+        17) should return meal data associated with the order
+      for buyer2
+        18) should return empty array
+      for seller
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    POST /orders
+      for buyer
+        19) should create order
+        20) should create order for the provided meal id
+      for seller
+        ✓ should return 403
+      for unauthenticated user
+        ✓ should return 403
+    GET /orders/:id
+      for buyer1
+        21) should return order by id
+        22) should have meal Id
+        23) should return 404 when order not found
+        24) should return 400 when provided order id can not be converted to object id
+      for buyer2
+        ✓ should return 403 when order is not created by logged in buyer
+      for seller
+        ✓ should return 403 when logged in user is not a buyer
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    PUT /orders/:id
+      for buyer1
+        25) should update order by id
+        26) should return 404 when order not found
+        27) should return 400 for order id that is not valid object id
+      for buyer2
+        ✓ should return 403 when updating a order that is not created by logged in buyer
+      for seller
+        ✓ should return 403 when logged in user is not a buyer
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+    DELETE /orders/:id
+      for buyer1
+        28) should cancel order by id
+        29) should return 404 when order not found
+        30) should return 400 for order id that can not be converted to valid object id
+      for buyer2
+        ✓ should return 403 when updating an order that is not created by logged in buyer
+      for seller
+        ✓ should return 403 when logged in user is not a buyer
+      for unauthenticated user
+        ✓ should return 403 when user is not authenticated
+
+  Root Routes
+    GET /
+      ✓ responds with 200
+    GET /random
+      ✓ responds with 404
+
+  Meal Utility
+    getMeal
+      ✓ should get all the meals
+      ✓ maxOrders should be 20
+    getMealById
+      ✓ title should be meal item 1
+    createMeal
+      ✓ should create a new post
+      ✓ should remove whitesapce in the user input data
+    deleteMealById
+      ✓ should delete the specific meal with id
+    updateMealByID
+      ✓ should update the specified meal with id
+    getMealsAccpetingOrders
+      ✓ should return no meals when there is no meal accepting orders
+      ✓ should return meal accepting orders (69ms)
+    getMealsSoldBy
+      ✓ should return all meals sold by a seller
+    getMealSoldBy
+      ✓ should return the meal by a seller
+
+  Order Utility
+    ✓ should pass empty test
+    createOrder
+      ✓ should add an order to given meal item
+      ✓ should not accept the order without quantity
+      ✓ should not accept the order with quantity 0
+      ✓ should not accept the order without pickupAt value 
+      ✓ should ignore other fields except quantity, pickupAt and totalAmout
+    getOrderById
+      ✓ should find meal with order for given order id
+      ✓ should return Null when non-existent orderId is passed
+    getOrdersForMeal
+      ✓ should find meal with all orders
+      ✓ should return Null for non existent meal id
+      ✓ should return Meal even when there are no orders
+    updateOrderById
+      ✓ should update an existing order given order id and updates
+      ✓ should not modify other orders
+      ✓ should return Null when non-existent order id is passed
+    cancelOrderById
+      ✓ should cancel an existing order given order id
+      ✓ should not cancel other orders
+      ✓ should return Null when non-existent order id is passed
+    getOrdersPlacedByCustomer
+      ✓ should return all orders placed by a customer
+
+
+  68 passing (1m)
+  30 failing
+
+  1) Meal Routes
+       GET /meals
+         for seller1
+           should return all meals sold by seller1:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  2) Meal Routes
+       GET /meals
+         for seller1
+           meals should have orders data:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  3) Meal Routes
+       GET /meals
+         for seller2
+           should return empty meals array:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  4) Meal Routes
+       POST /meals
+         for seller
+           should create meal:
+     Error: expected 201 "Created", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  5) Meal Routes
+       POST /meals
+         for seller
+           should have property soldBy with value of seller details:
+     Error: expected 201 "Created", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  6) Meal Routes
+       GET /meals/:id
+         for seller1
+           should return meal by id:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  7) Meal Routes
+       GET /meals/:id
+         for seller1
+           meal should have order data:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  8) Meal Routes
+       GET /meals/:id
+         for seller1
+           should return 404 when meal not found:
+     Error: expected 404 "Not Found", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  9) Meal Routes
+       GET /meals/:id
+         for seller1
+           should return 400 for integer meal id:
+     Error: expected 400 "Bad Request", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  10) Meal Routes
+       PUT /meals/:id
+         for seller1
+           should update meal by id:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  11) Meal Routes
+       PUT /meals/:id
+         for seller1
+           should return 404 when meal not found:
+     Error: expected 404 "Not Found", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  12) Meal Routes
+       PUT /meals/:id
+         for seller1
+           should return 400 for integer meal id:
+     Error: expected 400 "Bad Request", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  13) Meal Routes
+       DELETE /meals/:id
+         for seller1
+           should delete meal by id:
+     Error: expected 204 "No Content", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  14) Meal Routes
+       DELETE /meals/:id
+         for seller1
+           should return 404 when meal not found:
+     Error: expected 404 "Not Found", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  15) Meal Routes
+       DELETE /meals/:id
+         for seller1
+           should return 400 for integer meal id:
+     Error: expected 400 "Bad Request", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  16) Order Routes
+       GET /orders
+         for buyer1
+           should return all orders placed by buyer1:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  17) Order Routes
+       GET /orders
+         for buyer1
+           should return meal data associated with the order:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  18) Order Routes
+       GET /orders
+         for buyer2
+           should return empty array:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  19) Order Routes
+       POST /orders
+         for buyer
+           should create order:
+     Error: expected 201 "Created", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  20) Order Routes
+       POST /orders
+         for buyer
+           should create order for the provided meal id:
+     Error: expected 201 "Created", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  21) Order Routes
+       GET /orders/:id
+         for buyer1
+           should return order by id:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  22) Order Routes
+       GET /orders/:id
+         for buyer1
+           should have meal Id:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  23) Order Routes
+       GET /orders/:id
+         for buyer1
+           should return 404 when order not found:
+     Error: expected 404 "Not Found", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  24) Order Routes
+       GET /orders/:id
+         for buyer1
+           should return 400 when provided order id can not be converted to object id:
+     Error: expected 400 "Bad Request", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  25) Order Routes
+       PUT /orders/:id
+         for buyer1
+           should update order by id:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  26) Order Routes
+       PUT /orders/:id
+         for buyer1
+           should return 404 when order not found:
+     Error: expected 404 "Not Found", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  27) Order Routes
+       PUT /orders/:id
+         for buyer1
+           should return 400 for order id that is not valid object id:
+     Error: expected 400 "Bad Request", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  28) Order Routes
+       DELETE /orders/:id
+         for buyer1
+           should cancel order by id:
+     Error: expected 200 "OK", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  29) Order Routes
+       DELETE /orders/:id
+         for buyer1
+           should return 404 when order not found:
+     Error: expected 404 "Not Found", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+  30) Order Routes
+       DELETE /orders/:id
+         for buyer1
+           should return 400 for order id that can not be converted to valid object id:
+     Error: expected 400 "Bad Request", got 403 "Forbidden"
+      at Test._assertStatus (node_modules/supertest/lib/test.js:268:12)
+      at Test._assertFunction (node_modules/supertest/lib/test.js:283:11)
+      at Test.assert (node_modules/supertest/lib/test.js:173:18)
+      at Server.localAssert (node_modules/supertest/lib/test.js:131:12)
+      at emitCloseNT (net.js:1654:8)
+      at processTicksAndRejections (internal/process/task_queues.js:83:21)
+
+
+
+END-------------------------
+
+
