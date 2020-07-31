@@ -44,6 +44,7 @@ app.use(
     secret: "homemademeals-api",
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
       maxAge: 1800000,
       sameSite: "none",
