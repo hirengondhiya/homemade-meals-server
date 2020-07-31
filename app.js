@@ -44,8 +44,15 @@ app.use(
     secret: "homemademeals-api",
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
       maxAge: 1800000,
+      // in local environment set sameSite='lax' to allow cookies to be passed between local server and client
+      // in production set sameSite='none' and secure=true to allow browsers to trust third party cookies
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      // make sure secure is true only for deployed app
+      // and false for others ( local development or CI environment )
+      secure: process.env.NODE_ENV === "production",
     },
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
