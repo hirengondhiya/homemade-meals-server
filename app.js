@@ -48,7 +48,9 @@ app.use(
     cookie: {
       maxAge: 1800000,
       sameSite: "none",
-      secure: true,
+      // make sure secure is true only for deployed app
+      // and false for others ( local development or CI environment )
+      secure: process.env.NODE_ENV === "production",
     },
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
